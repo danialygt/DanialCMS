@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\core\DanialCMS.Core.ApplicationService\DanialCMS.Core.ApplicationService.csproj" />
+    <ProjectReference Include="..\..\Core\DanialCMS.Core.Domain\DanialCMS.Core.Domain.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\DAL\DanialCMS.Infrastructure.DAL.SqlServer\DanialCMS.Infrastructure.DAL.SqlServer.csproj" />
+  </ItemGroup>
+
+
+
+</Project>
