@@ -9,17 +9,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{434655D2-C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.Core", "01.Core", "{F82212F1-1BD9-4F62-AD52-F2C0110BFF17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanialCMS.Core.Domain", "src\Core\DanialCMS.Core.Domain\DanialCMS.Core.Domain.csproj", "{9DDC1DBE-DA3D-469D-8BF6-675D8F8F6549}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DanialCMS.Core.Domain", "src\Core\DanialCMS.Core.Domain\DanialCMS.Core.Domain.csproj", "{9DDC1DBE-DA3D-469D-8BF6-675D8F8F6549}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanialCMS.Core.ApplicationService", "src\core\DanialCMS.Core.ApplicationService\DanialCMS.Core.ApplicationService.csproj", "{42BE5C22-FDD2-4099-BC7C-2D9C166E5ADC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DanialCMS.Core.ApplicationService", "src\core\DanialCMS.Core.ApplicationService\DanialCMS.Core.ApplicationService.csproj", "{42BE5C22-FDD2-4099-BC7C-2D9C166E5ADC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02.Infrastructure", "02.Infrastructure", "{95DAC49C-2E76-4C11-B721-BF4AF5384569}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanialCMS.Infrastructure.DAL.SqlServer", "src\Infrastructure\DAL\DanialCMS.Infrastructure.DAL.SqlServer\DanialCMS.Infrastructure.DAL.SqlServer.csproj", "{E22353CA-AE92-44BF-91ED-39BB53D6B89D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DanialCMS.Infrastructure.DAL.SqlServer", "src\Infrastructure\DAL\DanialCMS.Infrastructure.DAL.SqlServer\DanialCMS.Infrastructure.DAL.SqlServer.csproj", "{E22353CA-AE92-44BF-91ED-39BB53D6B89D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03.Endpoints", "03.Endpoints", "{54270316-DBDE-4CBA-87A5-070880EEB5E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanialCMS.EndPoints.WebUI", "src\EndPoints\DanialCMS.EndPoints.WebUI\DanialCMS.EndPoints.WebUI.csproj", "{4735A331-857D-49AB-B295-22A05412E384}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DanialCMS.EndPoints.WebUI", "src\EndPoints\DanialCMS.EndPoints.WebUI\DanialCMS.EndPoints.WebUI.csproj", "{4735A331-857D-49AB-B295-22A05412E384}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00.Framework", "00.Framework", "{5C7BFF55-AB5D-47BC-AAD2-122A6B839828}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanialCMS.Framework", "src\Framework\DanialCMS.Framework\DanialCMS.Framework.csproj", "{B93FADE3-B208-4CEA-922A-F16C87017935}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +47,10 @@ Global
 		{4735A331-857D-49AB-B295-22A05412E384}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4735A331-857D-49AB-B295-22A05412E384}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4735A331-857D-49AB-B295-22A05412E384}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B93FADE3-B208-4CEA-922A-F16C87017935}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B93FADE3-B208-4CEA-922A-F16C87017935}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B93FADE3-B208-4CEA-922A-F16C87017935}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B93FADE3-B208-4CEA-922A-F16C87017935}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +63,8 @@ Global
 		{E22353CA-AE92-44BF-91ED-39BB53D6B89D} = {95DAC49C-2E76-4C11-B721-BF4AF5384569}
 		{54270316-DBDE-4CBA-87A5-070880EEB5E4} = {412DFAA3-E134-4DB7-A921-A14157E364DA}
 		{4735A331-857D-49AB-B295-22A05412E384} = {54270316-DBDE-4CBA-87A5-070880EEB5E4}
+		{5C7BFF55-AB5D-47BC-AAD2-122A6B839828} = {412DFAA3-E134-4DB7-A921-A14157E364DA}
+		{B93FADE3-B208-4CEA-922A-F16C87017935} = {5C7BFF55-AB5D-47BC-AAD2-122A6B839828}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64196996-EDD2-4429-9A2F-44D3A70F32BE}

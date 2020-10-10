@@ -10,6 +10,8 @@ using DanialCMS.Core.Domain.FileManagements.Repositories;
 using DanialCMS.Core.Domain.Keywords.Repositories;
 using DanialCMS.Core.Domain.PublishPlaces.Repositories;
 using DanialCMS.Core.Domain.Writers.Repositories;
+using DanialCMS.Framework.Commands;
+using DanialCMS.Framework.Queries;
 using DanialCMS.Infrastructure.DAL.SqlServer;
 using DanialCMS.Infrastructure.DAL.SqlServer.Analysis.Repositories;
 using DanialCMS.Infrastructure.DAL.SqlServer.Categories.Repositories;
@@ -41,6 +43,14 @@ namespace DanialCMS.EndPoints.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
+
+
+            services.AddTransient<CommandDispatcher>();
+            services.AddTransient<QueryDispatcher>();
+
+
 
 
 
