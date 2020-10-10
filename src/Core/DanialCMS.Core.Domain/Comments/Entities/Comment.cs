@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DanialCMS.Core.Domain.Contents.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,7 +9,8 @@ namespace DanialCMS.Core.Domain.Comments.Entities
     {
         public long Id { get; set; }
         public long ContentId { get; set; }
-       
+        public Content Content { get; set; }
+
         public string Name { get; set; }
         public string Email { get; set; }
         public string Opinion { get; set; }
@@ -16,8 +18,9 @@ namespace DanialCMS.Core.Domain.Comments.Entities
 
 
 
-        public long ParentCommentId { get; set; }
-        public Comment ParentComment { get; set; }
+        public long? ParentId { get; set; }
+        public Comment Parent { get; set; }
+        public List<Comment> Children { get; set; }
 
 
 

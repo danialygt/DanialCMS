@@ -7,6 +7,6 @@ namespace DanialCMS.Core.Domain.Comments.Repositories
 {
     public interface ICommentCommandRepository
     {
-        long Add(Comment entity);
+        void Add(Comment entity);
     }
 }

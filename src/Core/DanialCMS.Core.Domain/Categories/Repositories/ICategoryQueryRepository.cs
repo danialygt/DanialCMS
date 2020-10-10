@@ -10,6 +10,7 @@ namespace DanialCMS.Core.Domain.Categories.Repositories
 
         Category Get(long id);
         List<Category> Getall();
+        List<Category> GetFirstChild(Category entity);
 
     }
 }

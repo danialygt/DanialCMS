@@ -10,8 +10,9 @@ namespace DanialCMS.Core.Domain.Categories.Entities
         public string Name { get; set; }
         
         
-        public long ParentId { get; set; }
+        public long? ParentId { get; set; }
         public Category Parent { get; set; }
+        public List<Category> Children { get; set; }
 
 
     }

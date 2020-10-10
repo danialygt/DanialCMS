@@ -7,9 +7,9 @@ namespace DanialCMS.Core.Domain.Categories.Repositories
 {
     public interface ICategoryCommandRepository
     {
-        long Add(Category entity);
-        void Edit(long id);
-        void Delete(long id);
+        void Add(Category entity);
+        void Edit(Category entity);
+        void Delete(Category entity);
 
 
     }

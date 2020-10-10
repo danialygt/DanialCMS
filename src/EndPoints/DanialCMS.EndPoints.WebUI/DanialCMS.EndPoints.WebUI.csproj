@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\core\DanialCMS.Core.ApplicationService\DanialCMS.Core.ApplicationService.csproj" />
     <ProjectReference Include="..\..\Core\DanialCMS.Core.Domain\DanialCMS.Core.Domain.csproj" />
     <ProjectReference Include="..\..\Infrastructure\DAL\DanialCMS.Infrastructure.DAL.SqlServer\DanialCMS.Infrastructure.DAL.SqlServer.csproj" />

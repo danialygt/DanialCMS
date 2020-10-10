@@ -17,9 +17,9 @@ namespace DanialCMS.Core.Domain.Analysis.Entities
         public string OsName { get; set; }
         public string Path { get; set; }
         public string HttpMethod { get; set; }
-        public string SatusCode { get; set; }
+        public int SatusCode { get; set; }
         public string ContentType { get; set; }
         public string Protocol { get; set; }
-
+        
     }
 }

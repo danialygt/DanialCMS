@@ -7,8 +7,8 @@ namespace DanialCMS.Core.Domain.Writers.Repositories
 {
     public interface IWriterCommandRepository
     {
-        long Add(Writer entity);
-        void Edit(long id);
+        void Add(Writer entity);
+        void Edit(Writer entity);
 
     }
 }

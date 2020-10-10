@@ -8,8 +8,8 @@ namespace DanialCMS.Core.Domain.FileManagements.Repositories
     public interface IFileManagementCommandRepository
     {
 
-        long Add(FileManagement entity);
-        void Delete(long id);
+        void Add(FileManagement entity);
+        void Delete(FileManagement entity);
 
     }
 }

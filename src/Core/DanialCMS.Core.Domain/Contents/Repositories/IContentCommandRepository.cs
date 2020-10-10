@@ -7,8 +7,8 @@ namespace DanialCMS.Core.Domain.Contents.Repositories
 {
     public interface IContentCommandRepository
     {
-        long Add(Content entity);
-        void Edit(long id);
+        void Add(Content entity);
+        void Edit(Content entity);
 
     }
 }

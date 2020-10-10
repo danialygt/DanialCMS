@@ -7,6 +7,6 @@ namespace DanialCMS.Core.Domain.Analysis.Repositories
 {
     public interface ICMSAnalysisCommandRepository
     {
-        long Add(CMSAnalysis entity);
+        void Add(CMSAnalysis entity);
     }
 }

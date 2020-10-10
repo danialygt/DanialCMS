@@ -7,9 +7,9 @@ namespace DanialCMS.Core.Domain.Keywords.Repositories
 {
     public interface IKeywordCommandRepository
     {
-        long Add(Keyword entity);
-        void Edit(long id);
-        void Delete(long id);
+        void Add(Keyword entity);
+        void Edit(Keyword entity);
+        void Delete(Keyword entity);
 
     }
 }
