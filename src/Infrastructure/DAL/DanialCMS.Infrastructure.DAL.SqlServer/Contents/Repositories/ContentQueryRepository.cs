@@ -24,6 +24,9 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Contents.Repositories
                 .Include(c => c.Writer)
                 .Include(c => c.Photo)
                 .Include(c => c.Category)
+                .Include(c => c.Comments)
+                .Include(c => c.ContentStatus)
+                .Include(c => c.PublishPlaces).ThenInclude(r=>r.PublishPlace)
                 .FirstOrDefault(c => c.Id == id);
         }
 
@@ -34,8 +37,8 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Contents.Repositories
                 .Include(c => c.Writer)
                 .Include(c => c.Photo)
                 .Include(c => c.Category)
-                
-                
+
+
                 .ToList();
         }
     }

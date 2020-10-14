@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\DanialCMS.Framework\DanialCMS.Framework.csproj" />
     <ProjectReference Include="..\DanialCMS.Core.Domain\DanialCMS.Core.Domain.csproj" />
   </ItemGroup>
 
@@ -13,10 +14,8 @@
     <Folder Include="Categories\" />
     <Folder Include="Comments\" />
     <Folder Include="Contents\" />
-    <Folder Include="FileManagement\" />
     <Folder Include="Keywords\" />
     <Folder Include="PublishPlaces\" />
-    <Folder Include="Writers\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿using DanialCMS.Core.Domain.Writers.Entities;
+﻿using DanialCMS.Core.Domain.Writers.Dtos;
+using DanialCMS.Core.Domain.Writers.Entities;
 using DanialCMS.Core.Domain.Writers.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,15 +21,38 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Writers.Repositories
         public Writer Get(long id)
         {
             return _cmsDbContext.Writers.AsNoTracking()
+                .Include(p => p.Photo)
+                .Include(c => c.Contents)
                 .FirstOrDefault(c => c.Id == id);
         }
 
-        public List<Writer> Getall()
+        public List<DtoWriter> GetAll()
         {
             return _cmsDbContext.Writers.AsNoTracking()
                 .Include(c => c.Photo)
                 .Include(c => c.Contents)
+                .Select(c => new DtoWriter()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    PhotoUrl = c.Photo.Url,
+                    CountOfContent = c.Contents.Count()
+                })
                 .ToList();
+        }
+
+        public bool IsExist(string name)
+        {
+            return _cmsDbContext.Writers.AsNoTracking()
+                .Select(c => c.Name)
+                .Contains(name);
+        }
+
+        public bool IsExist(long id)
+        {
+            return _cmsDbContext.Writers.AsNoTracking()
+                .Select(c => c.Id)
+                .Contains(id);
         }
     }
 }

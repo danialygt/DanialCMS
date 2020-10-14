@@ -1,0 +1,5 @@
+﻿@model DtoWriterDetail
+@{
+    ViewData["Title"] = "اطلاعات نویسنده";
+    string photoUrl = (Model.PhotoUrl != null) ? Model.PhotoUrl : "/photos/profilePhotoNotFound.jpg";
+}

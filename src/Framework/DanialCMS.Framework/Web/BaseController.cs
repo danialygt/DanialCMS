@@ -3,7 +3,7 @@ using DanialCMS.Framework.Queries;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DanialCMS.Framework.Web
 {

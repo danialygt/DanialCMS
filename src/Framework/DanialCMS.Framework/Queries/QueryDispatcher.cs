@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DanialCMS.Framework.Queries
 {
-    public sealed  class QueryDispatcher
+    public sealed class QueryDispatcher
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -22,6 +20,5 @@ namespace DanialCMS.Framework.Queries
             T result = handler.Handle((dynamic)query);
             return result;
         }
-
     }
 }

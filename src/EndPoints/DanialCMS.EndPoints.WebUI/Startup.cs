@@ -2,13 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DanialCMS.Core.ApplicationService.FileManagements.Commands;
+using DanialCMS.Core.ApplicationService.Writers.Commands;
+using DanialCMS.Core.ApplicationService.Writers.Queries;
 using DanialCMS.Core.Domain.Analysis.Repositories;
 using DanialCMS.Core.Domain.Categories.Repositories;
 using DanialCMS.Core.Domain.Comments.Repositories;
 using DanialCMS.Core.Domain.Contents.Repositories;
+using DanialCMS.Core.Domain.FileManagements.Commands;
 using DanialCMS.Core.Domain.FileManagements.Repositories;
 using DanialCMS.Core.Domain.Keywords.Repositories;
 using DanialCMS.Core.Domain.PublishPlaces.Repositories;
+using DanialCMS.Core.Domain.Writers.Commands;
+using DanialCMS.Core.Domain.Writers.Dtos;
+using DanialCMS.Core.Domain.Writers.Queries;
 using DanialCMS.Core.Domain.Writers.Repositories;
 using DanialCMS.Framework.Commands;
 using DanialCMS.Framework.Queries;
@@ -29,6 +36,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+
+
 namespace DanialCMS.EndPoints.WebUI
 {
     public class Startup
@@ -46,57 +55,61 @@ namespace DanialCMS.EndPoints.WebUI
 
 
 
-
+            /*  Add Aplication Services  */ 
             services.AddTransient<CommandDispatcher>();
             services.AddTransient<QueryDispatcher>();
+                /* writer controller  */
+            services.AddTransient<CommandHandler<AddWriterCommand>, AddWriterCommandHandler>();
+            services.AddTransient<CommandHandler<EditWriterNameCommand>, EditWriterNameCommandHandler>();
+            services.AddTransient<IQueryHandler<AllWriterQuery, List<DtoWriter>>, AllWriterQueryHandler>();
+            services.AddTransient<IQueryHandler<WriterDetailQuery, DtoWriterDetail>, WriterDetailQueryHandler>();
+            services.AddTransient<IQueryHandler<WriterUpdateQuery, DtoUpdateWriter>, WriterUpdateQueryHandler>();
+
+                /* FileManagment */
+            services.AddTransient<CommandHandler<AddFileCommand>, AddFileCommandHandler>();
 
 
 
 
-
-
-            services.AddDbContextPool<AnalysisDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("AnalysisDbConnection")));
-
+             /* Add Analysis DB Services */
+             services.AddDbContextPool<AnalysisDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("AnalysisDbConnection")));
+                /* add repositories */
             services.AddTransient<ICMSAnalysisCommandRepository, CMSAnalysisCommandRepository>();
             services.AddTransient<ICMSAnalysisQueryRepository, CMSAnalysisQueryRepository>();
 
 
 
 
-
+            /* Add Content DB Services  */
             services.AddDbContextPool<ContentDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("ContentDbConnection")));
-
+                /* add repositories */
             services.AddTransient<ICategoryCommandRepository, CategoryCommandRepository>();
-            services.AddTransient<ICategoryQueryRepository, CategoryQueryRepository>();
-
             services.AddTransient<ICommentCommandRepository, CommentCommandRepository>();
-            services.AddTransient<ICommentQueryRepository, CommentQueryRepository>();
-
             services.AddTransient<IContentCommandRepository, ContentCommandRepository>();
-            services.AddTransient<IContentQueryRepository, ContentQueryRepository>();
-
             services.AddTransient<IFileManagementCommandRepository, FileManagementCommandRepository>();
-            services.AddTransient<IFileManagementQueryRepository, FileManagementQueryRepository>();
-
             services.AddTransient<IKeywordCommandRepository, KeywordCommandRepository>();
-            services.AddTransient<IKeywordQueryRepository, KeywordQueryRepository>();
-
             //services.AddTransient<IPublishPlaceCommandRepository, PublishPlaceCommandRepository>();
-            services.AddTransient<IPublishPlaceQueryRepository, PublishPlaceQueryRepository>();
-
             services.AddTransient<IWriterCommandRepository, WriterCommandRepository>();
-            services.AddTransient<IWriterQueryRepository, WriterQueryRepository>();
-
             services.AddTransient<IContentKeywordsCommandRepository, ContentKeywordsCommandRepository>();
-            services.AddTransient<IContentKeywordsQueryRepository, ContentKeywordsQueryRepository>();
-
             services.AddTransient<IContentPlacesCommandRepository, ContentPlacesCommandRepository>();
+
+            services.AddTransient<ICategoryQueryRepository, CategoryQueryRepository>();
+            services.AddTransient<ICommentQueryRepository, CommentQueryRepository>();
+            services.AddTransient<IContentQueryRepository, ContentQueryRepository>();
+            services.AddTransient<IFileManagementQueryRepository, FileManagementQueryRepository>();
+            services.AddTransient<IKeywordQueryRepository, KeywordQueryRepository>();
+            services.AddTransient<IPublishPlaceQueryRepository, PublishPlaceQueryRepository>();
+            services.AddTransient<IWriterQueryRepository, WriterQueryRepository>();
+            services.AddTransient<IContentKeywordsQueryRepository, ContentKeywordsQueryRepository>();
             services.AddTransient<IContentPlacesQueryRepository, ContentPlacesQueryRepository>();
 
 
 
 
 
+
+
+           
             services.AddControllersWithViews();
 
 

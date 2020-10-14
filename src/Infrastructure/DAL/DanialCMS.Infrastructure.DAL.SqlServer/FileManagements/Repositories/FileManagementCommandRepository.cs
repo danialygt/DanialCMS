@@ -15,10 +15,11 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.FileManagements.Repositories
             _cmsDbContext = cmsDbContext;
         }
 
-        public void Add(FileManagement entity)
+        public long Add(FileManagement entity)
         {
-            _cmsDbContext.FileManager.Add(entity);
+            var addedEntity = _cmsDbContext.FileManager.Add(entity);
             _cmsDbContext.SaveChanges();
+            return addedEntity.Entity.Id;
         }
 
         public void Delete(FileManagement entity)

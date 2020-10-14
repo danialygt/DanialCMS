@@ -15,7 +15,7 @@ namespace DanialCMS.Framework.Commands
             SetOkData();
             return _result;
         }
-      
+        
         protected CommandResult Ok(string message)
         {
             SetOkData();
@@ -32,7 +32,7 @@ namespace DanialCMS.Framework.Commands
         {
             _result.ClearErrors();
             _result.IsSuccess = true;
-        }
+        }     
         protected CommandResult Failure()
         {
             SetFailureData();
