@@ -1,88 +1,81 @@
-﻿<!doctype html>
-<html class="no-js" lang="en">
+﻿<!DOCTYPE html>
+<html lang="fa">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Danialygt Content Management System">
+    <meta name="author" content="Danialygt">
+    <meta name="keywords" content="CMS">
+
+
     <title>@ViewData["Title"]</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="shortcut icon" type="image/x-icon" href="~/img/favicon.ico">
-
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
-
-    <link rel="stylesheet" href="~/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/css/font-awesome.min.css">
-    <link rel="stylesheet" href="~/css/nalika-icon.css">
 
 
-    <link rel="stylesheet" href="~/css/animate.css">
-    <link rel="stylesheet" href="~/css/normalize.css">
-    <link rel="stylesheet" href="~/css/meanmenu.min.css">
-    <link rel="stylesheet" href="~/css/main.css">
+    <link href="~/css/font-face.css" rel="stylesheet" media="all">
+    <link href="~/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
 
-    <link rel="stylesheet" href="~/css/scrollbar/jquery.mCustomScrollbar.min.css">
-    <link rel="stylesheet" href="~/css/metisMenu/metisMenu.min.css">
-    <link rel="stylesheet" href="~/css/metisMenu/metisMenu-vertical.css">
-    <link rel="stylesheet" href="~/css/style.css">
-    <link rel="stylesheet" href="~/css/responsive.css">
+    <link href="~/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+
+
+    <link href="~/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="~/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="~/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <link href="~/vendor/vector-map/jqvmap.min.css" rel="stylesheet" media="all">
+
+    <link href="~/css/theme.css" rel="stylesheet" media="all">
     @RenderSection("Styles", required: false)
-
-    <script src="~js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 
-<body>
-    @await Html.PartialAsync("_SideBar")
+<body class="animsition">
+    <div class="page-wrapper">
+        @await Html.PartialAsync("_MenuSidebar")
 
-    <div class="all-content-wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="logo-pro">
-                        <a href=""><img class="main-logo" src="~img/logo/logo.png" alt="" /></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="header-advance-area">           
+        <div class="page-container2">
             @await Html.PartialAsync("_Header")
-            @await Html.PartialAsync("_MobileMenu")
-        </div>
 
-        <div class="single-pro-review-area">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="review-tab-pro-inner text-warning">
-                            <div class="row">
-                                @RenderBody()
-                            </div>
-                        </div>
+
+            <div class="m-t-70"></div>
+
+            <section class="statistic">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        @RenderBody()
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
-
-
-        @await Html.PartialAsync("_Footer")
     </div>
 
 
-    <script src="~js/vendor/jquery-1.12.4.min.js"></script>
-    <script src="~js/bootstrap.min.js"></script>
-    <script src="~js/jquery.sticky.js"></script>
-    <script src="~js/jquery.meanmenu.js"></script>
-    <script src="~js/metisMenu/metisMenu.min.js"></script>
-    <script src="~js/metisMenu/metisMenu-active.js"></script>
+    <script src="~/vendor/jquery-3.2.1.min.js"></script>
+    <script src="~/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="~/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <script src="~/vendor/slick/slick.min.js"></script>
+    <script src="~/vendor/wow/wow.min.js"></script>
+    <script src="~/vendor/animsition/animsition.min.js"></script>
+    <script src="~/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <script src="~/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="~/vendor/counter-up/jquery.counterup.min.js"></script>
+    <script src="~/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="~/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="~/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="~/vendor/select2/select2.min.js"></script>
+    <script src="~/vendor/vector-map/jquery.vmap.js"></script>
+    <script src="~/vendor/vector-map/jquery.vmap.min.js"></script>
+    <script src="~/vendor/vector-map/jquery.vmap.sampledata.js"></script>
+    <script src="~/vendor/vector-map/jquery.vmap.world.js"></script>
 
-    <script src="~js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="~js/scrollbar/mCustomScrollbar-active.js"></script>
-
-    <script src="~js/plugins.js"></script>
-    <script src="~js/main.js"></script>
+    <script src="~/js/main.js"></script>
     @RenderSection("Scripts", required: false)
+
 </body>
 
 </html>
