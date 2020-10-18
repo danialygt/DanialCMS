@@ -1,0 +1,32 @@
+﻿@model AddCategoryViewModel
+@{
+    ViewData["Title"] = "افزودن دسته بندی";
+}
+
+
+
+<div class="row d-flex justify-content-center">
+    <div class="col-lg-6">
+        <form method="post" enctype="multipart/form-data" asp-controller="Category" asp-action="Add">
+            <div class="card">
+                <div class="card-header">
+                    <small> ثبت</small>
+                    <strong>دسته بندی</strong>
+                </div>
+                <div class="card-body card-block">
+                    <div class="form-group">
+                        <label asp-for="@Model.Name" class="form-control-label"></label>
+                        <input type="text" asp-for="@Model.Name" class="form-control" required maxlength="50" autofocus>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div asp-validation-summary="All" class="text-danger mr-3"></div>
+                    </div>
+                </div>
+                <div class="card-footer card-footer__button">
+                    <input type="submit" class="btn btn-warning btn-sm" value="ثبت" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

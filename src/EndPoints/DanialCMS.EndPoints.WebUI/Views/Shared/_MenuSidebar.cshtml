@@ -16,11 +16,19 @@
             <ul class="list-unstyled navbar__list">
                 <li>
                     <a asp-controller="Writer" asp-action="List">
-                        <i class="fas fa-tachometer-alt"></i>نویسنده
+                        <i class="fas fa-user"></i>نویسنده
                     </a>
                 </li>
-                
-                
+                <li>
+                    <a asp-controller="Category" asp-action="List">
+                        <i class="fas fa-tasks"></i>دسته بندی
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="KeyWord" asp-action="List">
+                        <i class="fas fa-tags"></i>کلید واژه
+                    </a>
+                </li>
                 
                 @*<li class="active has-sub">
                     <a class="js-arrow" >

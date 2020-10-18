@@ -1,8 +1,6 @@
-﻿@model EditWriterViewModel
+﻿@model UpdateCategoryViewModel
 @{
-    ViewData["Title"] = "ویرایش نویسنده";
-    string photoUrl = (Model != null && Model.PhotoUrl != null) ? Model.PhotoUrl : "/photos/profilePhotoNotFound.png";
-
+    ViewData["Title"] = "ویرایش دسته بندی";
 }
 
 
@@ -16,18 +14,13 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-user"></i>
-                    <strong class="card-title pl-2">ویرایش اطلاعات</strong>
+                    <strong class="card-title pl-2">ویرایش دسته بندی</strong>
                 </div>
                 <div class="card-body">
                     <div class="mx-auto d-block">
-                        <img class="rounded-circle mx-auto d-block" style="width:150px;height:150px;" src="@photoUrl" alt="Card image cap" />
-                        <h5 class="text-sm-center mt-2 mb-1">@Model.Name</h5>
-                        <hr>
-                        <form method="post" enctype="multipart/form-data" asp-controller="Writer" asp-action="Update" asp-route-Id="@Model.Id">
-                            <div class="form-group">
-                                <label asp-for="@Model.File" class="form-control-label"></label>
-                                <input type="file" class="form-control" autofocus asp-for="@Model.File" >
-                            </div>
+                        <form method="post" asp-controller="Category" asp-action="Update" asp-route-CategoryId="@Model.CategoryId">
+                            
+                            <h5 class="text-sm-center mt-2 mb-1">@Model.Name</h5>
                             <div class="form-group">
                                 <label asp-for="@Model.Name" class="form-control-label"></label>
                                 <input type="text" class="form-control" asp-for="@Model.Name" value="@Model.Name">
@@ -39,7 +32,8 @@
                                 <input type="submit" class="btn btn-warning btn-sm" value="ویرایش" />
                             </div>
                         </form>
-                        
+                        <hr>
+
                     </div>
                 </div>
             </div>
@@ -53,7 +47,7 @@ else
 {
     <div class="row d-flex justify-content-center">
         <div class="alert alert-danger" role="alert">
-            نویسنده یافت نشد!
+            دسته بندی یافت نشد!
         </div>
     </div>
 }

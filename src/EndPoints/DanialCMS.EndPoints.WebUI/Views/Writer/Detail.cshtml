@@ -1,7 +1,7 @@
 ﻿@model DtoWriterDetail
 @{
     ViewData["Title"] = "اطلاعات نویسنده";
-    string photoUrl = (Model != null && Model.PhotoUrl != null) ? Model.PhotoUrl : "~/photos/profilePhotoNotFound.png";
+    string photoUrl = (Model != null && Model.PhotoUrl != null) ? Model.PhotoUrl : "/photos/profilePhotoNotFound.png";
 }
 
 @if (Model != null)
@@ -16,7 +16,7 @@
             </div>
             <div class="card-body">
                 <div class="mx-auto d-block">
-                    <img class="rounded-circle mx-auto d-block w-50" src="@photoUrl" alt="Card image cap"/>
+                    <img class="rounded-circle mx-auto d-block " style="width:175px; height: 175px;" src="@photoUrl" alt="Card image cap"/>
                     <h5 class="text-sm-center mt-2 mb-1">@Model.Name</h5>             
                 <hr>
                 @*<div class="card-text text-sm-center">

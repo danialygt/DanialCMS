@@ -1,11 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using DanialCMS.Core.ApplicationService.Categories.Commands;
+using DanialCMS.Core.ApplicationService.Categories.Queries;
 using DanialCMS.Core.ApplicationService.FileManagements.Commands;
 using DanialCMS.Core.ApplicationService.Writers.Commands;
 using DanialCMS.Core.ApplicationService.Writers.Queries;
 using DanialCMS.Core.Domain.Analysis.Repositories;
+using DanialCMS.Core.Domain.Categories.Commands;
+using DanialCMS.Core.Domain.Categories.Entities;
+using DanialCMS.Core.Domain.Categories.Queries;
 using DanialCMS.Core.Domain.Categories.Repositories;
 using DanialCMS.Core.Domain.Comments.Repositories;
 using DanialCMS.Core.Domain.Contents.Repositories;
@@ -30,11 +31,11 @@ using DanialCMS.Infrastructure.DAL.SqlServer.PublishPlaces.Repositories;
 using DanialCMS.Infrastructure.DAL.SqlServer.Writers.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
 
 
 
@@ -55,25 +56,31 @@ namespace DanialCMS.EndPoints.WebUI
 
 
 
-            /*  Add Aplication Services  */ 
+            /*  Add Aplication Services  */
             services.AddTransient<CommandDispatcher>();
             services.AddTransient<QueryDispatcher>();
-                /* writer controller  */
+            /**/    /* writer controller  */
             services.AddTransient<CommandHandler<AddWriterCommand>, AddWriterCommandHandler>();
-            services.AddTransient <CommandHandler<UpdateWriterCommand>, UpdateWriterCommandHandler> ();
+            services.AddTransient<CommandHandler<UpdateWriterCommand>, UpdateWriterCommandHandler>();
             services.AddTransient<IQueryHandler<AllWriterQuery, List<DtoWriter>>, AllWriterQueryHandler>();
             services.AddTransient<IQueryHandler<WriterDetailQuery, DtoWriterDetail>, WriterDetailQueryHandler>();
             services.AddTransient<IQueryHandler<WriterUpdateQuery, DtoUpdateWriter>, WriterUpdateQueryHandler>();
 
-                /* FileManagment */
+            /* FileManagment */
             services.AddTransient<CommandHandler<AddFileCommand>, AddFileCommandHandler>();
 
+            /**/    /* Category */
+            services.AddTransient<CommandHandler<AddCategoryCommand>, AddCategoryCommandHandler>();
+            services.AddTransient<CommandHandler<UpdateCategoryCommand>, UpdateCategoryCommandHandler>();
+            services.AddTransient<CommandHandler<RemoveCategoryCommand>, RemoveCategoryCommandHandler>();
+            services.AddTransient<IQueryHandler<GetCategoriesQuery, List<Category>>, GetCategoriesQueryHandler>();
+            services.AddTransient<IQueryHandler<GetcategoryQuery, Category>, GetcategoryQueryHandler>();
 
 
 
-             /* Add Analysis DB Services */
-             services.AddDbContextPool<AnalysisDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("AnalysisDbConnection")));
-                /* add repositories */
+            /* Add Analysis DB Services */
+            services.AddDbContextPool<AnalysisDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("AnalysisDbConnection")));
+            /**/    /* add repositories */
             services.AddTransient<ICMSAnalysisCommandRepository, CMSAnalysisCommandRepository>();
             services.AddTransient<ICMSAnalysisQueryRepository, CMSAnalysisQueryRepository>();
 
@@ -82,7 +89,7 @@ namespace DanialCMS.EndPoints.WebUI
 
             /* Add Content DB Services  */
             services.AddDbContextPool<ContentDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("ContentDbConnection")));
-                /* add repositories */
+            /**/    /* add repositories */
             services.AddTransient<ICategoryCommandRepository, CategoryCommandRepository>();
             services.AddTransient<ICommentCommandRepository, CommentCommandRepository>();
             services.AddTransient<IContentCommandRepository, ContentCommandRepository>();
@@ -109,7 +116,7 @@ namespace DanialCMS.EndPoints.WebUI
 
 
 
-           
+
             services.AddControllersWithViews();
 
 
@@ -117,7 +124,7 @@ namespace DanialCMS.EndPoints.WebUI
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

@@ -25,6 +25,12 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer
 
       
         public DbSet<Category> Categories { get; set; }
+
+        internal void AsNoTracking()
+        {
+            throw new NotImplementedException();
+        }
+
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Content> Contents { get; set; }
         public DbSet<FileManagement> FileManager { get; set; }

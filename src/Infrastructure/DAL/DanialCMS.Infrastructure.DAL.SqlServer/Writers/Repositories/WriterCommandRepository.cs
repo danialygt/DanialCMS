@@ -22,8 +22,7 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Writers.Repositories
 
         public void ChangePhoto(long writerId, long photoId)
         {
-            _cmsDbContext.Writers.AsNoTracking()
-                 .FirstOrDefault(c => c.Id == writerId)
+            _cmsDbContext.Writers.FirstOrDefault(c => c.Id == writerId)
                  .PhotoId = photoId;
             _cmsDbContext.SaveChanges();
         }
@@ -36,8 +35,7 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Writers.Repositories
 
         public void EditName(Writer entity)
         {
-            _cmsDbContext.Writers.AsNoTracking()
-                .FirstOrDefault(c => c.Id == entity.Id)
+            _cmsDbContext.Writers.FirstOrDefault(c => c.Id == entity.Id)
                 .Name = entity.Name;
             _cmsDbContext.SaveChanges();
         }

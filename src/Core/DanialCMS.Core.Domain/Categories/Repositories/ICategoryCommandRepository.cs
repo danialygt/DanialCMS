@@ -9,7 +9,9 @@ namespace DanialCMS.Core.Domain.Categories.Repositories
     {
         void Add(Category entity);
         void Edit(Category entity);
+        void EditName(Category entity);
         void Delete(Category entity);
+        void Delete(long id);
 
 
     }

@@ -36,5 +36,20 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Categories.Repositories
                 .Where(c => c.Parent == entity || c.ParentId == entity.Id)
                 .ToList();
         }
+
+        public bool IsExist(string name)
+        {
+            return _cmsDbContext.Categories.AsNoTracking()
+                .Select(c => c.Name)
+                .Contains(name);
+        }
+
+        public bool IsExist(long id)
+        {
+            return _cmsDbContext.Categories.AsNoTracking()
+                .Select(c => c.Id)
+                .Contains(id);
+        }
+
     }
 }
