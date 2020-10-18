@@ -13,13 +13,13 @@ namespace DanialCMS.Core.Domain.Contents.Entities
         public string Title { get; set; }
         public string Body { get; set; }
         public string Description { get; set; }
-        public int Rate { get; set; }
-        public long PhotoId { get; set; }
+        public int? Rate { get; set; }
+        public long? PhotoId { get; set; }
         public FileManagement Photo { get; set; }
         public ContentStatus ContentStatus { get; set; }
         public DateTime PublishDate { get; set; }
 
-        public long CategoryId { get; set; }
+        public long? CategoryId { get; set; }
         public Category Category { get; set; }
 
         public long WriterId { get; set; }

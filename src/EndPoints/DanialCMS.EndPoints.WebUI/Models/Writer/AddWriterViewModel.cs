@@ -17,6 +17,6 @@ namespace DanialCMS.EndPoints.WebUI.Models.Writer
 
         
         [Display(Name = "عکس")]
-        public IFormFile file { get; set; }
+        public IFormFile? file { get; set; }
     }
 }

@@ -1638,6 +1638,14 @@ section {
     padding: 15px 0;
 }
 
+.navbar-sidebar .navbar__list li div {
+    display: block;
+    color: #555;
+    font-size: 16px;
+    padding: 15px 0;
+}
+
+
 .navbar-sidebar .navbar__list li a i {
     margin-left: 19px;
 }
@@ -3076,6 +3084,10 @@ section {
 }
 
 .navbar-sidebar3 .has-sub.open > a {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+}
+.navbar-sidebar3 .has-sub.open > div {
     background: #fff;
     border: 1px solid #e5e5e5;
 }

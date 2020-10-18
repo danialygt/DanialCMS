@@ -1,5 +1,107 @@
 ﻿@model DtoWriterDetail
 @{
     ViewData["Title"] = "اطلاعات نویسنده";
-    string photoUrl = (Model.PhotoUrl != null) ? Model.PhotoUrl : "/photos/profilePhotoNotFound.jpg";
+    string photoUrl = (Model != null && Model.PhotoUrl != null) ? Model.PhotoUrl : "~/photos/profilePhotoNotFound.png";
+}
+
+@if (Model != null)
+{
+
+<div class="row d-flex justify-content-center ">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-user"></i>
+                <strong class="card-title pl-2">اطلاعات</strong>
+            </div>
+            <div class="card-body">
+                <div class="mx-auto d-block">
+                    <img class="rounded-circle mx-auto d-block w-50" src="@photoUrl" alt="Card image cap"/>
+                    <h5 class="text-sm-center mt-2 mb-1">@Model.Name</h5>             
+                <hr>
+                @*<div class="card-text text-sm-center">
+
+                </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+
+@if (Model.Contents != null)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="title-5 m-b-35">مطالب</h3>
+            <div class="table-responsive table-responsive-data2">
+                <table class="table table-data2">
+                    <thead>
+                        <tr>
+                            <th class="col-1">وضعیت</th>
+                            <th class="col-2">تاریخ انتشار</th>
+                            <th class="col-5">عنوان</th>
+                            <th class="col-2">جایگاه</th>
+                            <th class="col-2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in @Model.Contents)
+                        {
+                            <tr class="tr-shadow">
+                                <td class="col-1">@item.ContentStatus</td>
+                                <td class="col-2">@item.PublishDate.ToShortDateString()<br />@item.PublishDate.ToShortTimeString()</td>
+                                <td class="col-5">@item.Title</td>
+                                <td class="col-2">@item.PublishPlaces</td>
+
+                                <td class="col-2">
+                                    <div class="table-data-feature">
+                                        @if (item.ContentStatus != ContentStatus.Published)
+                                        {
+                                            <button class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="انتشار"
+                                                    asp-controller="Content" asp-action="Publish" asp-route-id="@item.Id">
+                                                <i class="zmdi zmdi-mail-send"></i>
+                                            </button>
+                                        }
+                                        @if (item.ContentStatus != ContentStatus.Waiting)
+                                        {
+                                            <button class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="در انتظار انتشار"
+                                                    asp-controller="Content" asp-action="Waiting" asp-route-id="@item.Id">
+                                                <i class="zmdi zmdi-pause"></i>
+                                            </button>
+                                        }
+                                        @if (item.ContentStatus != ContentStatus.Deleted)
+                                        {
+                                            <button class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="حذف انتشار"
+                                                    asp-controller="Content" asp-action="Delete" asp-route-id="@item.Id">
+                                                <i class="zmdi zmdi-delete"></i>
+                                            </button>
+
+                                        }
+                                        <button class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="ویرایش مطلب"
+                                                asp-controller="Content" asp-action="Update" asp-route-id="@item.Id">
+                                            <i class="zmdi zmdi-edit"></i>
+                                        </button>
+                                        <button class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="نمایش"
+                                                asp-controller="Content" asp-action="Detail" asp-route-id="@item.Id">
+                                            <i class="zmdi zmdi-more"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="spacer"></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+}
+else
+{ 
+    <div class="row d-flex justify-content-center">
+        <div class="alert alert-danger" role="alert">
+            نویسنده یافت نشد!
+        </div>
+    </div>
 }

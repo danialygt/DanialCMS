@@ -7,7 +7,7 @@ namespace DanialCMS.Core.Domain.Writers.Dtos
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        public string PhotoUrl { get; set; }
+        public string? PhotoUrl { get; set; }
         public List<Content> Contents { get; set; }
 
     }

@@ -27,6 +27,10 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
        
         public IActionResult Detail(long id)
         {
+            if(id == 0)
+            {
+                return RedirectToAction(nameof(List));
+            }
             var writer = _queryDispatcher.Dispatch<DtoWriterDetail>(new WriterDetailQuery() { Id = id });
             return View(writer);
         }
@@ -34,7 +38,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
         
         public IActionResult Add()
         {
-            return View();
+            return View(new AddWriterViewModel());
         }
 
         [HttpPost]
@@ -51,9 +55,12 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
                 });
                 if (result.IsSuccess)
                 {
-                    return List();
+                    return RedirectToAction(nameof(List));
                 }
-                ModelState.AddModelError("", result.Message);
+                if (!string.IsNullOrEmpty(result.Message))
+                {
+                    ModelState.AddModelError("", result.Message);
+                }
                 foreach (var item in result.Errors)
                 {
                     ModelState.AddModelError("", item);
@@ -68,7 +75,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             var writer = _queryDispatcher.Dispatch<DtoUpdateWriter>(new WriterUpdateQuery() { Id = id });
             if (writer == null)
             {
-                ModelState.AddModelError("", "نویسنده یافت نشد"); /* momkene ziadi bashe! */
+                ModelState.AddModelError("", "نویسنده یافت نشد");
                 return View();
             }
             var editWriterNameViewModel = new EditWriterViewModel()
@@ -81,52 +88,34 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             return View(editWriterNameViewModel);
         }
 
-        [HttpPost]
-        public IActionResult Update(EditWriterNameViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var result = _commandDispatcher.Dispatch(new EditWriterNameCommand()
-                {
-                    Id = model.Id,
-                    Name = model.Name
-                });
-                if (result.IsSuccess)
-                {
-                    return List();
-                }
-                ModelState.AddModelError("", result.Message);
-                foreach (var item in result.Errors)
-                {
-                    ModelState.AddModelError("", item);
-                }
-            }
-            return View();
-        }
 
         [HttpPost]
-        public IActionResult Update(EditWriterPhotoViewModel model)
+        public IActionResult Update(EditWriterViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var dtoPhoto = new FileSaver().Save(model.File);
 
-                var result = _commandDispatcher.Dispatch(new ChangeWriterPhotoCommand()
+                var result = _commandDispatcher.Dispatch(new UpdateWriterCommand()
                 {
-                    WriterId = model.WriterId,
-                    Photo = dtoPhoto
+                    WriterId = model.Id,
+                    Photo = dtoPhoto,
+                    Name = model.Name
                 });
                 if (result.IsSuccess)
                 {
-                    return List();
+                    return RedirectToAction(nameof(List));
                 }
-                ModelState.AddModelError("", result.Message);
+                if (!string.IsNullOrEmpty(result.Message))
+                {
+                    ModelState.AddModelError("", result.Message);
+                }
                 foreach (var item in result.Errors)
                 {
                     ModelState.AddModelError("", item);
                 }
             }
-            return View();
+            return RedirectToAction(nameof(Update), model.Id);
         }
     }
 }

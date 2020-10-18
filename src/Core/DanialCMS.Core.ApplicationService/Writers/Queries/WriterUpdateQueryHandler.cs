@@ -27,8 +27,8 @@ namespace DanialCMS.Core.ApplicationService.Writers.Queries
             return new DtoUpdateWriter() 
             {
                 Name = writer.Name,
-                //PhotoId = writer.PhotoId,
-                PhotoUrl = writer.Photo.Url,
+                PhotoId = writer.PhotoId,
+                PhotoUrl = (writer.Photo == null)? null: writer.Photo.Url,
             };
         }
     }

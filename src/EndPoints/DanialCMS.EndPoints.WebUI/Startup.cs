@@ -60,7 +60,7 @@ namespace DanialCMS.EndPoints.WebUI
             services.AddTransient<QueryDispatcher>();
                 /* writer controller  */
             services.AddTransient<CommandHandler<AddWriterCommand>, AddWriterCommandHandler>();
-            services.AddTransient<CommandHandler<EditWriterNameCommand>, EditWriterNameCommandHandler>();
+            services.AddTransient <CommandHandler<UpdateWriterCommand>, UpdateWriterCommandHandler> ();
             services.AddTransient<IQueryHandler<AllWriterQuery, List<DtoWriter>>, AllWriterQueryHandler>();
             services.AddTransient<IQueryHandler<WriterDetailQuery, DtoWriterDetail>, WriterDetailQueryHandler>();
             services.AddTransient<IQueryHandler<WriterUpdateQuery, DtoUpdateWriter>, WriterUpdateQueryHandler>();

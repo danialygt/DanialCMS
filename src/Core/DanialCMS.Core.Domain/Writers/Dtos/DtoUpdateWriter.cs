@@ -8,8 +8,8 @@ namespace DanialCMS.Core.Domain.Writers.Dtos
     public class DtoUpdateWriter
     {
         public string Name { get; set; }
-        public long PhotoId { get; set; }
-        public string PhotoUrl { get; set; }
+        public long? PhotoId { get; set; }
+        public string? PhotoUrl { get; set; }
    
     
     }

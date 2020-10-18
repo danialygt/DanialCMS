@@ -26,7 +26,7 @@ namespace DanialCMS.Core.ApplicationService.Writers.Queries
                 Id = writer.Id,
                 Name = writer.Name,
                 Contents = writer.Contents,
-                PhotoUrl = writer.Photo.Url
+                PhotoUrl = (writer.Photo == null)? null:writer.Photo.Url,
             };
         }
     }

@@ -15,5 +15,7 @@ namespace DanialCMS.Core.Domain.Categories.Entities
         public List<Category> Children { get; set; }
 
 
+        
+
     }
 }

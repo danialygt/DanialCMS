@@ -14,13 +14,22 @@
         </div>
         <nav class="navbar-sidebar2">
             <ul class="list-unstyled navbar__list">
-                <li class="active has-sub">
+                <li>
+                    <a asp-controller="Writer" asp-action="List">
+                        <i class="fas fa-tachometer-alt"></i>نویسنده
+                    </a>
+                </li>
+                
+                
+                
+                @*<li class="active has-sub">
                     <a class="js-arrow" >
                         <i class="fas fa-tachometer-alt"></i>Dashboard
                         <span class="arrow">
                             <i class="fas fa-angle-down"></i>
                         </span>
                     </a>
+
                     <ul class="list-unstyled navbar__sub-list js-sub-list">
                         <li>
                             <a href="~/index.html">
@@ -43,6 +52,8 @@
                             </a>
                         </li>
                     </ul>
+                
+                
                 </li>
                 <li>
                     <a href="~/inbox.html">
@@ -174,7 +185,8 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li>*@
+            
             </ul>
         </nav>
     </div>

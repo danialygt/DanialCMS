@@ -89,7 +89,7 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("CategoryId")
+                    b.Property<long?>("CategoryId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("ContentStatus")
@@ -100,13 +100,13 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Migrations
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
-                    b.Property<long>("PhotoId")
+                    b.Property<long?>("PhotoId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("PublishDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Rate")
+                    b.Property<int?>("Rate")
                         .HasColumnType("int")
                         .HasMaxLength(10);
 
@@ -239,7 +239,7 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
-                    b.Property<long>("PhotoId")
+                    b.Property<long?>("PhotoId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -275,15 +275,11 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Migrations
                 {
                     b.HasOne("DanialCMS.Core.Domain.Categories.Entities.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.HasOne("DanialCMS.Core.Domain.FileManagements.Entities.FileManagement", "Photo")
                         .WithMany()
-                        .HasForeignKey("PhotoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PhotoId");
 
                     b.HasOne("DanialCMS.Core.Domain.Writers.Entities.Writer", "Writer")
                         .WithMany("Contents")
@@ -326,9 +322,7 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Migrations
                 {
                     b.HasOne("DanialCMS.Core.Domain.FileManagements.Entities.FileManagement", "Photo")
                         .WithMany()
-                        .HasForeignKey("PhotoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PhotoId");
                 });
 #pragma warning restore 612, 618
         }
