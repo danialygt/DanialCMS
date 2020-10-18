@@ -1,6 +1,8 @@
 using DanialCMS.Core.ApplicationService.Categories.Commands;
 using DanialCMS.Core.ApplicationService.Categories.Queries;
 using DanialCMS.Core.ApplicationService.FileManagements.Commands;
+using DanialCMS.Core.ApplicationService.Keywords.Commands;
+using DanialCMS.Core.ApplicationService.Keywords.Queries;
 using DanialCMS.Core.ApplicationService.Writers.Commands;
 using DanialCMS.Core.ApplicationService.Writers.Queries;
 using DanialCMS.Core.Domain.Analysis.Repositories;
@@ -12,6 +14,9 @@ using DanialCMS.Core.Domain.Comments.Repositories;
 using DanialCMS.Core.Domain.Contents.Repositories;
 using DanialCMS.Core.Domain.FileManagements.Commands;
 using DanialCMS.Core.Domain.FileManagements.Repositories;
+using DanialCMS.Core.Domain.Keywords.Commands;
+using DanialCMS.Core.Domain.Keywords.Entities;
+using DanialCMS.Core.Domain.Keywords.Queries;
 using DanialCMS.Core.Domain.Keywords.Repositories;
 using DanialCMS.Core.Domain.PublishPlaces.Repositories;
 using DanialCMS.Core.Domain.Writers.Commands;
@@ -66,7 +71,7 @@ namespace DanialCMS.EndPoints.WebUI
             services.AddTransient<IQueryHandler<WriterDetailQuery, DtoWriterDetail>, WriterDetailQueryHandler>();
             services.AddTransient<IQueryHandler<WriterUpdateQuery, DtoUpdateWriter>, WriterUpdateQueryHandler>();
 
-            /* FileManagment */
+            /**/    /* FileManagment */
             services.AddTransient<CommandHandler<AddFileCommand>, AddFileCommandHandler>();
 
             /**/    /* Category */
@@ -76,6 +81,12 @@ namespace DanialCMS.EndPoints.WebUI
             services.AddTransient<IQueryHandler<GetCategoriesQuery, List<Category>>, GetCategoriesQueryHandler>();
             services.AddTransient<IQueryHandler<GetcategoryQuery, Category>, GetcategoryQueryHandler>();
 
+            /**/    /* Keyword */
+            services.AddTransient<CommandHandler<AddKeywordCommand>, AddKeywordCommandHandler>();
+            services.AddTransient<CommandHandler<UpdateKeywordCommand>, UpdateKeywordCommandHandler>();
+            services.AddTransient<CommandHandler<RemoveKeywordCommand>, RemoveKeywordCommandHandler>();
+            services.AddTransient<IQueryHandler<GetKeywordsQuery, List<Keyword>>, GetKeywordsQueryHandler>();
+            services.AddTransient<IQueryHandler<GetKeywordQuery, Keyword>, GetKeywordQueryHandler>();
 
 
             /* Add Analysis DB Services */

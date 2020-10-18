@@ -28,5 +28,19 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Keywords.Repositories
             return _cmsDbContext.Keywords.AsNoTracking()
                 .ToList();
         }
+
+        public bool IsExist(string name)
+        {
+            return _cmsDbContext.Keywords.AsNoTracking()
+                .Select(c => c.Name)
+                .Contains(name);
+        }
+
+        public bool IsExist(long id)
+        {
+            return _cmsDbContext.Keywords.AsNoTracking()
+                .Select(c => c.Id)
+                .Contains(id);
+        }
     }
 }

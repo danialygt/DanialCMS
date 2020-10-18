@@ -4414,10 +4414,12 @@ section {
 .table-data__info span a {
     font-size: 12px;
     color: #999;
+
 }
 
 .table-data__info span a:hover {
     color: #666;
+
 }
 
 .more {

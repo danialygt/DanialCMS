@@ -9,6 +9,7 @@ namespace DanialCMS.Core.Domain.Keywords.Repositories
     {
         Keyword Get(long id);
         List<Keyword> Getall();
-
+        bool IsExist(string name);
+        bool IsExist(long id);
     }
 }

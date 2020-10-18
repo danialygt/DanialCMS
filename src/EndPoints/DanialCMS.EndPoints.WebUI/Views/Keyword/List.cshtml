@@ -1,20 +1,20 @@
-﻿@model List<Category>
+﻿@model List<Keyword>
 @{
-    ViewData["Title"] = "لیست دسته بندی";
+    ViewData["Title"] = "لیست کلید واژه";
 }
-
 
 @if (Model != null)
 {
+
     <div class="row d-flex justify-content-between">
-        <h3 class="title-5 m-b-35">دسته بندی ها</h3>
+        <h3 class="title-5 m-b-35">کلید واژه ها</h3>
         <div>
-            <a class="au-btn au-btn-icon au-btn--green au-btn--small" asp-controller="Category" asp-action="Add">
+            <a class="au-btn au-btn-icon au-btn--green au-btn--small" asp-controller="Keyword" asp-action="Add">
                 <i class="zmdi zmdi-plus"></i>افزودن
             </a>
         </div>
     </div>
-    
+
     <div class="row ">
         @foreach (var item in Model)
         {
@@ -23,10 +23,10 @@
                     @item.Name
                 </div>
                 <div class="table-data-feature">
-                    <a class="item" asp-controller="Category" asp-action="Update" asp-route-id="@item.Id">
+                    <a class="item" style="z-index:1;" asp-controller="Keyword" asp-action="Update" asp-route-id="@item.Id">
                         <i class="zmdi zmdi-edit"></i>
                     </a>
-                    <a class="item" asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id">
+                    <a class="item" asp-controller="Keyword" asp-action="Delete" asp-route-id="@item.Id">
                         <i class="zmdi zmdi-delete"></i>
                     </a>
                 </div>
@@ -34,13 +34,12 @@
         }
     </div>
 
-
 }
 else
 {
     <div class="row d-flex justify-content-center">
         <div class="alert alert-danger" role="alert">
-            دسته بندی یافت نشد!
+            کلید واژه یافت نشد!
         </div>
     </div>
 }

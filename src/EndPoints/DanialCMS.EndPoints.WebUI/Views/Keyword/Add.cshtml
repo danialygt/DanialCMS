@@ -1,18 +1,18 @@
-﻿@model AddCategoryViewModel
+﻿@model AddKeywordViewModel
 @{
-    ViewData["Title"] = "افزودن دسته بندی";
+    ViewData["Title"] = "افزودن کلید واژه";
 }
 
 
 
 <div class="row d-flex justify-content-center">
     <div class="col-lg-6">
-        <form method="post" enctype="multipart/form-data" asp-controller="Category" asp-action="Add">
+        <form method="post" asp-controller="Keyword" asp-action="Add">
             <div class="card">
                 <div class="card-header">
-                    <i class="fas fa-tasks mx-1"></i>
+                    <i class="fas fa-tag mx-1"></i>
                     <small>افزودن</small>
-                    <strong class="card-title pl-2">دسته بندی</strong>
+                    <strong class="card-title pl-2">کلید واژه</strong>
                 </div>
                 <div class="card-body card-block">
                     <div class="form-group">

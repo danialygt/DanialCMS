@@ -8,27 +8,24 @@
 {
 
 <div class="row d-flex justify-content-center ">
-    <div class="col-md-4">
+    <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
-                <i class="fa fa-user"></i>
-                <strong class="card-title pl-2">اطلاعات</strong>
+                <i class="fas fa-user mx-1"></i>
+                <small>اطلاعات</small>
+                <strong class="card-title pl-2">نویسنده</strong>
             </div>
             <div class="card-body">
                 <div class="mx-auto d-block">
                     <img class="rounded-circle mx-auto d-block " style="width:175px; height: 175px;" src="@photoUrl" alt="Card image cap"/>
-                    <h5 class="text-sm-center mt-2 mb-1">@Model.Name</h5>             
-                <hr>
-                @*<div class="card-text text-sm-center">
-
-                </div>*@
+                    <h5 class="text-sm-center mt-2 mb-1">@Model.Name</h5>  
+                </div>
             </div>
         </div>
     </div>
 </div>
-    </div>
 
-@if (Model.Contents != null)
+@if (Model.Contents.Any())
 {
     <div class="row">
         <div class="col-md-12">

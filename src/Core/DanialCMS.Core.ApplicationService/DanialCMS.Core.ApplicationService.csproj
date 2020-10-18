@@ -13,7 +13,6 @@
     <Folder Include="Analysis\" />
     <Folder Include="Comments\" />
     <Folder Include="Contents\" />
-    <Folder Include="Keywords\" />
     <Folder Include="PublishPlaces\" />
   </ItemGroup>
 

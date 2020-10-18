@@ -1,6 +1,6 @@
-﻿@model UpdateCategoryViewModel
+﻿@model UpdateKeywordViewModel
 @{
-    ViewData["Title"] = "ویرایش دسته بندی";
+    ViewData["Title"] = "ویرایش کلید واژه";
 }
 
 
@@ -12,16 +12,14 @@
     <div class="row d-flex justify-content-center ">
         <div class="col-lg-6">
             <div class="card">
-                <form method="post" asp-controller="Category" asp-action="Update" asp-route-CategoryId="@Model.CategoryId">
-
+                <form method="post" asp-controller="Keyword" asp-action="Update" asp-route-KeywordId="@Model.KeywordId">
                     <div class="card-header">
-                        <i class="fas fa-tasks mx-1"></i>
+                        <i class="fas fa-tag mx-1"></i>
                         <small>ویرایش</small>
-                        <strong class="card-title pl-2">دسته بندی</strong>
+                        <strong class="card-title pl-2">کلید واژه</strong>
                     </div>
                     <div class="card-body">
                         <div class="mx-auto d-block">
-
                             <h5 class="text-sm-center mt-2 mb-1">@Model.Name</h5>
                             <div class="form-group">
                                 <label asp-for="@Model.Name" class="form-control-label"></label>
@@ -34,7 +32,7 @@
                     </div>
                     <div class="card-footer card-footer__button">
                         <input type="submit" class="btn btn-warning btn-sm px-3" value="ویرایش" />
-                    </div> 
+                    </div>
                 </form>
             </div>
         </div>
@@ -47,7 +45,7 @@ else
 {
     <div class="row d-flex justify-content-center">
         <div class="alert alert-danger" role="alert">
-            دسته بندی یافت نشد!
+            کلید واژه یافت نشد!
         </div>
     </div>
 }
