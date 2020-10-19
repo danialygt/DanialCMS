@@ -3,6 +3,7 @@ using DanialCMS.Core.ApplicationService.Categories.Queries;
 using DanialCMS.Core.ApplicationService.FileManagements.Commands;
 using DanialCMS.Core.ApplicationService.Keywords.Commands;
 using DanialCMS.Core.ApplicationService.Keywords.Queries;
+using DanialCMS.Core.ApplicationService.PublishPlaces.Queries;
 using DanialCMS.Core.ApplicationService.Writers.Commands;
 using DanialCMS.Core.ApplicationService.Writers.Queries;
 using DanialCMS.Core.Domain.Analysis.Repositories;
@@ -18,6 +19,8 @@ using DanialCMS.Core.Domain.Keywords.Commands;
 using DanialCMS.Core.Domain.Keywords.Entities;
 using DanialCMS.Core.Domain.Keywords.Queries;
 using DanialCMS.Core.Domain.Keywords.Repositories;
+using DanialCMS.Core.Domain.PublishPlaces.Entities;
+using DanialCMS.Core.Domain.PublishPlaces.Queries;
 using DanialCMS.Core.Domain.PublishPlaces.Repositories;
 using DanialCMS.Core.Domain.Writers.Commands;
 using DanialCMS.Core.Domain.Writers.Dtos;
@@ -55,7 +58,7 @@ namespace DanialCMS.EndPoints.WebUI
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -88,7 +91,14 @@ namespace DanialCMS.EndPoints.WebUI
             services.AddTransient<IQueryHandler<GetKeywordsQuery, List<Keyword>>, GetKeywordsQueryHandler>();
             services.AddTransient<IQueryHandler<GetKeywordQuery, Keyword>, GetKeywordQueryHandler>();
 
-
+            /**/    /* PublishPlaces */
+            services.AddTransient<IQueryHandler<GetPlaceQuery,PublishPlace>, GetPlaceQueryHandler>();
+            services.AddTransient<IQueryHandler<GetPlacesQuery,List<PublishPlace>>, GetPlacesQueryHandler>();
+            
+            
+            
+            
+            
             /* Add Analysis DB Services */
             services.AddDbContextPool<AnalysisDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("AnalysisDbConnection")));
             /**/    /* add repositories */
@@ -106,7 +116,6 @@ namespace DanialCMS.EndPoints.WebUI
             services.AddTransient<IContentCommandRepository, ContentCommandRepository>();
             services.AddTransient<IFileManagementCommandRepository, FileManagementCommandRepository>();
             services.AddTransient<IKeywordCommandRepository, KeywordCommandRepository>();
-            //services.AddTransient<IPublishPlaceCommandRepository, PublishPlaceCommandRepository>();
             services.AddTransient<IWriterCommandRepository, WriterCommandRepository>();
             services.AddTransient<IContentKeywordsCommandRepository, ContentKeywordsCommandRepository>();
             services.AddTransient<IContentPlacesCommandRepository, ContentPlacesCommandRepository>();
