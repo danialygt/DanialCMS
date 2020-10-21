@@ -10,6 +10,7 @@ namespace DanialCMS.Core.Domain.FileManagements.Repositories
 
         long Add(FileManagement entity);
         void Delete(FileManagement entity);
-
+        void Delete(long id);
+        void Rename(long id, string newName);
     }
 }

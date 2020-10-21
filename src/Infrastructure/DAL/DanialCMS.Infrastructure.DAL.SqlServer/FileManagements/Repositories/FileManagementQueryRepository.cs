@@ -31,8 +31,15 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.FileManagements.Repositories
         public List<FileManagement> GetWithType(string type)
         {
             return _cmsDbContext.FileManager.AsNoTracking()
-                .Where(c => c.Type == type)
+                .Where(c => c.Type.Contains(type))
                 .ToList();
+        }
+
+        public bool IsExist(long id)
+        {
+            return _cmsDbContext.FileManager.AsNoTracking()
+                .Select(c => c.Id)
+                .Contains(id);
         }
     }
 }

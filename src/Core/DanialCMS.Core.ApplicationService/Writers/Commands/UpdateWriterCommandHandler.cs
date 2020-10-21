@@ -4,7 +4,6 @@ using DanialCMS.Core.Domain.Writers.Commands;
 using DanialCMS.Core.Domain.Writers.Entities;
 using DanialCMS.Core.Domain.Writers.Repositories;
 using DanialCMS.Framework.Commands;
-using System;
 
 namespace DanialCMS.Core.ApplicationService.Writers.Commands
 {
@@ -33,10 +32,13 @@ namespace DanialCMS.Core.ApplicationService.Writers.Commands
                     {
                         Url = command.Photo.FileUrl,
                         Type = command.Photo.FileType,
+                        Name = command.Photo.FileName,
+                        Size = command.Photo.FileSize,
+                        Date = System.DateTime.Now
                     });
 
                     _writerCommandRepository.ChangePhoto(command.WriterId, addedPhotoId);
-                    
+
                 }
                 if (command.Name != null)
                 {

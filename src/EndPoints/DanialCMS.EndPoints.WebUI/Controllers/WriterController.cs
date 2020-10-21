@@ -8,6 +8,7 @@ using DanialCMS.Framework.Commands;
 using DanialCMS.Framework.Queries;
 using DanialCMS.Framework.Web;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace DanialCMS.EndPoints.WebUI.Controllers
@@ -46,24 +47,31 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var dtoPhoto = new FileSaver().Save(model.file);
-                
-                var result = _commandDispatcher.Dispatch(new AddWriterCommand()
+                try 
                 {
-                    Name = model.Name,
-                    Photo = dtoPhoto
-                });
-                if (result.IsSuccess)
-                {
-                    return RedirectToAction(nameof(List));
+                    var dtoPhoto = new FileManager().Save(model.file, shouldImage:true);
+
+                    var result = _commandDispatcher.Dispatch(new AddWriterCommand()
+                    {
+                        Name = model.Name,
+                        Photo = dtoPhoto
+                    });
+                    if (result.IsSuccess)
+                    {
+                        return RedirectToAction(nameof(List));
+                    }
+                    if (!string.IsNullOrEmpty(result.Message))
+                    {
+                        ModelState.AddModelError("", result.Message);
+                    }
+                    foreach (var item in result.Errors)
+                    {
+                        ModelState.AddModelError("", item);
+                    }
                 }
-                if (!string.IsNullOrEmpty(result.Message))
+                catch (TypeAccessException ex)
                 {
-                    ModelState.AddModelError("", result.Message);
-                }
-                foreach (var item in result.Errors)
-                {
-                    ModelState.AddModelError("", item);
+                    ModelState.AddModelError("", ex.Message);
                 }
             }
             return View();
@@ -94,7 +102,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var dtoPhoto = new FileSaver().Save(model.File);
+                var dtoPhoto = new FileManager().Save(model.File, shouldImage: true);
 
                 var result = _commandDispatcher.Dispatch(new UpdateWriterCommand()
                 {

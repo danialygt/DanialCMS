@@ -1,6 +1,6 @@
-﻿@model UpdateCategoryViewModel
+﻿@model RenameFileViewModel
 @{
-    ViewData["Title"] = "ویرایش دسته بندی";
+    ViewData["Title"] = "ویرایش فایل";
 }
 
 
@@ -12,12 +12,12 @@
     <div class="row d-flex justify-content-center ">
         <div class="col-lg-6">
             <div class="card">
-                <form method="post" asp-controller="Category" asp-action="Update" asp-route-CategoryId="@Model.CategoryId">
+                <form method="post" asp-controller="FileManager" asp-action="Update" asp-route-Id="@Model.Id">
 
                     <div class="card-header">
-                        <i class="fas fa-tasks mx-1"></i>
+                        <i class="fas fa-file mx-1"></i>
                         <small>ویرایش</small>
-                        <strong class="card-title pl-2">دسته بندی</strong>
+                        <strong class="card-title pl-2">فایل</strong>
                     </div>
                     <div class="card-body">
                         <div class="mx-auto d-block">
@@ -25,7 +25,7 @@
                             <h5 class="text-sm-center mt-2 mb-1">@Model.Name</h5>
                             <div class="form-group">
                                 <label asp-for="@Model.Name" class="form-control-label"></label>
-                                <input type="text" class="form-control" asp-for="@Model.Name" value="@Model.Name" required maxlength="50" autofocus>
+                                <input type="text" class="form-control" asp-for="@Model.Name" value="@Model.Name" autofocus required maxlength="30" >
                             </div>
                             <div class="form-group">
                                 <div asp-validation-summary="All" class="text-danger mr-3"></div>
@@ -34,7 +34,7 @@
                     </div>
                     <div class="card-footer card-footer__button">
                         <input type="submit" class="btn btn-warning btn-sm px-3" value="ویرایش" />
-                    </div> 
+                    </div>
                 </form>
             </div>
         </div>
@@ -47,7 +47,7 @@ else
 {
     <div class="row d-flex justify-content-center">
         <div class="alert alert-danger" role="alert">
-            دسته بندی یافت نشد!
+            فایل یافت نشد!
         </div>
     </div>
 }

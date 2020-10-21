@@ -13,7 +13,8 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Writers.Configs
         {
             builder.Property(c => c.Name).IsRequired().HasMaxLength(30);
 
-            
+            //builder.HasOne("PhotoId").WithOne("Id").OnDelete(DeleteBehavior.SetNull);
+
             //builder.HasOne("PhotoId").WithOne("Id");
             //builder.Property(c => c.Contents);
 

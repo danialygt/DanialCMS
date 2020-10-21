@@ -1,0 +1,32 @@
+﻿@model AddFileViewModel
+@{
+    ViewData["Title"] = "افزودن فایل";
+}
+
+
+
+<div class="row d-flex justify-content-center">
+    <div class="col-lg-6">
+        <form method="post" enctype="multipart/form-data" asp-controller="FileManager" asp-action="Add">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-file mx-1"></i>
+                    <small>افزودن</small>
+                    <strong class="card-title pl-2">فایل</strong>
+                </div>
+                <div class="card-body card-block">
+                    <div class="form-group">
+                        <label asp-for="@Model.Files" class="form-control-label"></label>
+                        <input type="file" asp-for="@Model.Files" class="form-control-file" autofocus required multiple >
+                    </div>
+                    <div class="form-group">
+                        <div asp-validation-summary="All" class="text-danger mr-3"></div>
+                    </div>
+                </div>
+                <div class="card-footer card-footer__button">
+                    <input type="submit" class="btn btn-warning btn-sm px-3" value="افزودن" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

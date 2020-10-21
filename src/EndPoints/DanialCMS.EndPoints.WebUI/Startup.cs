@@ -1,6 +1,7 @@
 using DanialCMS.Core.ApplicationService.Categories.Commands;
 using DanialCMS.Core.ApplicationService.Categories.Queries;
 using DanialCMS.Core.ApplicationService.FileManagements.Commands;
+using DanialCMS.Core.ApplicationService.FileManagements.Queries;
 using DanialCMS.Core.ApplicationService.Keywords.Commands;
 using DanialCMS.Core.ApplicationService.Keywords.Queries;
 using DanialCMS.Core.ApplicationService.PublishPlaces.Queries;
@@ -14,6 +15,8 @@ using DanialCMS.Core.Domain.Categories.Repositories;
 using DanialCMS.Core.Domain.Comments.Repositories;
 using DanialCMS.Core.Domain.Contents.Repositories;
 using DanialCMS.Core.Domain.FileManagements.Commands;
+using DanialCMS.Core.Domain.FileManagements.Entities;
+using DanialCMS.Core.Domain.FileManagements.Queries;
 using DanialCMS.Core.Domain.FileManagements.Repositories;
 using DanialCMS.Core.Domain.Keywords.Commands;
 using DanialCMS.Core.Domain.Keywords.Entities;
@@ -26,6 +29,7 @@ using DanialCMS.Core.Domain.Writers.Commands;
 using DanialCMS.Core.Domain.Writers.Dtos;
 using DanialCMS.Core.Domain.Writers.Queries;
 using DanialCMS.Core.Domain.Writers.Repositories;
+using DanialCMS.EndPoints.WebUI.Infrastructures;
 using DanialCMS.Framework.Commands;
 using DanialCMS.Framework.Queries;
 using DanialCMS.Infrastructure.DAL.SqlServer;
@@ -76,7 +80,10 @@ namespace DanialCMS.EndPoints.WebUI
 
             /**/    /* FileManagment */
             services.AddTransient<CommandHandler<AddFileCommand>, AddFileCommandHandler>();
-
+            services.AddTransient<CommandHandler<RemoveFileCommand>, RemoveFileCommandHandler>();
+            services.AddTransient<CommandHandler<RenameFileCommand>, RenameFileCommandHandler>();
+            services.AddTransient<IQueryHandler<GetFilesQuery, List<FileManagement>>, GetFilesQueryHandler>();
+            services.AddTransient<IQueryHandler<GetFileQuery, FileManagement>, GetFileQueryHandler>();
             /**/    /* Category */
             services.AddTransient<CommandHandler<AddCategoryCommand>, AddCategoryCommandHandler>();
             services.AddTransient<CommandHandler<UpdateCategoryCommand>, UpdateCategoryCommandHandler>();
@@ -163,7 +170,7 @@ namespace DanialCMS.EndPoints.WebUI
             app.UseRouting();
 
             app.UseAuthorization();
-
+            //app.UseMiddleware<CheckFileTypeMiddleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

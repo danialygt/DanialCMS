@@ -32,6 +32,9 @@ namespace DanialCMS.Core.ApplicationService.Writers.Commands
                     {
                         Url = entity.Photo.FileUrl,
                         Type = entity.Photo.FileType,
+                        Name = entity.Photo.FileName,
+                        Size = entity.Photo.FileSize,
+                        Date = System.DateTime.Now
                     });
                 }
                 _writerCommandRepository.Add(new Writer()

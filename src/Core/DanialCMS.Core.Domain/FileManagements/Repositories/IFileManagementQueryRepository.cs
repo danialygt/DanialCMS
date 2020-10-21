@@ -10,6 +10,7 @@ namespace DanialCMS.Core.Domain.FileManagements.Repositories
         FileManagement Get(long id);
         List<FileManagement> GetWithType(string type);
         List<FileManagement> GetAll();
+        bool IsExist(long id);
 
     }
 }

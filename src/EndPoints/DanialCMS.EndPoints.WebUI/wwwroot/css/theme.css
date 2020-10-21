@@ -14688,3 +14688,9 @@ section {
 .card-footer__button button {
     margin:  0.3rem;
 }
+
+
+.tableOverflow {
+    overflow-y: hidden;
+    overflow-x: auto;
+}

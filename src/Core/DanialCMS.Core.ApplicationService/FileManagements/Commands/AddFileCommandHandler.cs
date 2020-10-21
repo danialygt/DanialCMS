@@ -21,7 +21,10 @@ namespace DanialCMS.Core.ApplicationService.FileManagements.Commands
                 _fileManagementCommandRepository.Add(new FileManagement
                 {
                     Url = command.FileUrl,
-                    Type = command.FileType
+                    Type = command.FileType,
+                    Name = command.FileName,
+                    Size = command.FileSize,
+                    Date = System.DateTime.Now
                 });
                 return Ok();
             }
@@ -33,7 +36,7 @@ namespace DanialCMS.Core.ApplicationService.FileManagements.Commands
             bool isValid = true;
             if (string.IsNullOrEmpty(command.FileUrl))
             {
-                AddError("فایل آپلود نشده است");
+                AddError($"فایل '{command.FileName}' آپلود نشده است");
                 isValid = false;
             }
             else if (string.IsNullOrEmpty(command.FileType))

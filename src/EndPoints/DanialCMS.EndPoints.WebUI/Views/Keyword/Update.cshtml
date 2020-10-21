@@ -23,7 +23,7 @@
                             <h5 class="text-sm-center mt-2 mb-1">@Model.Name</h5>
                             <div class="form-group">
                                 <label asp-for="@Model.Name" class="form-control-label"></label>
-                                <input type="text" class="form-control" asp-for="@Model.Name" value="@Model.Name">
+                                <input type="text" class="form-control" asp-for="@Model.Name" value="@Model.Name" required maxlength="50" autofocus >
                             </div>
                             <div class="form-group">
                                 <div asp-validation-summary="All" class="text-danger mr-3"></div>

@@ -21,6 +21,8 @@
     <Compile Remove="Migrations\20201010063103_Content-Initial2.Designer.cs" />
     <Compile Remove="Migrations\20201010063425_Content-Initial.cs" />
     <Compile Remove="Migrations\20201010063425_Content-Initial.Designer.cs" />
+    <Compile Remove="Migrations\20201021135724_setNullInWriterPhotoId.cs" />
+    <Compile Remove="Migrations\20201021135724_setNullInWriterPhotoId.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
