@@ -19,7 +19,7 @@ namespace DanialCMS.Core.Domain.Contents.Entities
         public ContentStatus ContentStatus { get; set; }
         public DateTime PublishDate { get; set; }
 
-        public long? CategoryId { get; set; }
+        public long CategoryId { get; set; }
         public Category Category { get; set; }
 
         public long WriterId { get; set; }

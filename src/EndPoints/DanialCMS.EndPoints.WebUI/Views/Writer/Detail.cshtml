@@ -1,7 +1,9 @@
 ﻿@model DtoWriterDetail
+
 @{
     ViewData["Title"] = "اطلاعات نویسنده";
-    string photoUrl = (Model != null && Model.PhotoUrl != null) ? Model.PhotoUrl : "/photos/profilePhotoNotFound.png";
+    string photoUrl = (Model != null && Model.PhotoUrl != null) ? Model.PhotoUrl : "/files/profilePhotoNotFound.png";
+    string returnUrl = Context.Request.Path;
 }
 
 @if (Model != null)
@@ -46,7 +48,7 @@
                         {
                             <tr class="tr-shadow">
                                 <td class="col-1">@item.ContentStatus</td>
-                                <td class="col-2">@item.PublishDate.ToShortDateString()<br />@item.PublishDate.ToShortTimeString()</td>
+                                <td class="col-2">@item.PublishDate.ToString("%H:%m:%s %yy/%M/%d")</td>
                                 <td class="col-5">@item.Title</td>
                                 <td class="col-2">@item.PublishPlaces</td>
 
@@ -54,34 +56,34 @@
                                     <div class="table-data-feature">
                                         @if (item.ContentStatus != ContentStatus.Published)
                                         {
-                                            <button class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="انتشار"
-                                                    asp-controller="Content" asp-action="Publish" asp-route-id="@item.Id">
+                                            <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="انتشار"
+                                                    asp-controller="Content" asp-action="ChangeToPublish" asp-route-id="@item.Id" asp-route-returnUrl="@returnUrl">
                                                 <i class="zmdi zmdi-mail-send"></i>
-                                            </button>
+                                            </a>
                                         }
                                         @if (item.ContentStatus != ContentStatus.Waiting)
                                         {
-                                            <button class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="در انتظار انتشار"
-                                                    asp-controller="Content" asp-action="Waiting" asp-route-id="@item.Id">
+                                            <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="در انتظار انتشار"
+                                                    asp-controller="Content" asp-action="ChangeToWait" asp-route-id="@item.Id" asp-route-returnUrl="@returnUrl">
                                                 <i class="zmdi zmdi-pause"></i>
-                                            </button>
+                                            </a>
                                         }
                                         @if (item.ContentStatus != ContentStatus.Deleted)
                                         {
-                                            <button class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="حذف انتشار"
-                                                    asp-controller="Content" asp-action="Delete" asp-route-id="@item.Id">
+                                            <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="حذف انتشار"
+                                                    asp-controller="Content" asp-action="ChangeToDelete" asp-route-id="@item.Id" asp-route-returnUrl="@returnUrl">
                                                 <i class="zmdi zmdi-delete"></i>
-                                            </button>
+                                            </a>
 
                                         }
-                                        <button class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="ویرایش مطلب"
+                                        <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="ویرایش مطلب"
                                                 asp-controller="Content" asp-action="Update" asp-route-id="@item.Id">
                                             <i class="zmdi zmdi-edit"></i>
-                                        </button>
-                                        <button class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="نمایش"
-                                                asp-controller="Content" asp-action="Detail" asp-route-id="@item.Id">
+                                        </a>
+                                        <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="نمایش"
+                                                asp-controller="Content" asp-action="Show" asp-route-id="@item.Id">
                                             <i class="zmdi zmdi-more"></i>
-                                        </button>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>

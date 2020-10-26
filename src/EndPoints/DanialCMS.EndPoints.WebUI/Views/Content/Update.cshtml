@@ -1,0 +1,245 @@
+﻿@model UpdateContentViewModel
+
+@{
+    ViewData["Title"] = "ویرایش محتوا";
+
+    var placeList = Model.GetPublishPlacesListItems();
+    var KeywordList = Model.GetKeywordsListItems();
+    var categoryList = Model.GetCategoriesListItems();
+
+}
+
+
+
+
+@section Styles
+{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/vendor/froala-editor/css/froala_editor.css">
+    <link rel="stylesheet" href="~/vendor/froala-editor/css/froala_style.css">
+    <link rel="stylesheet" href="~/vendor/froala-editor/css/plugins/code_view.css">
+    <link rel="stylesheet" href="~/vendor/froala-editor/css/plugins/colors.css">
+    <link rel="stylesheet" href="~/vendor/froala-editor/css/plugins/emoticons.css">
+    <link rel="stylesheet" href="~/vendor/froala-editor/css/plugins/image_manager.css">
+    <link rel="stylesheet" href="~/vendor/froala-editor/css/plugins/image.css">
+    <link rel="stylesheet" href="~/vendor/froala-editor/css/plugins/line_breaker.css">
+    <link rel="stylesheet" href="~/vendor/froala-editor/css/plugins/table.css">
+    <link rel="stylesheet" href="~/vendor/froala-editor/css/plugins/char_counter.css">
+    <link rel="stylesheet" href="~/vendor/froala-editor/css/plugins/video.css">
+    <link rel="stylesheet" href="~/vendor/froala-editor/css/plugins/fullscreen.css">
+    <link rel="stylesheet" href="~/vendor/froala-editor/css/plugins/quick_insert.css">
+    <link rel="stylesheet" href="~/vendor/froala-editor/css/plugins/file.css">
+    <link rel="stylesheet" href="~/vendor/froala-editor/css/themes/dark.min.css">
+    <link rel="stylesheet" href="~/vendor/select2/select2.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.3.0/codemirror.min.css">
+
+}
+
+
+
+@if (Model != null)
+{
+
+
+    <div class="row d-flex justify-content-center">
+        <form method="post" id="formContent" asp-controller="Content" asp-action="Update" class="w-100 d-flex">
+            <div class="col-8">
+                <div class="row d-flex justify-content-between">
+                    <h3 class="title-5 m-b-35">محتوا</h3>
+                    <div>
+                        <a class="au-btn au-btn-icon au-btn--green au-btn--small" id="sendContent">
+                            <i class="zmdi zmdi-edit"></i>ویرایش
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Title" class="form-control-label"></label>
+                        <input type="text" asp-for="@Model.Title" value="@Model.Title" class="form-control" required maxlength="100">
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="@Model.Description" class="form-control-label"></label>
+                        <input type="text" asp-for="@Model.Description" value="@Model.Description" class="form-control" required maxlength="500">
+                    </div>
+                </div>
+                <div class="row">
+                    <section id="editor" class="w-100">
+                        <div id='edit' class="w-100 mt-3">
+                        </div>
+                    </section>
+                </div>
+
+
+            </div>
+            <div class="col-3">
+
+                <input type="hidden" value="@Model.Body" id="formValue" asp-for="@Model.Body" required>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div asp-validation-summary="All" class="text-danger my-1">
+                            </div>
+                            <hr />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Rate" class="form-control-label"></label>
+                            <input type="number" asp-for="@Model.Rate" value="@Model.Rate" class="form-control" min="0" max="10">
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.PublishDate" class="form-control-label"></label>
+                            <input type="datetime" asp-for="@Model.PublishDate" value="@Model.PublishDate" class="form-control" required>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label asp-for="@Model.CategoryId" class="form-control-label"></label>
+                            <a class="au-btn au-btn-icon au-btn--green float-left" style="padding: 0 10px;line-height: 30px;font-size: 14px;"
+                               asp-controller="Category" asp-action="Add" target="_blank">
+                                <i class="zmdi zmdi-plus"></i>افزودن
+                            </a>
+                            <br />
+                            <div class="rs-select2--dark rs-select2--md m-l-10 w-100">
+                                @if (categoryList == null)
+                                {
+                                    <select class="js-select2 w-100" disabled>
+                                    </select>
+                                }
+                                else
+                                {
+                                    <select class="js-select2 w-100" asp-items="@categoryList"
+                                            asp-for="@Model.CategoryId" required>
+                                    </select>
+                                }
+                                <div class="dropDownSelect2"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="@Model.KeywordsId" class="form-control-label"></label>
+                            <a class="au-btn au-btn-icon au-btn--green float-left" style="padding: 0 10px;line-height: 30px;font-size: 14px;"
+                               asp-controller="Keyword" asp-action="Add" target="_blank">
+                                <i class="zmdi zmdi-plus"></i>افزودن
+                            </a>
+                            <br />
+                            <div class="rs-select2--dark rs-select2--md m-l-10 w-100">
+                                @if (KeywordList == null)
+                                {
+                                    <select class="js-select2 w-100" disabled>
+                                    </select>
+                                }
+                                else
+                                {
+                                    <select class="js-select2" asp-items="@KeywordList"
+                                            asp-for="@Model.KeywordsId" multiple="multiple">
+                                    </select>
+                                }
+                                <div class="dropDownSelect2"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="@Model.PublishPlacesId" class="form-control-label"></label>
+                            <div class="rs-select2--dark rs-select2--md m-l-10 w-100">
+                                @if (placeList == null)
+                                {
+                                    <select class="js-select2 w-100" disabled>
+                                    </select>
+                                }
+                                else
+                                {
+                                    <select class="js-select2" asp-items="@placeList"
+                                            asp-for="@Model.PublishPlacesId" multiple="multiple" required>
+                                    </select>
+                                }
+                                <div class="dropDownSelect2"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+
+}
+else
+{
+    <div class="row d-flex justify-content-center">
+        <div class="alert alert-danger" role="alert">
+            مطلب یافت نشد!
+        </div>
+    </div>
+}
+
+
+
+
+@section Scripts
+{
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.3.0/codemirror.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.3.0/mode/xml/xml.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/froala_editor.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/draggable.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/char_counter.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/languages/fa.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/align.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/code_beautifier.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/code_view.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/colors.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/emoticons.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/font_size.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/font_family.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/image.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/file.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/image_manager.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/line_breaker.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/link.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/lists.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/paragraph_format.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/paragraph_style.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/video.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/table.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/url.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/entities.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/inline_style.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/save.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/fullscreen.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/quick_insert.min.js"></script>
+    <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/quote.min.js"></script>
+    <script type="text/javascript" src="~/vendor/select2/select2.min.js"></script>
+    <script type="text/javascript" src="~/vendor/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="~/js/main.js"></script>
+
+
+    <script>
+        (function () {
+            var editor = new FroalaEditor("#edit", {
+                theme: 'dark',
+                language: 'fa',
+                dragInline: false,
+                fileAllowedTypes: ['application/pdf', 'application/msword', 'application/vnd.ms-excel',
+                    'application/vnd.ms-powerpoint', 'officedocument', 'text/plain', 'audio/mp3', 'image/gif',
+                    'image/jpeg', 'image/png', 'video/mp4'],
+                fontSizeUnit: 'pt',
+                direction: 'rtl',
+                fullPage: true,
+
+            });
+
+
+            $("#sendContent").click(function () {
+                $("#formValue").val(editor.html.get());
+                $("#formContent").submit();
+            });
+
+        })();
+    </script>
+
+
+
+}

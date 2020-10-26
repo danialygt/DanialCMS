@@ -11,7 +11,7 @@ namespace DanialCMS.Core.Domain.Contents.Repositories
         void Edit(ContentPlaces entity);
         void Delete(ContentPlaces entity);
 
-
+        void RemovePlacesFromContent(long contentId);
 
 
     }

@@ -1,0 +1,94 @@
+﻿@model ShowContentViewModel
+
+@{
+    ViewData["Title"] = "نمایش مطلب";
+}
+
+
+@if (Model != null)
+{    
+    <div class="row justify-content-center">
+        <div class="col-9">
+            <div class="card">
+                <div class=" card-body" style="margin:30px;">
+                    <div class="row">
+                        <div class="form-group">
+                            <img src="@Model.PhotoUrl" alt="تصویر" />&nbsp;
+                        </div>
+                    </div>
+
+
+                    <div class="row d-flex justify-content-between ">
+                        <div class="justify-content-between d-flex flex-column">
+                            <div class="d-inline">
+                                <label asp-for="@Model.Title"></label>: &nbsp;
+                                <span>@Model.Title</span>
+                            </div>
+                            <div class="d-inline">
+                                <label asp-for="@Model.Rate"></label>: &nbsp;
+                                <span>@Model.Rate</span>
+                            </div>
+                        </div>
+                        <div class="justify-content-between d-flex flex-column">
+                            <div class="d-inline">
+                                <span>@Model.PublishDate.ToString("%H:%m:%s %yy/%M/%d")</span>&nbsp;
+                            </div>
+
+                            <div class="d-inline">
+                                <label asp-for="@Model.CategoryName"></label>: &nbsp;
+                                <span>@Model.CategoryName</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="row">
+                        <div>
+                            <span>@Model.Description</span>
+                        </div>
+                        &nbsp;
+                        @*@(new Html.   String("\n"))*@
+                        <div>
+                            @Html.Raw(Model.Body)   
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="row">
+                        <label asp-for="@Model.KeywordsName"></label>: &nbsp;
+                        @foreach (var item in Model.KeywordsName)
+                        {
+                            <span> @item , </span>
+                        }
+                    </div>
+                    &nbsp;
+                    <br />
+                    <div class="row">
+                        <label asp-for="@Model.publishPlacesName"></label>: &nbsp;
+                        @foreach (var item in Model.publishPlacesName)
+                        {
+                            <span> @item , </span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+}
+else
+{
+    <div class="row d-flex justify-content-center">
+        <div class="alert alert-danger" role="alert">
+            مطلب یافت نشد!
+        </div>
+    </div>
+}
+

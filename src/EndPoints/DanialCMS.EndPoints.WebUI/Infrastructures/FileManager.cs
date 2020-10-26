@@ -17,7 +17,7 @@ namespace DanialCMS.EndPoints.WebUI.Infrastructures
         }
 
 
-        public DtoFile Save(IFormFile formFile, string folderName = "photos", bool shouldImage = false)
+        public DtoFile Save(IFormFile formFile, string folderName = "files", bool shouldImage = false)
         {
             if (formFile != null && formFile.Length > 0)
             {

@@ -89,7 +89,7 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("CategoryId")
+                    b.Property<long>("CategoryId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("ContentStatus")
@@ -286,7 +286,9 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Migrations
                 {
                     b.HasOne("DanialCMS.Core.Domain.Categories.Entities.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DanialCMS.Core.Domain.FileManagements.Entities.FileManagement", "Photo")
                         .WithMany()

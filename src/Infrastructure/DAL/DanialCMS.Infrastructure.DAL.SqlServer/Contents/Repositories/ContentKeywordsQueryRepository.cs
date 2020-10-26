@@ -41,13 +41,13 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Contents.Repositories
                 .ToList();
         }
 
-        public List<ContentKeywords> GetKeywords(long contentId)
+        public List<long> GetKeywordsId(long contentId)
         {
             return _contentDbContext.ContentKeywords.AsNoTracking()
-                .Include(c => c.Keyword)
-                .Include(c => c.Content)
                 .Where(c => c.ContentId == contentId)
+                .Select(c => c.KeywordId)
                 .ToList();
         }
+
     }
 }

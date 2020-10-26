@@ -38,13 +38,12 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Contents.Repositories
                 .ToList();
         }
 
-        public List<ContentPlaces> GetPlaces(long contentId)
+        public List<long> GetPlacesIdFromContent(long contentId)
         {
             return _contentDbContext.ContentPlaces.AsNoTracking()
-                .Include(c => c.PublishPlace)
-                .Include(c => c.Content)
                .Where(c => c.ContentId == contentId)
-                 .ToList();
+               .Select(c=>c.PublishPlaceId)
+                .ToList();
         }
     }
 }

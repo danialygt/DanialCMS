@@ -1,5 +1,7 @@
 using DanialCMS.Core.ApplicationService.Categories.Commands;
 using DanialCMS.Core.ApplicationService.Categories.Queries;
+using DanialCMS.Core.ApplicationService.Contents.Commands;
+using DanialCMS.Core.ApplicationService.Contents.Queries;
 using DanialCMS.Core.ApplicationService.FileManagements.Commands;
 using DanialCMS.Core.ApplicationService.FileManagements.Queries;
 using DanialCMS.Core.ApplicationService.Keywords.Commands;
@@ -13,6 +15,9 @@ using DanialCMS.Core.Domain.Categories.Entities;
 using DanialCMS.Core.Domain.Categories.Queries;
 using DanialCMS.Core.Domain.Categories.Repositories;
 using DanialCMS.Core.Domain.Comments.Repositories;
+using DanialCMS.Core.Domain.Contents.Commands;
+using DanialCMS.Core.Domain.Contents.Dtos;
+using DanialCMS.Core.Domain.Contents.Queries;
 using DanialCMS.Core.Domain.Contents.Repositories;
 using DanialCMS.Core.Domain.FileManagements.Commands;
 using DanialCMS.Core.Domain.FileManagements.Entities;
@@ -29,7 +34,6 @@ using DanialCMS.Core.Domain.Writers.Commands;
 using DanialCMS.Core.Domain.Writers.Dtos;
 using DanialCMS.Core.Domain.Writers.Queries;
 using DanialCMS.Core.Domain.Writers.Repositories;
-using DanialCMS.EndPoints.WebUI.Infrastructures;
 using DanialCMS.Framework.Commands;
 using DanialCMS.Framework.Queries;
 using DanialCMS.Infrastructure.DAL.SqlServer;
@@ -99,13 +103,17 @@ namespace DanialCMS.EndPoints.WebUI
             services.AddTransient<IQueryHandler<GetKeywordQuery, Keyword>, GetKeywordQueryHandler>();
 
             /**/    /* PublishPlaces */
-            services.AddTransient<IQueryHandler<GetPlaceQuery,PublishPlace>, GetPlaceQueryHandler>();
-            services.AddTransient<IQueryHandler<GetPlacesQuery,List<PublishPlace>>, GetPlacesQueryHandler>();
-            
-            
-            
-            
-            
+            services.AddTransient<IQueryHandler<GetPlaceQuery, PublishPlace>, GetPlaceQueryHandler>();
+            services.AddTransient<IQueryHandler<GetPlacesQuery, List<PublishPlace>>, GetPlacesQueryHandler>();
+
+            /**/    /* Content */
+            services.AddTransient<CommandHandler<AddContentCommand>, AddContentCommandHandler>();
+            services.AddTransient<CommandHandler<EditContentCommand>, EditContentCommandHandler>();
+            services.AddTransient<CommandHandler<EditStatusContentCommand>, EditStatusContentCommandHandler>();
+            services.AddTransient<IQueryHandler<GetContentQuery, DtoContent>, GetContentQueryHandler>();
+            services.AddTransient<IQueryHandler<GetContentQuery, DtoUpdateContent>, GetDtoUpdateContentQueryHandler>();
+            services.AddTransient<IQueryHandler<GetContentsQuery, List<DtoListContent>>, GetContentsQueryHandler>();
+
             /* Add Analysis DB Services */
             services.AddDbContextPool<AnalysisDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("AnalysisDbConnection")));
             /**/    /* add repositories */
@@ -151,7 +159,7 @@ namespace DanialCMS.EndPoints.WebUI
 
         }
 
-        
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

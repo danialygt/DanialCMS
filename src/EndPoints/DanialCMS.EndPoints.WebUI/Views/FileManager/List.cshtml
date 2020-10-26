@@ -56,7 +56,7 @@
                                         <i class="zmdi zmdi-file display-3" style="margin: auto 3.5rem !important;" ></i>
                                     }                                   
                                 </td>
-                                <td class="col-1">@item.Date</td>
+                                <td class="col-1">@item.Date.ToString("%H:%m:%s %yy/%M/%d")</td>
                                 <td class="col-2 ">@item.Name</td>
                                 <td class="col-2 tableOverflow">@item.Type</td>
                                 <td class="col-1">@(item.Size/1024)KB</td>

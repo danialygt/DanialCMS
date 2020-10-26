@@ -10,6 +10,7 @@ namespace DanialCMS.Core.Domain.Contents.Repositories
         void Add(ContentKeywords entity);
         void Edit(ContentKeywords entity);
         void Delete(ContentKeywords entity);
+        void RemoveKeywordsFromContent(long contentId);
 
 
     }

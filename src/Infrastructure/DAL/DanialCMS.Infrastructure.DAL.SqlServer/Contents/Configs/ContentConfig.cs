@@ -17,6 +17,7 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Contents.Configs
             builder.Property(c => c.Body).IsRequired();
             builder.Property(c => c.Description).IsRequired().HasMaxLength(500);
             builder.Property(c => c.ContentStatus).IsRequired();
+            builder.Property(c => c.CategoryId).IsRequired();
             builder.Property(c => c.Rate).HasMaxLength(10);
             
 

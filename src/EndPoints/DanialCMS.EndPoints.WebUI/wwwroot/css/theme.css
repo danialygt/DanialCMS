@@ -566,6 +566,7 @@ section {
     font-size: 14px;
 }
 
+
 /*Page Loader*/
 .page-loader {
     background: #f8f8f8;
@@ -4518,13 +4519,13 @@ section {
     border: none;
     font-weight: 600;
     vertical-align: top;
-    padding: 15px 40px;
-    padding-right: 10px;
+    padding: 15px 20px;
+    padding-right: 30px;
 }
 
-.table-data2.table thead th:first-child {
+/*.table-data2.table thead th:first-child {
     padding-right: 0;
-}
+}*/
 
 .table-data2.table tbody {
     background: #fff;
@@ -4568,8 +4569,8 @@ section {
     font-size: 14px;
     color: #808080;
     vertical-align: middle;
-    padding: 25px 40px;
-    padding-right: 10px;
+    padding: 25px 20px;
+    padding-right: 30px;
     border: none;
 }
 
@@ -14693,4 +14694,10 @@ section {
 .tableOverflow {
     overflow-y: hidden;
     overflow-x: auto;
+}
+
+.au-btn--little {
+    padding: 0 10px;
+    line-height: 30px;
+    font-size: 14px;
 }

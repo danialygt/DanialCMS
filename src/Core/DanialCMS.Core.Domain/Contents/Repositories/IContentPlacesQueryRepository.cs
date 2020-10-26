@@ -9,7 +9,7 @@ namespace DanialCMS.Core.Domain.Contents.Repositories
     {
         ContentPlaces Get(long id);
         List<ContentPlaces> GetAll();
-        List<ContentPlaces> GetPlaces(long contentId);
+        List<long> GetPlacesIdFromContent(long contentId);
         List<ContentPlaces> GetContents(long PlaceId);
 
     }
