@@ -1,7 +1,9 @@
 ﻿using DanialCMS.Core.Domain.Comments.Entities;
 using DanialCMS.Core.Domain.Comments.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DanialCMS.Infrastructure.DAL.SqlServer.Comments.Repositories
@@ -15,9 +17,12 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Comments.Repositories
             _cmsDbContext = cmsDbContext;
         }
 
-        public void Add(Comment entity)
+
+        public void CanShow(long commentId, bool show)
         {
-            _cmsDbContext.Comments.Add(entity);
+            _cmsDbContext.Comments
+                .FirstOrDefault(c => c.Id == commentId)
+                .CanShow = show;
             _cmsDbContext.SaveChanges();
         }
     }

@@ -2,14 +2,23 @@
 
 @{
     ViewData["Title"] = "نمایش مطلب";
+    string returnUrl = Context.Request.Path;
 }
 
 
 @if (Model != null)
-{    
+{
     <div class="row justify-content-center">
         <div class="col-9">
             <div class="card">
+                
+
+                <div class="card-header">
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <h3 class="title-5 ">نمایش مطلب</h3>
+                    </div>
+                </div>
+
                 <div class=" card-body" style="margin:30px;">
                     <div class="row">
                         <div class="form-group">
@@ -50,7 +59,7 @@
                         &nbsp;
                         @*@(new Html.   String("\n"))*@
                         <div>
-                            @Html.Raw(Model.Body)   
+                            @Html.Raw(Model.Body)
                         </div>
                     </div>
 
@@ -78,7 +87,64 @@
     </div>
 
 
+    <div class="row justify-content-center">
+        <div class="col-9">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <h3 class="title-5 ">نظرات</h3>
+                    </div>
+                </div>
+                <div class="card-body" style="margin:30px;">
+                    @if (Model.Comments.Any())
+                    {
+                        @foreach (var item in Model.Comments)
+                        {
 
+                            <div class="row d-flex flex-column">
+                                <div class="form-group row justify-content-between">
+                                    <div class="col-8  d-flex flex-column">
+                                        <span>@item.Name</span>
+                                        <span>@item.Email</span>
+                                    </div>
+                                    <div class="col-3 d-flex justify-content-center align-items-center">
+                                        @if (item.CanShow)
+                                    {
+                                        <a class="btn btn-dark"
+                                   asp-controller="Comment" asp-action="ChangeStatus" asp-route-returnUrl="@returnUrl"
+                                   asp-route-id="@item.Id" asp-route-status="@(!(item.CanShow))">
+                                        <i class="zmdi zmdi-close"> عدم نمایش </i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-warning"
+                                   asp-controller="Comment" asp-action="ChangeStatus" asp-route-returnUrl="@returnUrl"
+                                   asp-route-id="@item.Id" asp-route-status="@(!(item.CanShow))">
+                                        <i class="zmdi zmdi-check"> نمایش </i>
+                                        </a>
+                                    }
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <span>@item.Opinion</span> &nbsp;
+                                </div>
+                            </div>
+                            <hr />
+                        }
+                    }
+                    else
+                    {
+                        <div class="row d-flex justify-content-center">
+                            <div class="alert alert-danger" role="alert">
+                                نظری یافت نشد!
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div> 
+        </div>
+    </div>
 
 
 

@@ -171,7 +171,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             viewModel.Body = model.Body;
             viewModel.Rate = model.Rate;
             viewModel.PublishDate = model.PublishDate;
-
+            viewModel.Comments = model.Comments;
             viewModel.CategoryName = model.Category.Name;
             viewModel.KeywordsName = model.Keywords.Select(c => c.Name).ToList();
             viewModel.publishPlacesName = model.PublishPlaces.Select(c=>c.Name).ToList();

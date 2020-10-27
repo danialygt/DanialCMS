@@ -4,78 +4,84 @@
 
 }
 
-@if (Model != null)
-{
 
     <div class="row d-flex justify-content-center">
-        <div class="col-md-9">
-            <div class="row d-flex justify-content-between">
-                <h3 class="title-5 m-b-35">نویسنده ها</h3>
+        <div class="col-md-9 card">
+            <div class="row d-flex justify-content-between card-header align-items-center">
+                <h3 class="title-5">نویسنده ها</h3>
                 <div>
-                    <a class="au-btn au-btn-icon au-btn--green au-btn--small" asp-controller="Writer" asp-action="Add">
-                        <i class="zmdi zmdi-plus"></i>افزودن
+                    <a class="btn btn-warning" asp-controller="Writer" asp-action="Add">
+                        <i class="zmdi zmdi-plus"> افزودن </i>
                     </a>
                 </div>
             </div>
-            <div class="row">
-                <div class="table-responsive table-responsive-data2">
-                    <table class="table table-data2">
-                        <thead>
-                            <tr>
-                                <th class="col-3">تصویر</th>
-                                <th class="col-3">نام</th>
-                                <th class="col-1">تعداد مطالب</th>
-                                <th class="col-2"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in @Model)
-                            {
-                                <tr class="tr-shadow">
-                                    <td class="col-3">
-                                        @if (item.PhotoUrl == null)
-                                        {
-                                            <img class="rounded-circle mx-auto d-block" style="width: 100px;height: 100px;" src="/files/profilePhotoNotFound.png" alt="Card image cap" />
-                                        }
-                                        else
-                                        {
-                                            <img class="rounded-circle mx-auto d-block" style="width: 100px;height: 100px;" src="@item.PhotoUrl" alt="Card image cap" />
-                                        }
-                                    </td>
-                                    <td class="col-3">@item.Name</td>
-                                    <td class="col-1">@item.CountOfContent</td>
+            <div class="card-body">
+                @if (Model.Any())
+                {
 
-                                    <td class="col-2">
-                                        <div class="table-data-feature">
 
-                                            <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="ویرایش" type="submit"
-                                               asp-controller="Writer" asp-action="Update" asp-route-id="@item.Id">
-                                                <i class="zmdi zmdi-edit"></i>
-                                            </a>
-                                            <a class="item" data-toggle="tooltip" data-placement="top" title="اطلاعات" data-original-title="اطلاعات" type="button"
-                                               asp-controller="Writer" asp-action="Detail" asp-route-id="@item.Id">
-                                                <i class="zmdi zmdi-more"></i>
-                                            </a>
+                    <div class="row">
+                        <div class="table-responsive table-responsive-data2">
+                            <table class="table table-data2 table-hover">
+                                <thead>
+                                    <tr class="tr-shadow row">
+                                        <th class="col-2">تصویر</th>
+                                        <th class="col-3">نام</th>
+                                        <th class="col-2">تعداد مطالب</th>
+                                        <th class="col-2"></th>
+                                    </tr>
+                                    <tr class="spacer"></tr>
+                                    <tr class="spacer"></tr>
 
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="spacer"></tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in @Model)
+                                    {
+                                        <tr class="tr-shadow row align-items-center">
+                                            <td class="col-2 d-flex justify-content-center">
+                                                @if (item.PhotoUrl == null)
+                                                {
+                                                    <img class="rounded-circle d-block" style="width: 100px;height: 100px;" src="/files/profilePhotoNotFound.png" alt="تصویر" />
+                                                }
+                                                else
+                                                {
+                                                    <img class="rounded-circle d-block" style="width: 100px;height: 100px;" src="@item.PhotoUrl" alt="تصویر" />
+                                                }
+                                            </td>
+                                            <td class="col-3">@item.Name</td>
+                                            <td class="col-2">@item.CountOfContent</td>
+                                            <td class="col-2">
+                                                <div class="table-data-feature">
+                                                    <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="ویرایش" type="submit"
+                                                       asp-controller="Writer" asp-action="Update" asp-route-id="@item.Id">
+                                                        <i class="zmdi zmdi-edit"></i>
+                                                    </a>
+                                                    <a class="item" data-toggle="tooltip" data-placement="top" title="اطلاعات" data-original-title="اطلاعات" type="button"
+                                                       asp-controller="Writer" asp-action="Detail" asp-route-id="@item.Id">
+                                                        <i class="zmdi zmdi-more"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="spacer"></tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                }
+                else
+                {
+                    <div class="row d-flex justify-content-center">
+                        <div class="alert alert-danger" role="alert">
+                            نویسنده ای یافت نشد!
+                        </div>
+                    </div>
+                }
             </div>
+        
         </div>
     </div>
     
-}
-else
-{
-    <div class="row d-flex justify-content-center">
-        <div class="alert alert-danger" role="alert">
-            نویسنده ای یافت نشد!
-        </div>
-    </div>
-}
 

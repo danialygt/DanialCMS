@@ -43,33 +43,35 @@
 
     <div class="row d-flex justify-content-center">
         <form method="post" id="formContent" asp-controller="Content" asp-action="Update" class="w-100 d-flex">
-            <div class="col-8">
-                <div class="row d-flex justify-content-between">
-                    <h3 class="title-5 m-b-35">محتوا</h3>
+            <div class="col-9 card">
+                <div class="row d-flex justify-content-between card-header align-items-center">
+                    <h3 class="title-5">محتوا</h3>
                     <div>
-                        <a class="au-btn au-btn-icon au-btn--green au-btn--small" id="sendContent">
-                            <i class="zmdi zmdi-edit"></i>ویرایش
+                        <a class="btn btn-warning  text-dark" id="sendContent">
+                            <i class="zmdi zmdi-edit"> ویرایش </i>
                         </a>
                     </div>
                 </div>
-                <div>
-                    <div class="form-group">
-                        <label asp-for="@Model.Title" class="form-control-label"></label>
-                        <input type="text" asp-for="@Model.Title" value="@Model.Title" class="form-control" required maxlength="100">
-                    </div>
-                    <br />
-                    <div class="form-group">
-                        <label asp-for="@Model.Description" class="form-control-label"></label>
-                        <input type="text" asp-for="@Model.Description" value="@Model.Description" class="form-control" required maxlength="500">
-                    </div>
-                </div>
-                <div class="row">
-                    <section id="editor" class="w-100">
-                        <div id='edit' class="w-100 mt-3">
+                
+                <div class="card-body">
+                    <div class="row col-9">
+                        <div class="form-group w-100">
+                            <label asp-for="@Model.Title" class="form-control-label"></label>
+                            <input type="text" asp-for="@Model.Title" value="@Model.Title" class="form-control" required maxlength="100">
                         </div>
-                    </section>
+                        <br />
+                        <div class="form-group w-100">
+                            <label asp-for="@Model.Description" class="form-control-label"></label> 
+                            <textarea asp-for="@Model.Description" class="form-control" required maxlength="500">@Model.Description</textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <section id="editor" class="w-100">
+                            <div id='edit' class="w-100 mt-3">
+                            </div>
+                        </section>
+                    </div>
                 </div>
-
 
             </div>
             <div class="col-3">
@@ -96,9 +98,9 @@
 
                         <div class="form-group">
                             <label asp-for="@Model.CategoryId" class="form-control-label"></label>
-                            <a class="au-btn au-btn-icon au-btn--green float-left" style="padding: 0 10px;line-height: 30px;font-size: 14px;"
+                            <a class="btn btn-warning float-left" style="padding: 0 10px;line-height: 30px;font-size: 14px;"
                                asp-controller="Category" asp-action="Add" target="_blank">
-                                <i class="zmdi zmdi-plus"></i>افزودن
+                                <i class="zmdi zmdi-plus"> افزودن </i>
                             </a>
                             <br />
                             <div class="rs-select2--dark rs-select2--md m-l-10 w-100">
@@ -119,9 +121,9 @@
 
                         <div class="form-group">
                             <label asp-for="@Model.KeywordsId" class="form-control-label"></label>
-                            <a class="au-btn au-btn-icon au-btn--green float-left" style="padding: 0 10px;line-height: 30px;font-size: 14px;"
+                            <a class="btn btn-warning float-left" style="padding: 0 10px;line-height: 30px;font-size: 14px;"
                                asp-controller="Keyword" asp-action="Add" target="_blank">
-                                <i class="zmdi zmdi-plus"></i>افزودن
+                                <i class="zmdi zmdi-plus"> افزودن </i>
                             </a>
                             <br />
                             <div class="rs-select2--dark rs-select2--md m-l-10 w-100">

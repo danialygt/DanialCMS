@@ -14,8 +14,8 @@ namespace DanialCMS.Core.Domain.Comments.Entities
         public string Name { get; set; }
         public string Email { get; set; }
         public string Opinion { get; set; }
-        
 
+        public DateTime PublishDate { get; set; }
 
 
         public long? ParentId { get; set; }
@@ -24,7 +24,7 @@ namespace DanialCMS.Core.Domain.Comments.Entities
 
 
 
-
+        public bool CanShow { get; set; } = false;
 
 
 

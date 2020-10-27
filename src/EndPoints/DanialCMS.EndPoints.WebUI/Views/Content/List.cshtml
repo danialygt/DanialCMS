@@ -5,112 +5,116 @@
 }
 
 
-@if (Model != null)
-{
 
     <div class="row d-flex justify-content-center">
-        <div class="col-md-12">
-            <div class="row d-flex justify-content-between">
-                <h3 class="title-5 m-b-35">مطالب</h3>
+        <div class="col-md-12 card">
+            <div class="row d-flex justify-content-between card-header align-items-center">
+                <h3 class="title-5 ">مطالب</h3>
                 <div>
-                    <a class="au-btn au-btn-icon au-btn--green au-btn--small" asp-controller="Content" asp-action="Add">
-                        <i class="zmdi zmdi-plus"></i>افزودن
+                    <a class="btn btn-warning" asp-controller="Content" asp-action="Add">
+                        <i class="zmdi zmdi-plus"> افزودن </i>
                     </a>
                 </div>
             </div>
-            <div class="row">
-                <div class="table-responsive table-responsive-data2 col-12">
-                    <table class="table table-data2">
-                        <thead>
-                            <tr class="row">
-                                <th class="col-3">عنوان</th>
-                                <th class="col-2">نام نویسنده</th>
-                                <th class="col-1">وضعیت</th>
-                                <th class="col-1">تاریخ انتشار</th>
-                                <th class="col-2">جایگاه انتشار</th>
-                                <th class="col-3"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in @Model)
-                            {
-                            <tr class="tr-shadow row">
-                                <td class="col-3">
-                                    @item.Title
-                                </td>
 
-                                <td class="col-2">
-                                    @item.WriterName
-                                </td>
-
-                                <td class="col-1">
-                                    @item.ContentStatus
-                                </td>
-
-                                <td class="col-1">
-
-                                    @item.PublishDate.ToString("%H:%m:%s %yy/%M/%d")
-                                </td>
-                                <td class="col-2">
-                                    @foreach (var places in item.PublishPlaces)
+            <div class="card-body">
+                @if (Model.Any())
+                {
+                    <div class="row">
+                        <div class="table-responsive table-responsive-data2">
+                            <table class="table table-data2 table-hover">
+                                <thead>
+                                    <tr class="tr-shadow row">
+                                        <th class="col-3">عنوان</th>
+                                        <th class="col-2">نام نویسنده</th>
+                                        <th class="col-1">وضعیت</th>
+                                        <th class="col-2">تاریخ انتشار</th>
+                                        <th class="col-2">جایگاه انتشار</th>
+                                        <th class="col-2"></th>
+                                    </tr>
+                                    <tr class="spacer"></tr>
+                                    <tr class="spacer"></tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in @Model)
                                     {
-                                        <div class="bg-light m-1 p-1 d-inline">
-                                                @places.Name
-                                        </div>
-                                    }
-                                </td>
-                                
-                                <td class="col-3">
-                                    <div class="table-data-feature">
-                                            @if (item.ContentStatus != ContentStatus.Published)
-                                            {
-                                                <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="انتشار"
-                                                   asp-controller="Content" asp-action="ChangeToPublish" asp-route-id="@item.Id" asp-route-returnUrl="@returnUrl">
-                                                    <i class="zmdi zmdi-mail-send"></i>
-                                                </a>
-                                            }
-                                            @if (item.ContentStatus != ContentStatus.Waiting)
-                                            {
-                                                <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="در انتظار انتشار"
-                                                   asp-controller="Content" asp-action="ChangeToWait" asp-route-id="@item.Id" asp-route-returnUrl="@returnUrl">
-                                                    <i class="zmdi zmdi-pause"></i>
-                                                </a>
-                                            }
-                                            @if (item.ContentStatus != ContentStatus.Deleted)
-                                            {
-                                                <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="حذف انتشار"
-                                                   asp-controller="Content" asp-action="ChangeToDelete" asp-route-id="@item.Id" asp-route-returnUrl="@returnUrl">
-                                                    <i class="zmdi zmdi-delete"></i>
-                                                </a>
+                                        <tr class="tr-shadow row align-items-center">
+                                            <td class="col-3">
+                                                @item.Title
+                                            </td>
 
-                                            }
-                                            <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="ویرایش مطلب"
-                                               asp-controller="Content" asp-action="Update" asp-route-id="@item.Id">
-                                                <i class="zmdi zmdi-edit"></i>
-                                            </a>
-                                            <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="نمایش"
-                                               asp-controller="Content" asp-action="Show" asp-route-id="@item.Id">
-                                                <i class="zmdi zmdi-more"></i>
-                                            </a>
-                                    </div>
-                                </td>
-                            </tr>
-                                <tr class="spacer"></tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                                            <td class="col-2">
+                                                @item.WriterName
+                                            </td>
+
+                                            <td class="col-1">
+                                                @item.ContentStatus
+                                            </td>
+
+                                            <td class="col-2">
+
+                                                @item.PublishDate.ToString("%H:%m:%s %yy/%M/%d")
+                                            </td>
+                                            <td class="col-2">
+                                                @foreach (var places in item.PublishPlaces)
+                                                {
+                                                    <span class="mr-1 p-1 d-inline">@places.Name , </span>
+                                                }
+                                            </td>
+
+                                            <td class="col-2">
+                                                <div class="table-data-feature">
+                                                    @if (item.ContentStatus != ContentStatus.Published)
+                                                    {
+                                                        <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="انتشار"
+                                                           asp-controller="Content" asp-action="ChangeToPublish" asp-route-id="@item.Id" asp-route-returnUrl="@returnUrl">
+                                                            <i class="zmdi zmdi-mail-send"></i>
+                                                        </a>
+                                                    }
+                                                    @if (item.ContentStatus != ContentStatus.Waiting)
+                                                    {
+                                                        <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="در انتظار انتشار"
+                                                           asp-controller="Content" asp-action="ChangeToWait" asp-route-id="@item.Id" asp-route-returnUrl="@returnUrl">
+                                                            <i class="zmdi zmdi-pause"></i>
+                                                        </a>
+                                                    }
+                                                    @if (item.ContentStatus != ContentStatus.Deleted)
+                                                    {
+                                                        <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="حذف انتشار"
+                                                           asp-controller="Content" asp-action="ChangeToDelete" asp-route-id="@item.Id" asp-route-returnUrl="@returnUrl">
+                                                            <i class="zmdi zmdi-delete"></i>
+                                                        </a>
+
+                                                    }
+                                                    <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="ویرایش مطلب"
+                                                       asp-controller="Content" asp-action="Update" asp-route-id="@item.Id">
+                                                        <i class="zmdi zmdi-edit"></i>
+                                                    </a>
+                                                    <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="نمایش"
+                                                       asp-controller="Content" asp-action="Show" asp-route-id="@item.Id">
+                                                        <i class="zmdi zmdi-more"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="spacer"></tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                }
+                else
+                {
+                    <div class="row d-flex justify-content-center">
+                        <div class="alert alert-danger" role="alert">
+                            مطلبی یافت نشد!
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>
 
-}
-else
-{
-    <div class="row d-flex justify-content-center">
-        <div class="alert alert-danger" role="alert">
-            مطلبی یافت نشد!
-        </div>
-    </div>
-}
 

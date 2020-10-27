@@ -4,14 +4,16 @@ using DanialCMS.Infrastructure.DAL.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DanialCMS.Infrastructure.DAL.SqlServer.Migrations
 {
     [DbContext(typeof(ContentDbContext))]
-    partial class ContentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201027065946_Content-AddPropertyToComment")]
+    partial class ContentAddPropertyToComment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,9 +73,6 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Migrations
 
                     b.Property<long?>("ParentId")
                         .HasColumnType("bigint");
-
-                    b.Property<DateTime>("PublishDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

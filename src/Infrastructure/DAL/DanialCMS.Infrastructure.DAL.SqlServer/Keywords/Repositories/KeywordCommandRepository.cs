@@ -1,7 +1,9 @@
 ﻿using DanialCMS.Core.Domain.Keywords.Entities;
 using DanialCMS.Core.Domain.Keywords.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DanialCMS.Infrastructure.DAL.SqlServer.Keywords.Repositories
@@ -23,7 +25,9 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Keywords.Repositories
 
         public void Delete(Keyword entity)
         {
-            _cmsDbContext.Keywords.Remove(entity);
+            var ent = _cmsDbContext.Keywords.AsNoTracking()
+                .First(c => c.Id == entity.Id);
+            _cmsDbContext.Keywords.Remove(ent);
             _cmsDbContext.SaveChanges();
         }
 

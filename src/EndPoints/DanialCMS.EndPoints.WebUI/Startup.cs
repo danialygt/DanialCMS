@@ -1,5 +1,7 @@
 using DanialCMS.Core.ApplicationService.Categories.Commands;
 using DanialCMS.Core.ApplicationService.Categories.Queries;
+using DanialCMS.Core.ApplicationService.Comments.Commands;
+using DanialCMS.Core.ApplicationService.Comments.Queries;
 using DanialCMS.Core.ApplicationService.Contents.Commands;
 using DanialCMS.Core.ApplicationService.Contents.Queries;
 using DanialCMS.Core.ApplicationService.FileManagements.Commands;
@@ -14,6 +16,9 @@ using DanialCMS.Core.Domain.Categories.Commands;
 using DanialCMS.Core.Domain.Categories.Entities;
 using DanialCMS.Core.Domain.Categories.Queries;
 using DanialCMS.Core.Domain.Categories.Repositories;
+using DanialCMS.Core.Domain.Comments.Commands;
+using DanialCMS.Core.Domain.Comments.Entities;
+using DanialCMS.Core.Domain.Comments.Queries;
 using DanialCMS.Core.Domain.Comments.Repositories;
 using DanialCMS.Core.Domain.Contents.Commands;
 using DanialCMS.Core.Domain.Contents.Dtos;
@@ -114,8 +119,14 @@ namespace DanialCMS.EndPoints.WebUI
             services.AddTransient<IQueryHandler<GetContentQuery, DtoUpdateContent>, GetDtoUpdateContentQueryHandler>();
             services.AddTransient<IQueryHandler<GetContentsQuery, List<DtoListContent>>, GetContentsQueryHandler>();
 
-            /* Add Analysis DB Services */
-            services.AddDbContextPool<AnalysisDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("AnalysisDbConnection")));
+            /**/    /* Comment */
+            services.AddTransient<CommandHandler<ChangeStatusCommentCommand>, ChangeStatusCommentCommandHandler>();
+            services.AddTransient<IQueryHandler<GetCommentsQuery, List<Comment>>, GetCommentsQueryHandler>();
+
+
+
+             /* Add Analysis DB Services */
+             services.AddDbContextPool<AnalysisDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("AnalysisDbConnection")));
             /**/    /* add repositories */
             services.AddTransient<ICMSAnalysisCommandRepository, CMSAnalysisCommandRepository>();
             services.AddTransient<ICMSAnalysisQueryRepository, CMSAnalysisQueryRepository>();

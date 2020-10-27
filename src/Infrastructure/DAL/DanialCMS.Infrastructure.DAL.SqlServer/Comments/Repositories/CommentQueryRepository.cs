@@ -20,18 +20,27 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Comments.Repositories
         public Comment Get(long id)
         {
             return _cmsDbContext.Comments.AsNoTracking()
+                .Include(c => c.Children)
+                .Include(c => c.Content)
+                .Include(c => c.Parent)
                 .FirstOrDefault(c => c.Id == id);
         }
 
         public List<Comment> GetAll()
         {
             return _cmsDbContext.Comments.AsNoTracking()
+                .Include(c=>c.Children)
+                .Include(c=>c.Content)
+                .Include(c=>c.Parent)
                 .ToList();
         }
 
         public List<Comment> GetContentComments(long contentId)
         {
             return _cmsDbContext.Comments.AsNoTracking()
+                .Include(c => c.Children)
+                .Include(c => c.Content)
+                .Include(c => c.Parent)
                 .Where(c => c.ContentId == contentId)
                 .ToList();
         }

@@ -14,6 +14,8 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Comments.Configs
             builder.Property(c => c.Name).IsRequired().HasMaxLength(30);
             builder.Property(c => c.Email).IsRequired().HasMaxLength(50);
             builder.Property(c => c.Opinion).IsRequired().HasMaxLength(300);
+            builder.Property(c => c.CanShow).IsRequired();
+            builder.Property(c => c.PublishDate).IsRequired();
 
             builder.Property(c => c.ContentId).IsRequired();
             

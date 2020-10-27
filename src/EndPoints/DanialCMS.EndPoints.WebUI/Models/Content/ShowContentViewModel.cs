@@ -1,4 +1,5 @@
-﻿using DanialCMS.Core.Domain.PublishPlaces.Entities;
+﻿using DanialCMS.Core.Domain.Comments.Entities;
+using DanialCMS.Core.Domain.PublishPlaces.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -41,7 +42,8 @@ namespace DanialCMS.EndPoints.WebUI.Models.Content
         [Display(Name = "جایگاه انتشار")]
         public List<string> publishPlacesName { get; set; }
 
-
+        [Display(Name = "نظرات")]
+        public List<Comment> Comments { get; set; }
 
     }
 }

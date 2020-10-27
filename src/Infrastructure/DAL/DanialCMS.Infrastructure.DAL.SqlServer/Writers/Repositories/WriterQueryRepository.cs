@@ -23,6 +23,7 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Writers.Repositories
             return _cmsDbContext.Writers.AsNoTracking()
                 .Include(p => p.Photo)
                 .Include(c => c.Contents)
+                .ThenInclude(d=>d.PublishPlaces).ThenInclude(p=>p.PublishPlace)
                 .FirstOrDefault(c => c.Id == id);
         }
 
