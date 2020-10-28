@@ -31,28 +31,5 @@ namespace DanialCMS.Core.Domain.Analysis.Entities
 
 
 
-        public override string? ToString()
-        {
-            return $"{nameof(BrowserName)}: {BrowserName}\n" +
-                $"{nameof(ContentLength)}: {ContentLength}\n" +
-                $"{nameof(ContentType)}: {ContentType}\n" +
-                $"{nameof(Date)}: {Date}\n" +
-                $"{nameof(HasCockies)}: {HasCockies}\n" +
-                $"{nameof(Host)}: {Host}\n" +
-                $"{nameof(HttpMethod)}: {HttpMethod}\n" +
-                $"{nameof(Id)}: {Id}\n" +
-                $"{nameof(IsHttps)}: {IsHttps}\n" +
-                $"{nameof(OSArchitecture)}: {OSArchitecture}\n" +
-                $"{nameof(OsName)}: {OsName}\n" +
-                $"{nameof(Path)}: {Path}\n" +
-                $"{nameof(Port)}: {Port}\n" +
-                $"{nameof(Protocol)}: {Protocol}\n" +
-                $"{nameof(Referer)}: {Referer}\n" +
-                $"{nameof(RemoteIpAddress)}: {RemoteIpAddress}\n" +
-                $"{nameof(RemotePort)}: {RemotePort}\n" +
-                $"{nameof(SatusCode)}: {SatusCode}\n" +
-                $"{nameof(Scheme)}: {Scheme}\n" +
-                $"{nameof(Time)}: {Time}\n";
-        }
     }
 }

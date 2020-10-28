@@ -24,7 +24,6 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Analysis.Configs
             builder.Property(c => c.Port).HasMaxLength(10);
             builder.Property(c => c.ContentType).HasMaxLength(100);
 
-         
         }
     }
 }

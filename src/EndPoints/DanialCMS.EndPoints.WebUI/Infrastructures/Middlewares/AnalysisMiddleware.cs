@@ -10,6 +10,7 @@ using DanialCMS.Framework.Commands;
 using DanialCMS.Framework.Queries;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 
 namespace DanialCMS.EndPoints.WebUI.Infrastructures.Middlewares
@@ -21,12 +22,13 @@ namespace DanialCMS.EndPoints.WebUI.Infrastructures.Middlewares
         public AnalysisMiddleware(RequestDelegate next)
         {
             _next = next;
-
         }        
 
-        public async Task Invoke(HttpContext httpContext, CommandDispatcher commandDispatcher)
+        public async Task Invoke(HttpContext httpContext, 
+            CommandDispatcher commandDispatcher,
+            ILogger<AnalysisMiddleware> logger)
         {
-            var dto = new CMSAnalysis();
+            var dto = new AddRecordCommand();
           
             dto.OsName = RuntimeInformation.OSDescription;
             dto.OSArchitecture = RuntimeInformation.OSArchitecture.ToString();
@@ -41,8 +43,6 @@ namespace DanialCMS.EndPoints.WebUI.Infrastructures.Middlewares
             dto.Host = httpContext.Request?.Host.Host;
             dto.Port = httpContext.Request?.Host.Port;
 
-            dto.Date = DateTime.Now.Date;
-            dto.Time = DateTime.Now.TimeOfDay;
             dto.HttpMethod = httpContext.Request?.Method?.ToString();
             dto.RemoteIpAddress = httpContext.Request?.HttpContext.Connection.RemoteIpAddress?.ToString();
             dto.RemotePort = httpContext.Request?.HttpContext.Connection.RemotePort;
@@ -55,7 +55,15 @@ namespace DanialCMS.EndPoints.WebUI.Infrastructures.Middlewares
             dto.SatusCode = httpContext.Response?.StatusCode;
 
 
-            commandDispatcher.Dispatch(new AddRecordCommand() { Analysis = dto });
+            var result = commandDispatcher.Dispatch(dto);
+            if (!result.IsSuccess)
+            {
+                logger.TextLogError("analysis dosent add to db");
+                foreach (var err in result.Errors)
+                {
+                    logger.TextLogError("-- {0}", err);
+                }
+            }
         }
     }
 

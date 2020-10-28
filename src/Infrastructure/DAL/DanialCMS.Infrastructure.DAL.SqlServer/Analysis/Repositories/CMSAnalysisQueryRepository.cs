@@ -17,12 +17,6 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Analysis.Repositories
             _cmsAnalysisDbContext = cmsAnalysisDbContext;
         }
 
-        public CMSAnalysis Get(long id)
-        {
-            return _cmsAnalysisDbContext.CMSAnalysis.AsNoTracking()
-                .FirstOrDefault(c => c.Id == id);
-            
-        }
 
         public List<CMSAnalysis> GetAll()
         {
@@ -30,11 +24,16 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Analysis.Repositories
                 .ToList();
         }
 
-        public List<CMSAnalysis> GetByDate(DateTime date)
+        public IQueryable<CMSAnalysis> GetByDate(DateTime date)
         {
             return _cmsAnalysisDbContext.CMSAnalysis.AsNoTracking()
-                .Where(c => c.Date == date)
-                .ToList();
+                .Where(c => c.Date == date);
+        }
+
+        public IQueryable<CMSAnalysis> GetByType(string type)
+        {
+            return _cmsAnalysisDbContext.CMSAnalysis.AsNoTracking()
+                .Where(c => c.ContentType.Contains(type));
         }
     }
 }

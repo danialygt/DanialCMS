@@ -1,4 +1,5 @@
 using DanialCMS.Core.ApplicationService.Analysis.Commands;
+using DanialCMS.Core.ApplicationService.Analysis.Queries;
 using DanialCMS.Core.ApplicationService.Categories.Commands;
 using DanialCMS.Core.ApplicationService.Categories.Queries;
 using DanialCMS.Core.ApplicationService.Comments.Commands;
@@ -13,6 +14,7 @@ using DanialCMS.Core.ApplicationService.PublishPlaces.Queries;
 using DanialCMS.Core.ApplicationService.Writers.Commands;
 using DanialCMS.Core.ApplicationService.Writers.Queries;
 using DanialCMS.Core.Domain.Analysis.Commands;
+using DanialCMS.Core.Domain.Analysis.Queries;
 using DanialCMS.Core.Domain.Analysis.Repositories;
 using DanialCMS.Core.Domain.Categories.Commands;
 using DanialCMS.Core.Domain.Categories.Entities;
@@ -166,7 +168,7 @@ namespace DanialCMS.EndPoints.WebUI
 
 
             services.AddTransient<CommandHandler<AddRecordCommand>, AddRecordCommandHandler>();
-
+            services.AddTransient<IQueryHandler<GetViewsOnDateQuery, int>, GetViewsOnDateQueryHandler>();
 
 
             services.AddControllersWithViews();

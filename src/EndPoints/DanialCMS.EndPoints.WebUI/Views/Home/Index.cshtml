@@ -1,13 +1,25 @@
-﻿@{
+﻿@model ViewersStatisticsViewModel
+
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-    <div class="row">
-        <div class="col-md-4">
-            
-            homemone
-
+<div class="row">
+    <div class="col-3">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-bar-chart mx-1"></i>
+                <small>آمار</small>
+                <strong class="card-title pl-2">بازدید</strong>
+            </div>
+            <div class="card-body">
+                <p><span>بازدید امروز: </span>@Model.TodayViews</p>
+                <p><span>بازدید ماه: </span>@Model.MonthViews</p>
+                <p><span>بازدید کل: </span>@Model.AllViews</p>
+            </div>
         </div>
     </div>
+</div>
 
 
