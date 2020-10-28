@@ -9,8 +9,4 @@
     <ProjectReference Include="..\DanialCMS.Core.Domain\DanialCMS.Core.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Analysis\" />
-  </ItemGroup>
-
 </Project>

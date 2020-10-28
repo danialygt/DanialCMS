@@ -1,3 +1,4 @@
+using DanialCMS.Core.ApplicationService.Analysis.Commands;
 using DanialCMS.Core.ApplicationService.Categories.Commands;
 using DanialCMS.Core.ApplicationService.Categories.Queries;
 using DanialCMS.Core.ApplicationService.Comments.Commands;
@@ -11,6 +12,7 @@ using DanialCMS.Core.ApplicationService.Keywords.Queries;
 using DanialCMS.Core.ApplicationService.PublishPlaces.Queries;
 using DanialCMS.Core.ApplicationService.Writers.Commands;
 using DanialCMS.Core.ApplicationService.Writers.Queries;
+using DanialCMS.Core.Domain.Analysis.Commands;
 using DanialCMS.Core.Domain.Analysis.Repositories;
 using DanialCMS.Core.Domain.Categories.Commands;
 using DanialCMS.Core.Domain.Categories.Entities;
@@ -39,6 +41,8 @@ using DanialCMS.Core.Domain.Writers.Commands;
 using DanialCMS.Core.Domain.Writers.Dtos;
 using DanialCMS.Core.Domain.Writers.Queries;
 using DanialCMS.Core.Domain.Writers.Repositories;
+using DanialCMS.EndPoints.WebUI.Infrastructures;
+using DanialCMS.EndPoints.WebUI.Infrastructures.Middlewares;
 using DanialCMS.Framework.Commands;
 using DanialCMS.Framework.Queries;
 using DanialCMS.Infrastructure.DAL.SqlServer;
@@ -56,17 +60,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-
-
 
 namespace DanialCMS.EndPoints.WebUI
 {
     public class Startup
     {
+            
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -125,11 +131,6 @@ namespace DanialCMS.EndPoints.WebUI
 
 
 
-             /* Add Analysis DB Services */
-             services.AddDbContextPool<AnalysisDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("AnalysisDbConnection")));
-            /**/    /* add repositories */
-            services.AddTransient<ICMSAnalysisCommandRepository, CMSAnalysisCommandRepository>();
-            services.AddTransient<ICMSAnalysisQueryRepository, CMSAnalysisQueryRepository>();
 
 
 
@@ -157,9 +158,14 @@ namespace DanialCMS.EndPoints.WebUI
             services.AddTransient<IContentPlacesQueryRepository, ContentPlacesQueryRepository>();
 
 
+            /* Add Analysis DB Services */
+            services.AddDbContextPool<AnalysisDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("AnalysisDbConnection")));
+            /**/    /* add repositories */
+            services.AddScoped<ICMSAnalysisCommandRepository, CMSAnalysisCommandRepository>();
+            services.AddTransient<ICMSAnalysisQueryRepository, CMSAnalysisQueryRepository>();
 
 
-
+            services.AddTransient<CommandHandler<AddRecordCommand>, AddRecordCommandHandler>();
 
 
 
@@ -183,13 +189,18 @@ namespace DanialCMS.EndPoints.WebUI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+
+            app.UseErrorLoggerMiddleware();
+            app.UseAnalysisMiddleware();
+
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
-            //app.UseMiddleware<CheckFileTypeMiddleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

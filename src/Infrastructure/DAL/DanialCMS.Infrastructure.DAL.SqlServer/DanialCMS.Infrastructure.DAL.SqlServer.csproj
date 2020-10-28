@@ -25,6 +25,22 @@
     <Compile Remove="Migrations\20201021135724_setNullInWriterPhotoId.Designer.cs" />
     <Compile Remove="Migrations\20201027065725_Content-AddFieldToComment.cs" />
     <Compile Remove="Migrations\20201027065725_Content-AddFieldToComment.Designer.cs" />
+    <Compile Remove="Migrations\AnalysisDb\20201008193055_Analysis-Initial.cs" />
+    <Compile Remove="Migrations\AnalysisDb\20201008193055_Analysis-Initial.Designer.cs" />
+    <Compile Remove="Migrations\AnalysisDb\20201027191454_Analysis-ChangeAnalysisEntity.cs" />
+    <Compile Remove="Migrations\AnalysisDb\20201027191454_Analysis-ChangeAnalysisEntity.Designer.cs" />
+    <Compile Remove="Migrations\AnalysisDb\20201027201258_Analysis-AddPropertyToAnalysisEntity.cs" />
+    <Compile Remove="Migrations\AnalysisDb\20201027201258_Analysis-AddPropertyToAnalysisEntity.Designer.cs" />
+    <Compile Remove="Migrations\AnalysisDb\20201027204302_Analysis-MakeNullabeAnalysisEntity.cs" />
+    <Compile Remove="Migrations\AnalysisDb\20201027204302_Analysis-MakeNullabeAnalysisEntity.Designer.cs" />
+    <Compile Remove="Migrations\AnalysisDb\20201027221653_analysis-changesizeofBrowsername.cs" />
+    <Compile Remove="Migrations\AnalysisDb\20201027221653_analysis-changesizeofBrowsername.Designer.cs" />
+    <Compile Remove="Migrations\AnalysisDb\20201028075859_analysis-changeconfig.cs" />
+    <Compile Remove="Migrations\AnalysisDb\20201028075859_analysis-changeconfig.Designer.cs" />
+    <Compile Remove="Migrations\AnalysisDb\20201028080458_analysis-changeconfig2.cs" />
+    <Compile Remove="Migrations\AnalysisDb\20201028080458_analysis-changeconfig2.Designer.cs" />
+    <Compile Remove="Migrations\AnalysisDb\20201028082131_analysis-changeconfig3.cs" />
+    <Compile Remove="Migrations\AnalysisDb\20201028082131_analysis-changeconfig3.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

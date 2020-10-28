@@ -16,8 +16,8 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Analysis.Repositories
         }
         public void Add(CMSAnalysis entity)
         {
-            _cmsAnalysisDbContext.CMSAnalysis.Add(entity);
-            _cmsAnalysisDbContext.SaveChanges();
+            _cmsAnalysisDbContext.CMSAnalysis.Add(entity); 
+            _cmsAnalysisDbContext.SaveChanges();    
         }
     }
 }

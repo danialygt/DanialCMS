@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DanialCMS.EndPoints.WebUI.Models;
+using DanialCMS.Core.Domain.Analysis.Repositories;
+using DanialCMS.EndPoints.WebUI.Infrastructures.Middlewares;
+using DanialCMS.EndPoints.WebUI.Infrastructures;
 
 namespace DanialCMS.EndPoints.WebUI.Controllers
 {
@@ -20,6 +23,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
 
         public IActionResult Index()
         {
+            
             return View();
         }
 

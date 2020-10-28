@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DanialCMS.Infrastructure.DAL.SqlServer.Migrations.AnalysisDb
 {
     [DbContext(typeof(AnalysisDbContext))]
-    [Migration("20201008193055_Analysis-Initial")]
+    [Migration("20201028151210_Analysis-Initial")]
     partial class AnalysisInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,43 +29,68 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Migrations.AnalysisDb
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BrowserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<long?>("ContentLength")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("HttpMethod")
-                        .IsRequired()
+                    b.Property<bool?>("HasCockies")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Host")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IpAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
-
-                    b.Property<string>("OsName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
-
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Protocol")
-                        .IsRequired()
+                    b.Property<string>("HttpMethod")
                         .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
-                    b.Property<int>("SatusCode")
+                    b.Property<bool?>("IsHttps")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OSArchitecture")
+                        .HasColumnType("nvarchar(400)")
+                        .HasMaxLength(400);
+
+                    b.Property<string>("OsName")
+                        .HasColumnType("nvarchar(400)")
+                        .HasMaxLength(400);
+
+                    b.Property<string>("Path")
+                        .HasColumnType("nvarchar(700)")
+                        .HasMaxLength(700);
+
+                    b.Property<int?>("Port")
+                        .HasColumnType("int")
+                        .HasMaxLength(10);
+
+                    b.Property<string>("Protocol")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Referer")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("RemoteIpAddress")
+                        .HasColumnType("nvarchar(15)")
+                        .HasMaxLength(15);
+
+                    b.Property<int?>("RemotePort")
                         .HasColumnType("int");
+
+                    b.Property<int?>("SatusCode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Scheme")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<TimeSpan>("Time")
                         .HasColumnType("time");
