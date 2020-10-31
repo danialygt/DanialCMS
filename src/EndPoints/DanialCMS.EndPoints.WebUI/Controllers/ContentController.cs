@@ -12,12 +12,14 @@ using DanialCMS.EndPoints.WebUI.Models.Content;
 using DanialCMS.Framework.Commands;
 using DanialCMS.Framework.Queries;
 using DanialCMS.Framework.Web;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DanialCMS.EndPoints.WebUI.Controllers
 {
+    [Authorize]
     public class ContentController : BaseController
     {
         private readonly QueryDispatcher _queryDispatcher;
@@ -29,10 +31,15 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             _commandDispatcher = commandDispatcher;
         }
 
-        public IActionResult List()
+        public IActionResult List(List<string> errors = null)
         {
-            var Contents = _queryDispatcher.Dispatch<List<DtoListContent>>(new GetContentsQuery());
-            return View(Contents);
+            AddErrosToModelState(errors);
+            var contents = _queryDispatcher.Dispatch<List<DtoListContent>>(new GetContentsQuery());
+            if (!contents.Any())
+            {
+                ModelState.AddModelError("", "مطلبی یافت نشد!");
+            }
+            return View(contents);
         }
 
         public IActionResult Add()
@@ -74,14 +81,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
                 {
                     return RedirectToAction(nameof(List));
                 }
-                if (result.Message != null)
-                {
-                    ModelState.AddModelError("", result.Message);
-                }
-                foreach (var item in result.Errors)
-                {
-                    ModelState.AddModelError("", item);
-                }
+                AddCommadErrorsToModelState(result);
             }
             model.AllCategories = _queryDispatcher.Dispatch<List<Category>>(new GetCategoriesQuery());
             model.AllKeywords = _queryDispatcher.Dispatch<List<Keyword>>(new GetKeywordsQuery());
@@ -146,14 +146,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
                 {
                     return RedirectToAction(nameof(List));
                 }
-                if (result.Message != null)
-                {
-                    ModelState.AddModelError("", result.Message);
-                }
-                foreach (var item in result.Errors)
-                {
-                    ModelState.AddModelError("", item);
-                }
+                AddCommadErrorsToModelState(result);
             }
             return View(model);
         }
@@ -180,57 +173,70 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             return View(viewModel);
         }
 
+
+        [HttpPost]
         public IActionResult ChangeToDelete(long id, string returnUrl = "List")
         {
             var result = _commandDispatcher.Dispatch(new EditStatusContentCommand() { Id = id, ContentStatus = ContentStatus.Deleted});
-            if (result.IsSuccess)
+            if (!result.IsSuccess)
             {
-                return Redirect(returnUrl);
+                AddCommadErrorsToModelState(result);
             }
-            if (result.Message != null)
+
+            var path = returnUrl.Trim('/').Split("/").ToList();
+            if (path.Count == 1)
             {
-                ModelState.AddModelError("", result.Message);
+                return RedirectToAction(path[0], new { errors = GetErrosFromModelState() });
             }
-            foreach (var item in result.Errors)
+            else
             {
-                ModelState.AddModelError("", item);
+                return RedirectToAction(path[1], path[0], new { errors = GetErrosFromModelState() });
             }
-            return Redirect(returnUrl); // inja bayad bere be eeror
         }
+        [HttpPost]
         public IActionResult ChangeToWait(long id, string returnUrl = "List")
         {
             var result = _commandDispatcher.Dispatch(new EditStatusContentCommand() { Id = id, ContentStatus = ContentStatus.Waiting });
-            if (result.IsSuccess)
+            if (!result.IsSuccess)
             {
-                return Redirect(returnUrl);
+                AddCommadErrorsToModelState(result);
             }
-            if (result.Message != null)
+                
+            var path = returnUrl.Trim('/').Split("/").ToList();
+            if (path.Count == 1)
             {
-                ModelState.AddModelError("", result.Message);
+                return RedirectToAction(path[0], new { errors = GetErrosFromModelState() });
             }
-            foreach (var item in result.Errors)
+            else
             {
-                ModelState.AddModelError("", item);
+                return RedirectToAction(path[1], path[0], new { errors = GetErrosFromModelState() });
             }
-            return Redirect(returnUrl); // inja bayad bere be eeror
         }
+        [HttpPost]
         public IActionResult ChangeToPublish(long id, string returnUrl = "List")
         {
             var result = _commandDispatcher.Dispatch(new EditStatusContentCommand() { Id = id, ContentStatus = ContentStatus.Published });
-            if (result.IsSuccess)
+            if (!result.IsSuccess)
             {
-                return Redirect(returnUrl);
+                AddCommadErrorsToModelState(result);
             }
-            if (result.Message != null)
+
+            var path = returnUrl.Trim('/').Split("/").ToList();
+            if (path.Count == 1)
             {
-                ModelState.AddModelError("", result.Message);
+                return RedirectToAction(path[0], new { errors = GetErrosFromModelState() });
             }
-            foreach (var item in result.Errors)
+            else
             {
-                ModelState.AddModelError("", item);
+                return RedirectToAction(path[1], path[0], new { errors = GetErrosFromModelState() });
             }
-            return Redirect(returnUrl);
         }
+
+
+
+
+
+
 
 
     }

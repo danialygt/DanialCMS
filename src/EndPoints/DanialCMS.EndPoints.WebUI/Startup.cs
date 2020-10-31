@@ -13,6 +13,8 @@ using DanialCMS.Core.ApplicationService.Keywords.Queries;
 using DanialCMS.Core.ApplicationService.PublishPlaces.Queries;
 using DanialCMS.Core.ApplicationService.Writers.Commands;
 using DanialCMS.Core.ApplicationService.Writers.Queries;
+using DanialCMS.Core.ApplicationService.Emails.Services;
+using DanialCMS.Core.Domain.Emails.Services;
 using DanialCMS.Core.Domain.Analysis.Commands;
 using DanialCMS.Core.Domain.Analysis.Queries;
 using DanialCMS.Core.Domain.Analysis.Repositories;
@@ -45,6 +47,7 @@ using DanialCMS.Core.Domain.Writers.Queries;
 using DanialCMS.Core.Domain.Writers.Repositories;
 using DanialCMS.EndPoints.WebUI.Infrastructures;
 using DanialCMS.EndPoints.WebUI.Infrastructures.Middlewares;
+using DanialCMS.EndPoints.WebUI.Infrastructures.Identity;
 using DanialCMS.Framework.Commands;
 using DanialCMS.Framework.Queries;
 using DanialCMS.Infrastructure.DAL.SqlServer;
@@ -58,18 +61,19 @@ using DanialCMS.Infrastructure.DAL.SqlServer.PublishPlaces.Repositories;
 using DanialCMS.Infrastructure.DAL.SqlServer.Writers.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 
 namespace DanialCMS.EndPoints.WebUI
 {
     public class Startup
     {
-            
+
 
         public Startup(IConfiguration configuration)
         {
@@ -165,16 +169,45 @@ namespace DanialCMS.EndPoints.WebUI
             /**/    /* add repositories */
             services.AddScoped<ICMSAnalysisCommandRepository, CMSAnalysisCommandRepository>();
             services.AddTransient<ICMSAnalysisQueryRepository, CMSAnalysisQueryRepository>();
-
-
+            /**/    /* getInformation */
             services.AddTransient<CommandHandler<AddRecordCommand>, AddRecordCommandHandler>();
             services.AddTransient<IQueryHandler<GetViewsOnDateQuery, int>, GetViewsOnDateQueryHandler>();
 
 
+
+            /* Add Identity DB Services */
+            services.AddDbContextPool<CMSIdentityDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("IdentityDbConnection")));
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequiredLength = 8;
+                options.Lockout = new LockoutOptions
+                {
+                    DefaultLockoutTimeSpan = new TimeSpan(1, 0, 0),
+                    AllowedForNewUsers = false,
+                    MaxFailedAccessAttempts = 5,
+                };
+            })
+                .AddEntityFrameworkStores<CMSIdentityDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+                    opt.TokenLifespan = TimeSpan.FromHours(2));
+
+
+
+            services.AddTransient<IPasswordValidator<User>, CustomPasswordValidator>();
+
+            
+
+            /* Email Services */
+            services.AddSingleton<IEmailConfiguration>(
+                Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+            services.AddTransient<IEmailService, EmailService>();
+
+
+
             services.AddControllersWithViews();
-
-
-
 
         }
 
@@ -202,7 +235,9 @@ namespace DanialCMS.EndPoints.WebUI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

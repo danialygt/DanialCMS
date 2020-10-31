@@ -14,6 +14,8 @@ using DanialCMS.Framework.Queries;
 using DanialCMS.Framework.Commands;
 using DanialCMS.Core.Domain.Analysis.Queries;
 using DanialCMS.EndPoints.WebUI.Models.Home;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 
 namespace DanialCMS.EndPoints.WebUI.Controllers
 {
@@ -30,6 +32,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             _commandDispatcher = commandDispatcher;
         }
 
+        //[Authorize]
         public IActionResult Index()
         {
             var model = new ViewersStatisticsViewModel();
@@ -48,6 +51,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             return View(model);
         }
 
+       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

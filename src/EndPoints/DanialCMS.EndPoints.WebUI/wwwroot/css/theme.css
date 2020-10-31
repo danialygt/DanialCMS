@@ -7,6 +7,7 @@ Last change:	08/10/2018 [Add Define a table of contents Link]
 Assigned to:	Hau Nguyen
 Primary use:	Open Source
 -------------------------------------------------------------------*/
+-------------------------------------------------------------------*/
 /*------------------------------------------------------------------
 [LAYOUT]
 
@@ -338,8 +339,8 @@ section {
 
 .login-wrap {
     max-width: 540px;
-    padding-top: 8vh;
-    margin: 0 auto;
+    /*padding-top: 8vh;*/
+    width: 30vw;
 }
 
 .login-logo {

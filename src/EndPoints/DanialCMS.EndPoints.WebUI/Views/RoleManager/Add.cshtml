@@ -1,0 +1,33 @@
+﻿@model AddRoleViewModel
+@{
+    ViewData["Title"] = "افزودن نقش";
+}
+
+
+
+<div class="row d-flex justify-content-center">
+    <div class="col-lg-6">
+        <form method="post" asp-controller="RoleManager" asp-action="Add">
+            <div class="card">
+                <div class="card-header">
+                    <i class="zmdi zmdi-label-alt mx-1"></i>
+                    <small>افزودن</small>
+                    <strong class="card-title pl-2">نقش</strong>
+                </div>
+                <div class="card-body card-block">
+                    <div class="form-group">
+                        <label asp-for="@Model.Name" class="form-control-label"></label>
+                        <input type="text" asp-for="@Model.Name" class="form-control" required autofocus>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div asp-validation-summary="All" class="text-danger mr-3"></div>
+                    </div>
+                </div>
+                <div class="card-footer card-footer__button">
+                    <input type="submit" class="btn btn-warning btn-sm px-3" value="افزودن" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -9,11 +9,13 @@ using DanialCMS.EndPoints.WebUI.Models.Category;
 using DanialCMS.Framework.Commands;
 using DanialCMS.Framework.Queries;
 using DanialCMS.Framework.Web;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace DanialCMS.EndPoints.WebUI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoryController : BaseController
     {
         private readonly QueryDispatcher _queryDispatcher;

@@ -10,24 +10,35 @@ namespace DanialCMS.Core.ApplicationService.Contents.Commands
     public class EditStatusContentCommandHandler : CommandHandler<EditStatusContentCommand>
     {
         private readonly IContentCommandRepository _contentCommandRepository;
+        private readonly IContentQueryRepository _contentQueryRepository;
 
-        public EditStatusContentCommandHandler(IContentCommandRepository contentCommandRepository)
+        public EditStatusContentCommandHandler(IContentCommandRepository contentCommandRepository,
+            IContentQueryRepository contentQueryRepository)
         {
             _contentCommandRepository = contentCommandRepository;
+            _contentQueryRepository = contentQueryRepository;
         }
 
         public override CommandResult Handle(EditStatusContentCommand command)
         {
-            try
+            if (IsValid(command))
             {
                 _contentCommandRepository.EditStatus(command.Id, command.ContentStatus);
                 return Ok();
             }
-            catch
-            {
-                return Failure();
-            }
+            return Failure();
         }
 
+        private bool IsValid(EditStatusContentCommand command)
+        {
+            bool isValid = true;
+            if (!_contentQueryRepository.IsExist(command.Id))
+            {
+                isValid = false;
+                AddError("محتوا یافت نشد");
+            }
+
+            return isValid;
+        }
     }
 }

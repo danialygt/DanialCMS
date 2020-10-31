@@ -1,0 +1,68 @@
+﻿@model GetUserRoelsViewModel
+
+@{
+    ViewData["Title"] = "لیست نقش های کاربر";
+}
+
+
+
+<div class="row d-flex justify-content-center card  ">
+    <div class="col-md-12">
+
+        <div class="card-header row align-items-center">
+            <i class="fas fa-user mx-1"></i>
+            <small>نقش های کاربر </small>
+            <strong class="pr-2">@Model.UserName</strong>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row d-flex justify-content-center">
+                <div class="alert alert-danger" role="alert"
+                     asp-validation-summary="All" id="divSummary">
+                </div>
+            </div>
+
+            @if (Model.RolesName.Any() && Model
+               .UserId != null)
+            {
+                <div class="row ">
+                    @foreach (var item in Model.RolesName)
+                    {
+                        <div class="bg-dark text-white d-flex m-2 p-4 mx-3">
+                            <div>
+                                @item
+                            </div>
+                            <div class="table-data-feature  mr-3">
+                                <form method="post" asp-controller="User" asp-action="RemoveRoleFromUser"
+                                      asp-route-UserId="@Model.UserId" asp-route-RoleName="@item">
+                                    <button type="submit" class="item">
+                                        <i class="zmdi zmdi-delete"></i>
+                                    </button>
+
+                                </form>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        $(function () {
+            if ($("#divSummary ul li").html().length < 1)
+            {
+                $("#divSummary").addClass("d-none");
+            }
+            else {
+                $("#divSummary").removeClass("d-none");
+            }
+        })
+    </script>
+}

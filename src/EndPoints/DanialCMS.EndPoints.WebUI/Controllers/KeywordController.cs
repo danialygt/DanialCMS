@@ -20,10 +20,14 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
         {
         }
 
-        public IActionResult List()
+        public IActionResult List(List<string> errors = null)
         {
+            AddErrosToModelState(errors);
             var keywords = _queryDispatcher.Dispatch<List<Keyword>>(new GetKeywordsQuery());
-
+            if (!keywords.Any()) 
+            {
+                ModelState.AddModelError("", "کلید واژه یافت نشد!");
+            }
             return View(keywords);
         }
 
@@ -52,10 +56,17 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             }
             return View();
         }
+
+        [HttpPost]
         public IActionResult Delete(long id)
         {
-            _commandDispatcher.Dispatch(new RemoveKeywordCommand { Id = id });
-            return RedirectToAction(nameof(List));
+            var result = _commandDispatcher.Dispatch(new RemoveKeywordCommand { Id = id });
+            if (!result.IsSuccess)
+            {
+                AddCommadErrorsToModelState(result);
+            }
+            return RedirectToAction(nameof(List), new
+                { errors = GetErrosFromModelState() });
         }
         public IActionResult Update(long id)
         {
@@ -88,5 +99,8 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             return View();
         }
 
+
+
+        
     }
 }

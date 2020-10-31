@@ -15,7 +15,7 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Migrations.AnalysisDb
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.8")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -73,8 +73,8 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Migrations.AnalysisDb
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Referer")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasColumnType("nvarchar(700)")
+                        .HasMaxLength(700);
 
                     b.Property<string>("RemoteIpAddress")
                         .HasColumnType("nvarchar(15)")

@@ -20,7 +20,7 @@ namespace DanialCMS.Core.ApplicationService.Analysis.Queries
         public int Handle(GetViewsOnDateQuery query)
         {
             return _analysisQueryRepository.GetByType("html")
-                .Where(c => c.Date >= DateTime.Now.Date)
+                .Where(c => c.Date >= query.Date)
                 .Count();
         }
     }

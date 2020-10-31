@@ -1,0 +1,80 @@
+﻿@model AddUserToRoleViewModel
+@{
+    ViewData["Title"] = "ویرایش کاربر";
+    var rolesList = Model.GetAllRolesListItems();
+}
+
+
+
+
+@if (Model != null)
+{
+
+    <div class="row d-flex justify-content-center ">
+
+        <div class="col-lg-6">
+            <div class="card">
+                <form method="post" asp-controller="User" asp-action="AddUserToRoles"
+                      asp-route-UserName="@Model.UserName">
+
+                    <div class="card-header">
+                        <i class="fas fa-user mx-1"></i>
+                        <small>افزودن</small>
+                        <strong class="card-title pl-2">نقش به کاربر</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="mx-auto d-block">
+
+                            <h5 class="text-sm-center mt-2 mb-1">@Model.UserName</h5>
+
+
+                            <div class="form-group">
+                                @*<input type="hidden" asp-for="@Model.AddUserToRoleModel.UserName"
+                                    value="@Model.UserName" />*@
+                                <label asp-for="@Model.RolesName"
+                                       class="form-control-label"></label>
+                                <div class="rs-select2--dark rs-select2--md m-l-10 w-100">
+                                    @if (rolesList == null)
+                                    {
+                                        <select class="js-select2 w-100" disabled>
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <select class="js-select2 w-100" asp-items="@rolesList"
+                                                asp-for="@Model.RolesName"
+                                                required multiple>
+                                        </select>
+                                    }
+                                    <div class="dropDownSelect2"></div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <div asp-validation-summary="All" id="divSummary"
+                                     class="text-danger mr-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer card-footer__button">
+                        <input type="submit" class="btn btn-warning btn-sm px-3" value="افزودن" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+
+}
+else
+{
+    <div class="row d-flex justify-content-center">
+        <div class="alert alert-danger" role="alert">
+            کاربر یافت نشد!
+        </div>
+    </div>
+}

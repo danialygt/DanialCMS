@@ -79,5 +79,11 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Contents.Repositories
                 })
                 .ToList();
         }
+
+        public bool IsExist(long contentId)
+        {
+            return _cmsDbContext.Contents.AsNoTracking()
+                .FirstOrDefault(c => c.Id == contentId) != null;
+        }
     }
 }

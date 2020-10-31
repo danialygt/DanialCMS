@@ -1,0 +1,72 @@
+﻿@model UpdateUserViewModel
+@{
+    ViewData["Title"] = "ویرایش کاربر";
+}
+
+
+
+
+@if (Model != null)
+{
+
+    <div class="row d-flex justify-content-center ">
+
+        <div class="col-lg-6">
+            <div class="card">
+                <form method="post" asp-controller="User" asp-action="Update" asp-route-Id="@Model.Id">
+
+                    <div class="card-header">
+                        <i class="fas fa-user mx-1"></i>
+                        <small>ویرایش</small>
+                        <strong class="card-title pl-2">کاربر</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="mx-auto d-block">
+
+                            <h5 class="text-sm-center mt-2 mb-1">@Model.UserName</h5>
+                            <div class="form-group">
+                                <label asp-for="@Model.FirstName" class="form-control-label"></label>
+                                <input type="text" class="form-control" asp-for="@Model.FirstName" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="@Model.LastName" class="form-control-label"></label>
+                                <input type="text" class="form-control" asp-for="@Model.LastName" />
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="@Model.Email" class="form-control-label"></label>
+                                <input type="text" class="form-control" asp-for="@Model.Email" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="@Model.Password" class="form-control-label"></label>
+                                <input type="password" class="form-control" asp-for="@Model.Password" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="@Model.RePassword" class="form-control-label"></label>
+                                <input type="password" class="form-control" asp-for="@Model.RePassword" />
+                            </div>
+                            <div class="form-group">
+                                <div asp-validation-summary="All" class="text-danger mr-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer card-footer__button">
+                        <input type="submit" class="btn btn-warning btn-sm px-3" value="ویرایش" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+
+}
+else
+{
+    <div class="row d-flex justify-content-center">
+        <div class="alert alert-danger" role="alert">
+            کاربر یافت نشد!
+        </div>
+    </div>
+}

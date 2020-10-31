@@ -7,12 +7,14 @@ using DanialCMS.EndPoints.WebUI.Models.Writer;
 using DanialCMS.Framework.Commands;
 using DanialCMS.Framework.Queries;
 using DanialCMS.Framework.Web;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 
 namespace DanialCMS.EndPoints.WebUI.Controllers
 {
+    [Authorize(Roles ="نویسنده")]
     public class WriterController : BaseController
     {
         public WriterController(QueryDispatcher queryDispatcher, CommandDispatcher commandDispatcher) : base(queryDispatcher, commandDispatcher)

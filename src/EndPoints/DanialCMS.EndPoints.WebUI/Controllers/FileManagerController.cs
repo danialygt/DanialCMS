@@ -27,9 +27,14 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             _commandDispatcher = commandDispatcher;
         }
 
-        public IActionResult List()
+        public IActionResult List(List<string> errors = null)
         {
+            AddErrosToModelState(errors);
             var files = _queryDispatcher.Dispatch<List<FileManagement>>(new GetFilesQuery());
+            if (!files.Any())
+            {
+                ModelState.AddModelError("", "فایلی یافت نشد!");
+            }
             return View(files);
         }
 
@@ -82,7 +87,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             return View();
         }
 
-
+        [HttpPost]
         public IActionResult Remove(RemoveViewModel model)
         {
             var result = _commandDispatcher.Dispatch(new RemoveFileCommand() { Id = model.Id });
@@ -90,7 +95,12 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             {
                 new FileManager().Delete(model.Url);
             }
-            return RedirectToAction(nameof(List));
+            else
+            {
+                AddCommadErrorsToModelState(result);
+            }
+            return RedirectToAction(nameof(List), new
+                { errors = GetErrosFromModelState() });
         }
 
         public IActionResult Update(long id)
@@ -124,6 +134,10 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             }
             return View(model);    
         }
+
+
+
+
 
 
 

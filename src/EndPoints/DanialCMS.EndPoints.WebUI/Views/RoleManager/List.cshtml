@@ -1,0 +1,74 @@
+﻿@model List<IdentityRole>
+
+@{
+    ViewData["Title"] = "لیست نقش ها";
+
+}
+
+
+<div class="row d-flex justify-content-center">
+    <div class="col-md-9 card">
+        <div class="row d-flex justify-content-between card-header align-items-center">
+            <h3 class="title-5">نقش ها</h3>
+            <div>
+                <a class="btn btn-warning" asp-controller="RoleManager" asp-action="Add">
+                    <i class="zmdi zmdi-plus"> افزودن </i>
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row d-flex justify-content-center">
+                <div class="alert alert-danger" role="alert"
+                     asp-validation-summary="All" id="divSummary">
+                </div>
+            </div>
+
+            @if (Model.Any())
+            {
+                <div class="row ">
+                    @foreach (var item in Model)
+                    {
+                        <div class="bg-dark text-white d-flex m-2 p-4 mx-3">
+                            <div>
+                                @item.Name
+                            </div>
+                            <div class="table-data-feature  mr-3">
+                                <a class="item" asp-controller="RoleManager" asp-action="Update" asp-route-id="@item.Id">
+                                    <i class="zmdi zmdi-edit"></i>
+                                </a>
+                                <form method="post" asp-controller="RoleManager"
+                                      asp-action="Delete" asp-route-id="@item.Id">
+                                    <button type="submit" class="item">
+                                        <i class="zmdi zmdi-delete"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    <script>
+        $(function () {
+            if ($("#divSummary ul li").html().length < 1)
+            {
+                $("#divSummary").addClass("d-none");
+            }
+            else {
+                $("#divSummary").removeClass("d-none");
+            }
+        })
+    </script>
+}
+
+
+
+
+

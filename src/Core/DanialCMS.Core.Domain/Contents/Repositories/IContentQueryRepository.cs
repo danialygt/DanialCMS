@@ -10,5 +10,6 @@ namespace DanialCMS.Core.Domain.Contents.Repositories
     {
         DtoContent Get(long id);
         List<DtoListContent> GetAll();
+        bool IsExist(long contentId);
     }
 }

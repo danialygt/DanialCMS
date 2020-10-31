@@ -16,7 +16,7 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Analysis.Configs
 
             builder.Property(c => c.BrowserName).HasMaxLength(250);
             builder.Property(c => c.Scheme).HasMaxLength(50);
-            builder.Property(c => c.Referer).HasMaxLength(200);
+            builder.Property(c => c.Referer).HasMaxLength(700);
 
             builder.Property(c => c.Path).HasMaxLength(700);
             builder.Property(c => c.HttpMethod).HasMaxLength(10);

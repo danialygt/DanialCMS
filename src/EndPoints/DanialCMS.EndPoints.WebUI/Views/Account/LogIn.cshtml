@@ -1,0 +1,46 @@
+﻿@model LogInViewModel
+@{
+    ViewData["Title"] = "صفحه ورود";
+    Layout = "_AccountLayout";
+}
+
+
+
+
+<div class="login-wrap">
+    <div class="login-content">
+        <div class="login-logo">
+            <a asp-controller="Home" asp-action="Index">
+                <img src="~/images/icon/logo-yellow.png" alt="Danial CMS">
+            </a>
+        </div>
+        <div class="login-form">
+            <div class="form-group text-dark text-center title-3">
+                ورود به سایت
+            </div>
+            <hr>
+            <form asp-controller="Account" asp-action="LogIn" method="post"
+                  asp-route-ReturnUrl="@Model.ReturnUrl">
+                <div class="form-group">
+                    <label asp-for="@Model.EmailOrUsername" class="form-control-label"></label>
+                    <input type="text" asp-for="@Model.EmailOrUsername" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Password" class="form-control-label"></label>
+                    <input type="password" asp-for="@Model.Password" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                    <div asp-validation-summary="All" class="text-danger mr-3"></div>
+                </div>
+
+                <button class="btn btn-warning w-100 m-b-20" type="submit">ورود</button>
+                <div class="login-checkbox">
+                    <label>
+                        <a asp-controller="Account" asp-action="ForgetPassword">رمز عبور را فراموش کرده اید؟</a>
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
