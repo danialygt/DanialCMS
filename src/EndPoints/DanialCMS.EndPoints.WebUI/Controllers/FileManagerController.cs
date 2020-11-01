@@ -27,10 +27,33 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             _commandDispatcher = commandDispatcher;
         }
 
-        public IActionResult List(List<string> errors = null)
+        public IActionResult List(int pageNumber = 1, int pageSize = 10, 
+            List<string> errors = null)
         {
             AddErrosToModelState(errors);
-            var files = _queryDispatcher.Dispatch<List<FileManagement>>(new GetFilesQuery());
+            var allFiles = _queryDispatcher.Dispatch<List<FileManagement>>(new GetFilesQuery());
+
+            if (pageNumber < 1)
+            {
+                pageNumber = 1;
+            }
+            if (pageSize < 1)
+            {
+                pageSize = 10;
+            }
+            int numberOfPages = Convert.ToInt32(Math.Ceiling((decimal)allFiles.Count() / pageSize));
+            if (pageNumber > numberOfPages)
+            {
+                pageNumber = numberOfPages;
+            }
+
+            ViewData["NumberOfPages"] = numberOfPages;
+            ViewData["PageNumber"] = pageNumber;
+            ViewData["PageSize"] = pageSize;
+
+            var files = allFiles.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+
             if (!files.Any())
             {
                 ModelState.AddModelError("", "فایلی یافت نشد!");

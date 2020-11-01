@@ -37,11 +37,35 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
         public IActionResult Index() => View(nameof(List), 
             _userManager.Users.ToList());
 
-        public IActionResult List(List<string> errors = null)
+        public IActionResult List(int pageNumber = 1, int pageSize = 10, 
+            List<string> errors = null)
         {
             AddErrosToModelState(errors);
-            var users = _userManager.Users.ToList();
-            if(!users.Any())
+            var allUsers = _userManager.Users.ToList();
+
+            if (pageNumber < 1)
+            {
+                pageNumber = 1;
+            }
+            if (pageSize < 1)
+            {
+                pageSize = 10;
+            }
+            int numberOfPages = Convert.ToInt32(Math.Ceiling((decimal)allUsers.Count() / pageSize));
+            if (pageNumber > numberOfPages)
+            {
+                pageNumber = numberOfPages;
+            }
+
+            ViewData["NumberOfPages"] = numberOfPages;
+            ViewData["PageNumber"] = pageNumber;
+            ViewData["PageSize"] = pageSize;
+
+            var users = allUsers.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+
+
+            if (!users.Any())
             {
                 ModelState.AddModelError("", "کاربری یافت نشد");
             }

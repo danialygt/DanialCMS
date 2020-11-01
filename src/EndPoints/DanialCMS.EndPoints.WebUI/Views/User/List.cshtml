@@ -2,7 +2,9 @@
 
 @{
     ViewData["Title"] = "لیست کاربر";
-
+    var numberOfPages = Convert.ToInt32(ViewData["NumberOfPages"]);
+    var pageSize = Convert.ToInt32(ViewData["PageSize"]);
+    var pageNumber = Convert.ToInt16(ViewData["PageNumber"]);
 }
 
 
@@ -43,32 +45,32 @@
                             <tbody>
                                 @foreach (var item in @Model)
                                 {
-                                <tr class="tr-shadow row align-items-center">
-                                    <td class="col-2">@(string.Format("{0} {1}", item.FirstName, item.LastName))</td>
-                                    <td class="col-2">@item.UserName</td>
-                                    <td class="col-3">@item.Email</td>
-                                    <td class="col-3">
-                                        <div class="table-data-feature">
-                                            <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="ویرایش کاربر" type="submit"
-                                               asp-controller="User" asp-action="Update" asp-route-id="@item.Id">
-                                                <i class="zmdi zmdi-edit"></i>
-                                            </a>
-                                            <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="افزودن نقش" type="submit"
-                                               asp-controller="User" asp-action="AddUserToRoles" asp-route-id="@item.Id">
-                                                <i class="zmdi zmdi-plus"></i>
-                                            </a>
-                                            <a class="item" data-toggle="tooltip" data-placement="top" title="نقش های کاربر" data-original-title="نقش های کاربر" type="button"
-                                               asp-controller="User" asp-action="GetUserRoles" asp-route-userName="@item.UserName">
-                                                <i class="zmdi zmdi-more"></i>
-                                            </a>
-                                            <form asp-controller="User" asp-action="Delete" asp-route-id="@item.Id" method="post">
-                                                <button type="submit" class="item" data-toggle="tooltip" data-placement="top" title="حذف کاربر" data-original-title="حذف کاربر" type="button">
-                                                    <i class="zmdi zmdi-delete"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    <tr class="tr-shadow row align-items-center">
+                                        <td class="col-2">@(string.Format("{0} {1}", item.FirstName, item.LastName))</td>
+                                        <td class="col-2">@item.UserName</td>
+                                        <td class="col-3">@item.Email</td>
+                                        <td class="col-3">
+                                            <div class="table-data-feature">
+                                                <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="ویرایش کاربر" type="submit"
+                                                   asp-controller="User" asp-action="Update" asp-route-id="@item.Id">
+                                                    <i class="zmdi zmdi-edit"></i>
+                                                </a>
+                                                <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="افزودن نقش" type="submit"
+                                                   asp-controller="User" asp-action="AddUserToRoles" asp-route-id="@item.Id">
+                                                    <i class="zmdi zmdi-plus"></i>
+                                                </a>
+                                                <a class="item" data-toggle="tooltip" data-placement="top" title="نقش های کاربر" data-original-title="نقش های کاربر" type="button"
+                                                   asp-controller="User" asp-action="GetUserRoles" asp-route-userName="@item.UserName">
+                                                    <i class="zmdi zmdi-more"></i>
+                                                </a>
+                                                <form asp-controller="User" asp-action="Delete" asp-route-id="@item.Id" method="post">
+                                                    <button type="submit" class="item" data-toggle="tooltip" data-placement="top" title="حذف کاربر" data-original-title="حذف کاربر" type="button">
+                                                        <i class="zmdi zmdi-delete"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <tr class="spacer"></tr>
                                 }
                             </tbody>
@@ -76,6 +78,159 @@
                     </div>
                 </div>
 
+                <div class="row justify-content-center mt-1">
+                    <div>
+                        @if (numberOfPages < 11)
+                        {
+                            for (int i = 1; i <= numberOfPages; i++)
+                            {
+                                if (pageNumber == i)
+                                {
+                                    <a class="btn btn-dark" asp-controller="Content"
+                                       asp-action="List" asp-route-pageNumber="@i"
+                                       asp-route-pageSize="@pageSize">
+                                        @i
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                       asp-action="List" asp-route-pageNumber="@i"
+                                       asp-route-pageSize="@pageSize">
+                                        @i
+                                    </a>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            @for (int i = 1; i <= 2; i++)
+                            {
+                                if (pageNumber == i)
+                                {
+                                    <a class="btn btn-dark" asp-controller="Content"
+                                       asp-action="List" asp-route-pageNumber="@i"
+                                       asp-route-pageSize="@pageSize">
+                                        @i
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                       asp-action="List" asp-route-pageNumber="@i"
+                                       asp-route-pageSize="@pageSize">
+                                        @i
+                                    </a>
+                                }
+                            }
+
+                            if (pageNumber <= 4)
+                            {
+                                for (int i = 3; i <= 5; i++)
+                                {
+                                    if (pageNumber == i)
+                                    {
+                                        <a class="btn btn-dark" asp-controller="Content"
+                                           asp-action="List" asp-route-pageNumber="@i"
+                                           asp-route-pageSize="@pageSize">
+                                            @i
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                           asp-action="List" asp-route-pageNumber="@i"
+                                           asp-route-pageSize="@pageSize">
+                                            @i
+                                        </a>
+                                    }
+                                }
+                            }
+
+                            <span> ... </span>
+                            @if (pageNumber < (numberOfPages - 3) &&
+                               pageNumber > 4)
+                            {
+
+                                @for (int i = pageNumber - 1; i <= pageNumber + 1; i++)
+                                {
+                                    if (i >= (numberOfPages - 1))
+                                    {
+                                        continue;
+                                    }
+                                    if (pageNumber == i)
+                                    {
+                                        <a class="btn btn-dark" asp-controller="Content"
+                                           asp-action="List" asp-route-pageNumber="@i"
+                                           asp-route-pageSize="@pageSize">
+                                            @i
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                           asp-action="List" asp-route-pageNumber="@i"
+                                           asp-route-pageSize="@pageSize">
+                                            @i
+                                        </a>
+                                    }
+
+                                }
+
+
+
+
+
+
+                                <span> ... </span>
+                            }
+
+                            if (pageNumber >= numberOfPages - 3)
+                            {
+                                for (int i = numberOfPages - 4; i <= numberOfPages - 2; i++)
+                                {
+                                    if (pageNumber == i)
+                                    {
+                                        <a class="btn btn-dark" asp-controller="Content"
+                                           asp-action="List" asp-route-pageNumber="@i"
+                                           asp-route-pageSize="@pageSize">
+                                            @i
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                           asp-action="List" asp-route-pageNumber="@i"
+                                           asp-route-pageSize="@pageSize">
+                                            @i
+                                        </a>
+                                    }
+                                }
+                            }
+
+                            @for (int i = numberOfPages - 1; i <= numberOfPages; i++)
+                            {
+                                if (pageNumber == i)
+                                {
+                                    <a class="btn btn-dark" asp-controller="Content"
+                                       asp-action="List" asp-route-pageNumber="@i"
+                                       asp-route-pageSize="@pageSize">
+                                        @i
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                       asp-action="List" asp-route-pageNumber="@i"
+                                       asp-route-pageSize="@pageSize">
+                                        @i
+                                    </a>
+                                }
+
+                            }
+                        }
+                    </div>
+                </div>
             }
 
         </div>

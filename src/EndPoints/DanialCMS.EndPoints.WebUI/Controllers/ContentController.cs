@@ -15,6 +15,7 @@ using DanialCMS.Framework.Queries;
 using DanialCMS.Framework.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
         private readonly CommandDispatcher _commandDispatcher;
         private readonly IAuthorizationService _authorizationService;
 
-        public ContentController(QueryDispatcher queryDispatcher, 
+        public ContentController(QueryDispatcher queryDispatcher,
             CommandDispatcher commandDispatcher,
             IAuthorizationService authorizationService) : base(queryDispatcher, commandDispatcher)
         {
@@ -37,10 +38,32 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             this._authorizationService = authorizationService;
         }
 
-        public IActionResult List(List<string> errors = null)
+        public IActionResult List(int pageNumber = 1, int pageSize = 10, List<string> errors = null)
         {
             AddErrosToModelState(errors);
-            var contents = _queryDispatcher.Dispatch<List<DtoListContent>>(new GetContentsQuery());
+            var allContents = _queryDispatcher.Dispatch<List<DtoListContent>>
+                    (new GetContentsQuery());
+            
+            if (pageNumber < 1)
+            {
+                pageNumber = 1;
+            }
+            if (pageSize < 1)
+            {
+                pageSize = 10;
+            }
+            int numberOfPages = Convert.ToInt32(Math.Ceiling((decimal)allContents.Count() / pageSize));
+            if (pageNumber > numberOfPages)
+            {
+                pageNumber = numberOfPages;
+            }
+
+            ViewData["NumberOfPages"] = numberOfPages;
+            ViewData["PageNumber"] = pageNumber;
+            ViewData["PageSize"] = pageSize;
+
+            var contents = allContents.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
             if (!contents.Any())
             {
                 ModelState.AddModelError("", "مطلبی یافت نشد!");
@@ -70,8 +93,8 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
 
 
                 // writer id inja bayad por beshe! 
-                model.WriterId = _queryDispatcher.Dispatch<long>(new GetWriterIdQuery() 
-                    {WriterName = User.Identity.Name });
+                model.WriterId = _queryDispatcher.Dispatch<long>(new GetWriterIdQuery()
+                { WriterName = User.Identity.Name });
 
                 var result = _commandDispatcher.Dispatch(new AddContentCommand()
                 {
@@ -100,12 +123,12 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             return View(model);
         }
 
-        
-        public async Task<IActionResult>  Update(long id)
+
+        public async Task<IActionResult> Update(long id)
         {
             var viewModel = new UpdateContentViewModel();
             var model = _queryDispatcher.Dispatch<DtoUpdateContent>(new GetContentQuery() { ContentId = id });
-            if(model == null)
+            if (model == null)
             {
                 return View(model);
             }
@@ -149,7 +172,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult>  Update(UpdateContentViewModel model)
+        public async Task<IActionResult> Update(UpdateContentViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -228,7 +251,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
         [HttpPost]
         public IActionResult ChangeToDelete(long id, string returnUrl = "List")
         {
-            var result = _commandDispatcher.Dispatch(new EditStatusContentCommand() { Id = id, ContentStatus = ContentStatus.Deleted});
+            var result = _commandDispatcher.Dispatch(new EditStatusContentCommand() { Id = id, ContentStatus = ContentStatus.Deleted });
             if (!result.IsSuccess)
             {
                 AddCommadErrorsToModelState(result);
@@ -252,7 +275,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             {
                 AddCommadErrorsToModelState(result);
             }
-                
+
             var path = returnUrl.Trim('/').Split("/").ToList();
             if (path.Count == 1)
             {

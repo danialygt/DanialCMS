@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DanialCMS.EndPoints.WebUI.Controllers
 {
@@ -21,10 +22,31 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
         {
         }
 
-        public IActionResult List()
+        public IActionResult List(int pageNumber = 1, int pageSize = 10)
         {
             var allWriter = _queryDispatcher.Dispatch<List<DtoWriter>>(new AllWriterQuery());
-            return View(allWriter);
+
+            if (pageNumber < 1)
+            {
+                pageNumber = 1;
+            }
+            if (pageSize < 1)
+            {
+                pageSize = 10;
+            }
+            int numberOfPages = Convert.ToInt32(Math.Ceiling((decimal)allWriter.Count() / pageSize));
+            if (pageNumber > numberOfPages)
+            {
+                pageNumber = numberOfPages;
+            }
+
+            ViewData["NumberOfPages"] = numberOfPages;
+            ViewData["PageNumber"] = pageNumber;
+            ViewData["PageSize"] = pageSize;
+
+            var writers = allWriter.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+            return View(writers);
         }
 
        

@@ -26,9 +26,30 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
         }
 
         //view mikhad
-        public IActionResult List()
+        public IActionResult List(int pageNumber = 1, int pageSize = 10)
         {
-            var comments = _queryDispatcher.Dispatch<List<Comment>>(new GetCommentsQuery());
+            var allComments = _queryDispatcher.Dispatch<List<Comment>>(new GetCommentsQuery());
+
+            if (pageNumber < 1)
+            {
+                pageNumber = 1;
+            }
+            if (pageSize < 1)
+            {
+                pageSize = 10;
+            }
+            int numberOfPages = Convert.ToInt32(Math.Ceiling((decimal)allComments.Count() / pageSize));
+            if (pageNumber > numberOfPages)
+            {
+                pageNumber = numberOfPages;
+            }
+
+            ViewData["NumberOfPages"] = numberOfPages;
+            ViewData["PageNumber"] = pageNumber;
+            ViewData["PageSize"] = pageSize;
+
+            var comments = allComments.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
             return View(comments);
         }
 

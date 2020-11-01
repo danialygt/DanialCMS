@@ -1,7 +1,9 @@
 ﻿@model List<FileManagement>
 @{
     ViewData["Title"] = "لیست فایل";
-
+    var numberOfPages = Convert.ToInt32(ViewData["NumberOfPages"]);
+    var pageSize = Convert.ToInt32(ViewData["PageSize"]);
+    var pageNumber = Convert.ToInt16(ViewData["PageNumber"]);
 }
 
 
@@ -94,6 +96,159 @@
                                 }
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-1">
+                    <div>
+                        @if (numberOfPages < 11)
+                        {
+                            for (int i = 1; i <= numberOfPages; i++)
+                            {
+                                if (pageNumber == i)
+                                {
+                                    <a class="btn btn-dark" asp-controller="Content"
+                                       asp-action="List" asp-route-pageNumber="@i"
+                                       asp-route-pageSize="@pageSize">
+                                        @i
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                       asp-action="List" asp-route-pageNumber="@i"
+                                       asp-route-pageSize="@pageSize">
+                                        @i
+                                    </a>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            @for (int i = 1; i <= 2; i++)
+                            {
+                                if (pageNumber == i)
+                                {
+                                    <a class="btn btn-dark" asp-controller="Content"
+                                       asp-action="List" asp-route-pageNumber="@i"
+                                       asp-route-pageSize="@pageSize">
+                                        @i
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                       asp-action="List" asp-route-pageNumber="@i"
+                                       asp-route-pageSize="@pageSize">
+                                        @i
+                                    </a>
+                                }
+                            }
+
+                            if (pageNumber <= 4)
+                            {
+                                for (int i = 3; i <= 5; i++)
+                                {
+                                    if (pageNumber == i)
+                                    {
+                                        <a class="btn btn-dark" asp-controller="Content"
+                                           asp-action="List" asp-route-pageNumber="@i"
+                                           asp-route-pageSize="@pageSize">
+                                            @i
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                           asp-action="List" asp-route-pageNumber="@i"
+                                           asp-route-pageSize="@pageSize">
+                                            @i
+                                        </a>
+                                    }
+                                }
+                            }
+
+                            <span> ... </span>
+                            @if (pageNumber < (numberOfPages - 3) &&
+                               pageNumber > 4)
+                            {
+
+                                @for (int i = pageNumber - 1; i <= pageNumber + 1; i++)
+                                {
+                                    if (i >= (numberOfPages - 1))
+                                    {
+                                        continue;
+                                    }
+                                    if (pageNumber == i)
+                                    {
+                                        <a class="btn btn-dark" asp-controller="Content"
+                                           asp-action="List" asp-route-pageNumber="@i"
+                                           asp-route-pageSize="@pageSize">
+                                            @i
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                           asp-action="List" asp-route-pageNumber="@i"
+                                           asp-route-pageSize="@pageSize">
+                                            @i
+                                        </a>
+                                    }
+
+                                }
+
+
+
+
+
+
+                                <span> ... </span>
+                            }
+
+                            if (pageNumber >= numberOfPages - 3)
+                            {
+                                for (int i = numberOfPages - 4; i <= numberOfPages - 2; i++)
+                                {
+                                    if (pageNumber == i)
+                                    {
+                                        <a class="btn btn-dark" asp-controller="Content"
+                                           asp-action="List" asp-route-pageNumber="@i"
+                                           asp-route-pageSize="@pageSize">
+                                            @i
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                           asp-action="List" asp-route-pageNumber="@i"
+                                           asp-route-pageSize="@pageSize">
+                                            @i
+                                        </a>
+                                    }
+                                }
+                            }
+
+                            @for (int i = numberOfPages - 1; i <= numberOfPages; i++)
+                            {
+                                if (pageNumber == i)
+                                {
+                                    <a class="btn btn-dark" asp-controller="Content"
+                                       asp-action="List" asp-route-pageNumber="@i"
+                                       asp-route-pageSize="@pageSize">
+                                        @i
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                       asp-action="List" asp-route-pageNumber="@i"
+                                       asp-route-pageSize="@pageSize">
+                                        @i
+                                    </a>
+                                }
+
+                            }
+                        }
                     </div>
                 </div>
             }
