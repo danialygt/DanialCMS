@@ -60,13 +60,16 @@ namespace DanialCMS.Core.ApplicationService.Contents.Commands
                     Rate = command.Rate,
                 });
 
-                foreach (var id in command.KeywordsId)
+                if(command.KeywordsId != null)
                 {
-                    _contentKeywordsCommandRepository.Add(new ContentKeywords()
+                    foreach (var id in command.KeywordsId)
                     {
-                        ContentId = contentId,
-                        KeywordId = id
-                    });
+                        _contentKeywordsCommandRepository.Add(new ContentKeywords()
+                        {
+                            ContentId = contentId,
+                            KeywordId = id
+                        });
+                    }
                 }
                 foreach (var id in command.PublishPlacesId)
                 {

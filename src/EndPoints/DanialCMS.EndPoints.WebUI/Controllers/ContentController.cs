@@ -8,6 +8,7 @@ using DanialCMS.Core.Domain.Keywords.Entities;
 using DanialCMS.Core.Domain.Keywords.Queries;
 using DanialCMS.Core.Domain.PublishPlaces.Entities;
 using DanialCMS.Core.Domain.PublishPlaces.Queries;
+using DanialCMS.Core.Domain.Writers.Queries;
 using DanialCMS.EndPoints.WebUI.Models.Content;
 using DanialCMS.Framework.Commands;
 using DanialCMS.Framework.Queries;
@@ -16,6 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DanialCMS.EndPoints.WebUI.Controllers
 {
@@ -24,11 +26,15 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
     {
         private readonly QueryDispatcher _queryDispatcher;
         private readonly CommandDispatcher _commandDispatcher;
+        private readonly IAuthorizationService _authorizationService;
 
-        public ContentController(QueryDispatcher queryDispatcher, CommandDispatcher commandDispatcher) : base(queryDispatcher, commandDispatcher)
+        public ContentController(QueryDispatcher queryDispatcher, 
+            CommandDispatcher commandDispatcher,
+            IAuthorizationService authorizationService) : base(queryDispatcher, commandDispatcher)
         {
             _queryDispatcher = queryDispatcher;
             _commandDispatcher = commandDispatcher;
+            this._authorizationService = authorizationService;
         }
 
         public IActionResult List(List<string> errors = null)
@@ -61,8 +67,12 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             {
                 // inja bayad photo az user gerefte beshe
 
+
+
                 // writer id inja bayad por beshe! 
-                model.WriterId = 2;
+                model.WriterId = _queryDispatcher.Dispatch<long>(new GetWriterIdQuery() 
+                    {WriterName = User.Identity.Name });
+
                 var result = _commandDispatcher.Dispatch(new AddContentCommand()
                 {
                     Description = model.Description,
@@ -90,7 +100,8 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             return View(model);
         }
 
-        public IActionResult Update(long id)
+        
+        public async Task<IActionResult>  Update(long id)
         {
             var viewModel = new UpdateContentViewModel();
             var model = _queryDispatcher.Dispatch<DtoUpdateContent>(new GetContentQuery() { ContentId = id });
@@ -98,60 +109,90 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             {
                 return View(model);
             }
-            viewModel.Title = model.Title;
-            viewModel.Description = model.Description;
-            viewModel.Body = model.Body;
-            viewModel.Rate = model.Rate;
-            viewModel.PublishDate = model.PublishDate;
-            viewModel.WriterName = model.WriterName;
-            viewModel.Id = model.Id;
 
-            viewModel.CategoryId = model.CategoryId;
-            viewModel.KeywordsId = model.KeywordsId;
-            viewModel.PublishPlacesId = model.PublishPlacesId;
-            
-            viewModel.PhotoUrl = model.PhotoUrl;
-            viewModel.PhotoId = model.PhotoId;
+            var authResult = await _authorizationService.AuthorizeAsync(User, model
+                , "WriterAndEditors");
+            if (authResult.Succeeded)
+            {
+                viewModel.Title = model.Title;
+                viewModel.Description = model.Description;
+                viewModel.Body = model.Body;
+                viewModel.Rate = model.Rate;
+                viewModel.PublishDate = model.PublishDate;
+                viewModel.WriterName = model.WriterName;
+                viewModel.Id = model.Id;
+
+                viewModel.CategoryId = model.CategoryId;
+                viewModel.KeywordsId = model.KeywordsId;
+                viewModel.PublishPlacesId = model.PublishPlacesId;
+
+                viewModel.PhotoUrl = model.PhotoUrl;
+                viewModel.PhotoId = model.PhotoId;
 
 
-            viewModel.AllCategories = _queryDispatcher.Dispatch<List<Category>>(new GetCategoriesQuery());
-            viewModel.AllKeywords = _queryDispatcher.Dispatch<List<Keyword>>(new GetKeywordsQuery());
-            viewModel.AllPublishPlaces = _queryDispatcher.Dispatch<List<PublishPlace>>(new GetPlacesQuery());
+                viewModel.AllCategories = _queryDispatcher.Dispatch<List<Category>>(new GetCategoriesQuery());
+                viewModel.AllKeywords = _queryDispatcher.Dispatch<List<Keyword>>(new GetKeywordsQuery());
+                viewModel.AllPublishPlaces = _queryDispatcher.Dispatch<List<PublishPlace>>(new GetPlacesQuery());
 
 
-            return View(viewModel);
+                return View(viewModel);
+            }
+            else
+            {
+                return RedirectToAction("AccessDenied", "Account");
+            }
+
         }
 
+
         // tasvire file bayad neshon dade beshe to view update!
-     
+
+
         [HttpPost]
-        public IActionResult Update(UpdateContentViewModel model)
+        public async Task<IActionResult>  Update(UpdateContentViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = _commandDispatcher.Dispatch(new EditContentCommand() 
-                {
-                    Title = model.Title,
-                    Description = model.Description,
-                    Body = model.Body,
-                    Rate = model.Rate,
-                    PublishDate = model.PublishDate,
-                    Id = model.Id,
+                var dbModel = _queryDispatcher.Dispatch<DtoUpdateContent>(new GetContentQuery() { ContentId = model.Id });
 
-                    CategoryId = model.CategoryId,
-                    KeywordsId = model.KeywordsId,
-                    publishPlacesId = model.PublishPlacesId,                    
-                });
-                if (result.IsSuccess)
+                var authResult = await _authorizationService.AuthorizeAsync(User, dbModel
+                , "WriterAndEditors");
+
+                if (authResult.Succeeded)
                 {
-                    return RedirectToAction(nameof(List));
+                    var result = _commandDispatcher.Dispatch(new EditContentCommand()
+                    {
+                        Title = model.Title,
+                        Description = model.Description,
+                        Body = model.Body,
+                        Rate = model.Rate,
+                        PublishDate = model.PublishDate,
+                        Id = model.Id,
+
+                        CategoryId = model.CategoryId,
+                        KeywordsId = model.KeywordsId,
+                        publishPlacesId = model.PublishPlacesId,
+                    });
+                    if (result.IsSuccess)
+                    {
+                        return RedirectToAction(nameof(List));
+                    }
+                    AddCommadErrorsToModelState(result);
                 }
-                AddCommadErrorsToModelState(result);
+                else
+                {
+                    return RedirectToAction("AccessDenied", "Account");
+                }
             }
+            model.AllCategories = _queryDispatcher.Dispatch<List<Category>>(new GetCategoriesQuery());
+            model.AllKeywords = _queryDispatcher.Dispatch<List<Keyword>>(new GetKeywordsQuery());
+            model.AllPublishPlaces = _queryDispatcher.Dispatch<List<PublishPlace>>(new GetPlacesQuery());
+            model.PublishPlacesId = new List<long>();
+            model.KeywordsId = new List<long>();
             return View(model);
         }
 
-        public IActionResult Show(long id)
+        public async Task<IActionResult> Show(long id)
         {
             var viewModel = new ShowContentViewModel();
             var model = _queryDispatcher.Dispatch<DtoContent>(new GetContentQuery() { ContentId = id });
@@ -159,18 +200,28 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             {
                 return View(model);
             }
-            viewModel.Title = model.Title;
-            viewModel.Description = model.Description;
-            viewModel.Body = model.Body;
-            viewModel.Rate = model.Rate;
-            viewModel.PublishDate = model.PublishDate;
-            viewModel.Comments = model.Comments;
-            viewModel.CategoryName = model.Category.Name;
-            viewModel.KeywordsName = model.Keywords.Select(c => c.Name).ToList();
-            viewModel.publishPlacesName = model.PublishPlaces.Select(c=>c.Name).ToList();
-            viewModel.WriterName = model.Writer.Name;
 
-            return View(viewModel);
+            var authResult = await _authorizationService.AuthorizeAsync(User, model
+                , "WriterAndEditors");
+            if (authResult.Succeeded)
+            {
+                viewModel.Title = model.Title;
+                viewModel.Description = model.Description;
+                viewModel.Body = model.Body;
+                viewModel.Rate = model.Rate;
+                viewModel.PublishDate = model.PublishDate;
+                viewModel.Comments = model.Comments;
+                viewModel.CategoryName = model.Category.Name;
+                viewModel.KeywordsName = model.Keywords.Select(c => c.Name).ToList();
+                viewModel.publishPlacesName = model.PublishPlaces.Select(c => c.Name).ToList();
+                viewModel.WriterName = model.Writer.Name;
+
+                return View(viewModel);
+            }
+            else
+            {
+                return RedirectToAction("AccessDenied", "Account");
+            }
         }
 
 

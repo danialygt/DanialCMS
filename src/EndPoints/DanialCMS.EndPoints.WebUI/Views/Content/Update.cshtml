@@ -36,7 +36,6 @@
 }
 
 
-
 @if (Model != null)
 {
 
@@ -52,7 +51,7 @@
                         </a>
                     </div>
                 </div>
-                
+
                 <div class="card-body">
                     <div class="row col-9">
                         <div class="form-group w-100">
@@ -61,7 +60,7 @@
                         </div>
                         <br />
                         <div class="form-group w-100">
-                            <label asp-for="@Model.Description" class="form-control-label"></label> 
+                            <label asp-for="@Model.Description" class="form-control-label"></label>
                             <textarea asp-for="@Model.Description" class="form-control" required maxlength="500">@Model.Description</textarea>
                         </div>
                     </div>
@@ -179,6 +178,7 @@ else
 }
 
 
+<div id="hiddenBody" class="d-none">@Model.Body</div>
 
 
 @section Scripts
@@ -219,7 +219,7 @@ else
 
 
     <script>
-        (function () {
+        $(function () {
             var editor = new FroalaEditor("#edit", {
                 theme: 'dark',
                 language: 'fa',
@@ -230,10 +230,15 @@ else
                 fontSizeUnit: 'pt',
                 direction: 'rtl',
                 fullPage: true,
+                saveStep: true,
 
+            }, function () {
+                editor.html.set($("#hiddenBody").text());
+                alert(editor.html.get())
             });
 
 
+        
             $("#sendContent").click(function () {
                 $("#formValue").val(editor.html.get());
                 $("#formContent").submit();
@@ -243,5 +248,8 @@ else
     </script>
 
 
+
+
+   
 
 }
