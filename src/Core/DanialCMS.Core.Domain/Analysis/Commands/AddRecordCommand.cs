@@ -28,5 +28,6 @@ namespace DanialCMS.Core.Domain.Analysis.Commands
         public bool? IsHttps { get; set; }
         public bool? HasCockies { get; set; }
         public string? OSArchitecture { get; set; }
+        public string? UserName { get; set; }
     }
 }

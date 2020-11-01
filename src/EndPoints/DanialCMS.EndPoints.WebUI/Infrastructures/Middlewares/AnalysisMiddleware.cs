@@ -54,6 +54,7 @@ namespace DanialCMS.EndPoints.WebUI.Infrastructures.Middlewares
             dto.ContentLength = httpContext.Response?.ContentLength;
             dto.SatusCode = httpContext.Response?.StatusCode;
 
+            dto.UserName = httpContext.User?.Identity?.Name;
 
             var result = commandDispatcher.Dispatch(dto);
             if (!result.IsSuccess)

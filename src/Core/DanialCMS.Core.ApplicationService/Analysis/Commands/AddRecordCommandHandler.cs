@@ -42,6 +42,7 @@ namespace DanialCMS.Core.ApplicationService.Analysis.Commands
                     RemotePort = command.RemotePort,
                     SatusCode = command.SatusCode,
                     Scheme = command.Scheme,
+                    UserName = command.UserName,
                 });
                 return Ok();
             }

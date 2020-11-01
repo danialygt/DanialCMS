@@ -23,6 +23,7 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Analysis.Configs
             builder.Property(c => c.RemoteIpAddress).HasMaxLength(15);
             builder.Property(c => c.Port).HasMaxLength(10);
             builder.Property(c => c.ContentType).HasMaxLength(100);
+            builder.Property(c => c.UserName).HasMaxLength(256);
 
         }
     }
