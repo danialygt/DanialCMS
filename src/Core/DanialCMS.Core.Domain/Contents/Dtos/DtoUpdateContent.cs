@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DanialCMS.Core.Domain.Editors.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -22,6 +23,7 @@ namespace DanialCMS.Core.Domain.Contents.Dtos
 
         public List<long> KeywordsId { get; set; }
         public List<long> PublishPlacesId { get; set; }
+        public List<Editor> Editors { get; set; }
 
     }
 }

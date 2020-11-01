@@ -1,6 +1,7 @@
 ﻿using DanialCMS.Core.Domain.Categories.Entities;
 using DanialCMS.Core.Domain.Comments.Entities;
 using DanialCMS.Core.Domain.Contents.Entities;
+using DanialCMS.Core.Domain.Editors.Entities;
 using DanialCMS.Core.Domain.Keywords.Entities;
 using DanialCMS.Core.Domain.PublishPlaces.Entities;
 using DanialCMS.Core.Domain.Writers.Entities;
@@ -34,5 +35,6 @@ namespace DanialCMS.Core.Domain.Contents.Dtos
         public List<Comment> Comments { get; set; }
         public List<Keyword> Keywords { get; set; }
         public List<PublishPlace> PublishPlaces { get; set; }
+        public List<Editor> Editors { get; set; }
     }
 }

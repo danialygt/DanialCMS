@@ -25,6 +25,12 @@
     <Compile Remove="Migrations\20201021135724_setNullInWriterPhotoId.Designer.cs" />
     <Compile Remove="Migrations\20201027065725_Content-AddFieldToComment.cs" />
     <Compile Remove="Migrations\20201027065725_Content-AddFieldToComment.Designer.cs" />
+    <Compile Remove="Migrations\20201101092859_AddEditorsEntities.cs" />
+    <Compile Remove="Migrations\20201101092859_AddEditorsEntities.Designer.cs" />
+    <Compile Remove="Migrations\20201101102556_AddEditorsEntities2.cs" />
+    <Compile Remove="Migrations\20201101102556_AddEditorsEntities2.Designer.cs" />
+    <Compile Remove="Migrations\20201101110937_AddEditorsEntities3.cs" />
+    <Compile Remove="Migrations\20201101110937_AddEditorsEntities3.Designer.cs" />
     <Compile Remove="Migrations\AnalysisDb\20201008193055_Analysis-Initial.cs" />
     <Compile Remove="Migrations\AnalysisDb\20201008193055_Analysis-Initial.Designer.cs" />
     <Compile Remove="Migrations\AnalysisDb\20201027191454_Analysis-ChangeAnalysisEntity.cs" />

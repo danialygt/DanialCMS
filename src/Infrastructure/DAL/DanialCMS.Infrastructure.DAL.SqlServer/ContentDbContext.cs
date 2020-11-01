@@ -2,6 +2,7 @@
 using DanialCMS.Core.Domain.Categories.Entities;
 using DanialCMS.Core.Domain.Comments.Entities;
 using DanialCMS.Core.Domain.Contents.Entities;
+using DanialCMS.Core.Domain.Editors.Entities;
 using DanialCMS.Core.Domain.FileManagements.Entities;
 using DanialCMS.Core.Domain.Keywords.Entities;
 using DanialCMS.Core.Domain.PublishPlaces.Entities;
@@ -9,6 +10,7 @@ using DanialCMS.Core.Domain.Writers.Entities;
 using DanialCMS.Infrastructure.DAL.SqlServer.Categories.Configs;
 using DanialCMS.Infrastructure.DAL.SqlServer.Comments.Configs;
 using DanialCMS.Infrastructure.DAL.SqlServer.Contents.Configs;
+using DanialCMS.Infrastructure.DAL.SqlServer.Editors.Config;
 using DanialCMS.Infrastructure.DAL.SqlServer.FileManagements.Configs;
 using DanialCMS.Infrastructure.DAL.SqlServer.Keywords.Configs;
 using DanialCMS.Infrastructure.DAL.SqlServer.PublishPlaces.Configs;
@@ -39,6 +41,8 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer
         public DbSet<Writer> Writers { get; set; }
         public DbSet<ContentKeywords> ContentKeywords { get; set; }
         public DbSet<ContentPlaces> ContentPlaces { get; set; }
+        public DbSet<ContentEditors> ContentEditors { get; set; }
+        public DbSet<Editor> Editors { get; set; }
 
 
 
@@ -57,7 +61,9 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer
             modelBuilder.ApplyConfiguration(new WriterConfig());
             modelBuilder.ApplyConfiguration(new ContentKeywordsConfig());
             modelBuilder.ApplyConfiguration(new ContentPlacesConfig());
-            
+            modelBuilder.ApplyConfiguration(new EditorConfig());
+            modelBuilder.ApplyConfiguration(new ContentEditorsConfig());
+
         }
 
 

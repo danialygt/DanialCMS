@@ -29,6 +29,7 @@ namespace DanialCMS.Core.Domain.Contents.Entities
         public List<Comment> Comments { get; set; }
         public List<ContentKeywords> Keyword { get; set; }
         public List<ContentPlaces> PublishPlaces { get; set; }
+        public List<ContentEditors> Editors { get; set; }
 
     }
 }

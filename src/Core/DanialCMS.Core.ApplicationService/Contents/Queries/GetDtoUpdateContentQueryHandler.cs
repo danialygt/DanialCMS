@@ -34,6 +34,7 @@ namespace DanialCMS.Core.ApplicationService.Contents.Queries
             dto.Rate = ent.Rate;
             dto.Title = ent.Title;
             dto.WriterName = ent.Writer.Name;
+            dto.Editors = ent.Editors;
 
             return dto;
         }

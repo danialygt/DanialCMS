@@ -1,6 +1,7 @@
 ﻿using DanialCMS.Core.Domain.Contents.Dtos;
 using DanialCMS.Core.Domain.Contents.Entities;
 using DanialCMS.Core.Domain.Contents.Repositories;
+using DanialCMS.Core.Domain.Editors.Entities;
 using DanialCMS.Core.Domain.PublishPlaces.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -29,12 +30,13 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Contents.Repositories
                 .Include(c => c.PublishPlaces)
                 .Include(c => c.Comments)
                 .Include(c => c.Writer)
+                .Include(c => c.Editors).ThenInclude(ce => ce.Editor)
                 .Select(c => new DtoContent()
                 {
                     Body = c.Body,
                     CategoryId = c.CategoryId,
                     ContentStatus = c.ContentStatus,
-                    Description = c.Description,    
+                    Description = c.Description,
                     Id = c.Id,
                     KeywordsId = c.Keyword.Select(k => k.KeywordId).ToList(),
                     PublishPlacesId = c.PublishPlaces.Select(k => k.PublishPlaceId).ToList(),
@@ -45,15 +47,25 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Contents.Repositories
                     CommentsId = c.Comments.Select(k => k.ContentId).ToList(),
                     WriterId = c.WriterId,
                     Writer = c.Writer,
-                        
+
                     Category = c.Category,
 
                     Keywords = _cmsDbContext.Keywords.AsNoTracking()
-                        .Where(w=>c.Keyword.Select(k=>k.KeywordId).Contains(w.Id)).ToList(),
+                        .Where(w => c.Keyword.Select(k => k.KeywordId).Contains(w.Id))
+                        .ToList(),
                     PublishPlaces = _cmsDbContext.PublishPlaces.AsNoTracking()
-                        .Where(cp => c.PublishPlaces.Select(p => p.PublishPlaceId).Contains(cp.Id)).ToList(),
+                        .Where(cp => c.PublishPlaces.Select(p => p.PublishPlaceId).Contains(cp.Id))
+                        .ToList(),
                     Comments = _cmsDbContext.Comments.AsNoTracking()
-                        .Where(cm=>cm.ContentId == c.Id).ToList(),
+                        .Where(cm => cm.ContentId == c.Id).ToList(),
+                    Editors = _cmsDbContext.ContentEditors.AsNoTracking()
+                        .Where(ce => ce.ContentId == c.Id).Select(ce => new Editor()
+                        {
+                            Id = ce.EditorId,
+                            Name = ce.Editor.Name,
+                        }).ToList()
+
+
                 })
                 .FirstOrDefault(c => c.Id == id);
         }
