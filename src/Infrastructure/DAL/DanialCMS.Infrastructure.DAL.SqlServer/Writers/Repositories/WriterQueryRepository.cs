@@ -55,5 +55,11 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.Writers.Repositories
                 .Select(c => c.Id)
                 .Contains(id);
         }
+
+        public long GetWriterId(string writerName)
+        {
+            return _cmsDbContext.Writers.AsNoTracking()
+                .FirstOrDefault(c => c.Name == writerName).Id;
+        }
     }
 }
