@@ -12,5 +12,6 @@ namespace DanialCMS.Core.Domain.Writers.Repositories
         List<DtoWriter> GetAll();
         bool IsExist(string name);
         bool IsExist(long id);
+        long GetWriterId(string writerName);
     }
 }
