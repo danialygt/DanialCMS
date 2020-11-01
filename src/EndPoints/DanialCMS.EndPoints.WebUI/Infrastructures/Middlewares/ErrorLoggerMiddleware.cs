@@ -26,6 +26,8 @@ namespace DanialCMS.EndPoints.WebUI.Infrastructures.Middlewares
             catch(Exception ex)
             {
                 logger.TextLogCritical(ex, "have exception :{0} --- {1} --- {2}", DateTime.Now, GetRequestInfo(httpContext), GetResponseInfo(httpContext));
+
+                await httpContext.Response.WriteAsync("Error darim");
             }
         }
 
