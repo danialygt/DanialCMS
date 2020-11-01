@@ -27,6 +27,8 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             _commandDispatcher = commandDispatcher;
         }
 
+        public IActionResult Index() => RedirectToAction(nameof(List));
+
         public IActionResult List(int pageNumber = 1, int pageSize = 10, 
             List<string> errors = null)
         {

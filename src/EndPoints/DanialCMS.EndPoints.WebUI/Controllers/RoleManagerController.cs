@@ -19,7 +19,9 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             this._roleManager = roleManager;
         }
 
-        public IActionResult Index() => View(nameof(List));
+
+        public IActionResult Index() => RedirectToAction(nameof(List));
+
 
         public IActionResult List(List<string> errors = null)
         {

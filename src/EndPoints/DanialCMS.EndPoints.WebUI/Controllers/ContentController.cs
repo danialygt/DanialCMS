@@ -38,6 +38,8 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             this._authorizationService = authorizationService;
         }
 
+        public IActionResult Index() => RedirectToAction(nameof(List));
+
         public IActionResult List(int pageNumber = 1, int pageSize = 10, List<string> errors = null)
         {
             AddErrosToModelState(errors);

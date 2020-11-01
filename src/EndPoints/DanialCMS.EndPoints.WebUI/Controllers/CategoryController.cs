@@ -27,6 +27,9 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             _commandDispatcher = commandDispatcher;
         }
 
+        public IActionResult Index() => RedirectToAction(nameof(List));
+
+
         public IActionResult List()
         {
             var categories = _queryDispatcher.Dispatch<List<Category>>(new GetCategoriesQuery()); 

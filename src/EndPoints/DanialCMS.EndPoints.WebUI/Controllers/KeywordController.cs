@@ -20,6 +20,10 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
         {
         }
 
+
+        public IActionResult Index() => RedirectToAction(nameof(List));
+
+
         public IActionResult List(List<string> errors = null)
         {
             AddErrosToModelState(errors);

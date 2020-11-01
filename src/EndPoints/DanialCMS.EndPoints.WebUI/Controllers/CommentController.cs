@@ -25,7 +25,10 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             _commandDispatcher = commandDispatcher;
         }
 
-        //view mikhad
+
+        public IActionResult Index() => RedirectToAction(nameof(List));
+
+
         public IActionResult List(int pageNumber = 1, int pageSize = 10)
         {
             var allComments = _queryDispatcher.Dispatch<List<Comment>>(new GetCommentsQuery());

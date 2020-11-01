@@ -34,8 +34,9 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
         }
 
 
-        public IActionResult Index() => View(nameof(List), 
-            _userManager.Users.ToList());
+
+        public IActionResult Index() => RedirectToAction(nameof(List));
+
 
         public IActionResult List(int pageNumber = 1, int pageSize = 10, 
             List<string> errors = null)

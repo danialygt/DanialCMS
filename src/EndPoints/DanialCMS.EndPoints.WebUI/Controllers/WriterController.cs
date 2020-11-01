@@ -22,6 +22,9 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
         {
         }
 
+        public IActionResult Index() => RedirectToAction(nameof(List));
+
+
         public IActionResult List(int pageNumber = 1, int pageSize = 10)
         {
             var allWriter = _queryDispatcher.Dispatch<List<DtoWriter>>(new AllWriterQuery());

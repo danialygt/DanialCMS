@@ -32,7 +32,9 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             _commandDispatcher = commandDispatcher;
         }
 
-        //[Authorize]
+
+        public IActionResult List() => RedirectToAction(nameof(Index));
+
         public IActionResult Index()
         {
             var model = new ViewersStatisticsViewModel();
