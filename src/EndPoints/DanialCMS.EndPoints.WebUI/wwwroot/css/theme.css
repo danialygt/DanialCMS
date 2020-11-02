@@ -943,6 +943,7 @@ section {
 
 .rs-select2--dark .select2-container .select2-selection--single .select2-selection__rendered {
     padding: 0;
+    margin: auto;
 }
 
 .rs-select2--dark .select2-container--default .select2-selection--single .select2-selection__arrow {

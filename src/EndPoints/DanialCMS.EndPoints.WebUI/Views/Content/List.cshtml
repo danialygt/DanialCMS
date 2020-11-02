@@ -5,6 +5,7 @@
     var numberOfPages = Convert.ToInt32(ViewData["NumberOfPages"]);
     var pageSize = Convert.ToInt32(ViewData["PageSize"]);
     var pageNumber = Convert.ToInt16(ViewData["PageNumber"]);
+    var pageSizeList = new List<int>(){ 10, 15, 25, 50, 150 };
 }
 
 <div class="row d-flex justify-content-center">
@@ -27,6 +28,48 @@
 
             @if (Model.Any())
             {
+
+                <div class="row mb-3 justify-content-end">
+                    <div class="chart-info-right">
+                        <div class="rs-select2--dark rs-select2--sm">
+                            <select type="submit" class="js-select2 au-select-dark"
+                                    id="pageSizeSelect">
+
+
+                                @foreach (var item in pageSizeList)
+                                {
+                                    if (pageSize == item)
+                                    {
+                                        <option value="?pageNumber=@pageNumber&pageSize=@item"
+                                                selected="selected">
+                                            @item
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="?pageNumber=@pageNumber&pageSize=@item">
+                                            @item
+                                        </option>
+
+                                    }
+
+                                }
+                            </select>
+                            <div class="dropDownSelect2"></div>
+                        </div>
+                        <div class="rs-select2--dark rs-select2--sm">
+                            <select class="js-select2 au-select-dark" name="time">
+                                <option selected="selected">All Time</option>
+                                <option value="">By Month</option>
+                                <option value="">By Day</option>
+                            </select>
+                            <div class="dropDownSelect2"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+
                 <div class="row">
                     <div class="table-responsive table-responsive-data2">
                         <table class="table table-data2 table-hover">
@@ -45,78 +88,78 @@
                             <tbody>
                                 @foreach (var item in @Model)
                                 {
-                                <tr class="tr-shadow row align-items-center">
-                                    <td class="col-3">
-                                        @item.Title
-                                    </td>
+                                    <tr class="tr-shadow row align-items-center">
+                                        <td class="col-3">
+                                            @item.Title
+                                        </td>
 
-                                    <td class="col-2">
-                                        @item.WriterName
-                                    </td>
-
-
-                                    @if (item.ContentStatus == ContentStatus.Published)
-                                    {
-                                <td class="col-1">منتشر شده</td>
-                                    }
-                                    else if (item.ContentStatus == ContentStatus.Deleted)
-                                    {
-                                <td class="col-1">لغو انتشار</td>
-                                    }
-                                    else if (item.ContentStatus == ContentStatus.Waiting)
-                                    {
-                                <td class="col-1">در انتظار انتشار</td>
-                                    }
+                                        <td class="col-2">
+                                            @item.WriterName
+                                        </td>
 
 
-                                    <td class="col-2">
-
-                                        @item.PublishDate.ToString("%H:%m:%s %yy/%M/%d")
-                                    </td>
-                                    <td class="col-2">
-                                        @foreach (var places in item.PublishPlaces)
+                                        @if (item.ContentStatus == ContentStatus.Published)
                                         {
-                                            <span class="mr-1 p-1 d-inline">@places.Name , </span>
+                                            <td class="col-1">منتشر شده</td>
                                         }
-                                    </td>
+                                        else if (item.ContentStatus == ContentStatus.Deleted)
+                                        {
+                                            <td class="col-1">لغو انتشار</td>
+                                        }
+                                        else if (item.ContentStatus == ContentStatus.Waiting)
+                                        {
+                                            <td class="col-1">در انتظار انتشار</td>
+                                        }
 
-                                    <td class="col-2">
-                                        <form method="post" asp-controller="Content">
-                                            <div class="table-data-feature">
-                                                @if (item.ContentStatus != ContentStatus.Published)
-                                                {
-                                                    <button type="submit" class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="انتشار"
-                                                            asp-action="ChangeToPublish" asp-route-id="@item.Id" asp-route-returnUrl="@returnUrl">
-                                                        <i class="zmdi zmdi-mail-send"></i>
-                                                    </button>
-                                                }
-                                                @if (item.ContentStatus != ContentStatus.Waiting)
-                                                {
-                                                    <button type="submit" class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="در انتظار انتشار"
-                                                            asp-action="ChangeToWait" asp-route-id="@item.Id" asp-route-returnUrl="@returnUrl">
-                                                        <i class="zmdi zmdi-pause"></i>
-                                                    </button>
-                                                }
-                                                @if (item.ContentStatus != ContentStatus.Deleted)
-                                                {
-                                                    <button type="submit" class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="حذف انتشار"
-                                                            asp-action="ChangeToDelete" asp-route-id="@item.Id" asp-route-returnUrl="@returnUrl">
-                                                        <i class="zmdi zmdi-delete"></i>
-                                                    </button>
 
-                                                }
-                                                <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="ویرایش مطلب"
-                                                   asp-controller="Content" asp-action="Update" asp-route-id="@item.Id">
-                                                    <i class="zmdi zmdi-edit"></i>
-                                                </a>
-                                                <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="نمایش"
-                                                   asp-controller="Content" asp-action="Show" asp-route-id="@item.Id">
-                                                    <i class="zmdi zmdi-more"></i>
-                                                </a>
-                                            </div>
-                                        </form>
-                                    </td>
-                                </tr>
+                                        <td class="col-2">
+
+                                            @item.PublishDate.ToString("%H:%m:%s %yy/%M/%d")
+                                        </td>
+                                        <td class="col-2">
+                                            @foreach (var places in item.PublishPlaces)
+                                            {
+                                                <span class="mr-1 p-1 d-inline">@places.Name , </span>
+                                            }
+                                        </td>
+
+                                        <td class="col-2">
+                                            <form method="post" asp-controller="Content">
+                                                <div class="table-data-feature">
+                                                    @if (item.ContentStatus != ContentStatus.Published)
+                                                    {
+                                                        <button type="submit" class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="انتشار"
+                                                                asp-action="ChangeToPublish" asp-route-id="@item.Id" asp-route-returnUrl="@returnUrl">
+                                                            <i class="zmdi zmdi-mail-send"></i>
+                                                        </button>
+                                                    }
+                                                    @if (item.ContentStatus != ContentStatus.Waiting)
+                                                    {
+                                                        <button type="submit" class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="در انتظار انتشار"
+                                                                asp-action="ChangeToWait" asp-route-id="@item.Id" asp-route-returnUrl="@returnUrl">
+                                                            <i class="zmdi zmdi-pause"></i>
+                                                        </button>
+                                                    }
+                                                    @if (item.ContentStatus != ContentStatus.Deleted)
+                                                    {
+                                                        <button type="submit" class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="حذف انتشار"
+                                                                asp-action="ChangeToDelete" asp-route-id="@item.Id" asp-route-returnUrl="@returnUrl">
+                                                            <i class="zmdi zmdi-delete"></i>
+                                                        </button>
+
+                                                    }
+                                                    <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="ویرایش مطلب"
+                                                       asp-controller="Content" asp-action="Update" asp-route-id="@item.Id">
+                                                        <i class="zmdi zmdi-edit"></i>
+                                                    </a>
+                                                    <a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="نمایش"
+                                                       asp-controller="Content" asp-action="Show" asp-route-id="@item.Id">
+                                                        <i class="zmdi zmdi-more"></i>
+                                                    </a>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>
                                     <tr class="spacer"></tr>
                                 }
                             </tbody>
@@ -194,7 +237,7 @@
 
                             <span> ... </span>
                             @if (pageNumber < (numberOfPages - 3) &&
-                                pageNumber > 4)
+                               pageNumber > 4)
                             {
 
                                 @for (int i = pageNumber - 1; i <= pageNumber + 1; i++)
@@ -295,6 +338,11 @@
             else {
                 $("#divSummary").removeClass("d-none");
             }
+            
+            $("#pageSizeSelect").change(function () {
+                var linke = $('option:selected', this).attr('value');
+                location.href = linke ;
+            });
         })
     </script>
 }

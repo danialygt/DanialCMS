@@ -5,6 +5,7 @@
     var numberOfPages = Convert.ToInt32(ViewData["NumberOfPages"]);
     var pageSize = Convert.ToInt32(ViewData["PageSize"]);
     var pageNumber = Convert.ToInt16(ViewData["PageNumber"]);
+    var pageSizeList = new List<int>(){ 10, 15, 25, 50, 150 };
 }
 
 
@@ -26,6 +27,46 @@
             </div>
             @if (Model.Any())
             {
+
+                <div class="row mb-3 justify-content-end">
+                    <div class="chart-info-right">
+                        <div class="rs-select2--dark rs-select2--sm">
+                            <select type="submit" class="js-select2 au-select-dark"
+                                    id="pageSizeSelect">
+
+
+                                @foreach (var item in pageSizeList)
+                                {
+                                    if (pageSize == item)
+                                    {
+                                        <option value="?pageNumber=@pageNumber&pageSize=@item"
+                                                selected="selected">
+                                            @item
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="?pageNumber=@pageNumber&pageSize=@item">
+                                            @item
+                                        </option>
+
+                                    }
+
+                                }
+                            </select>
+                            <div class="dropDownSelect2"></div>
+                        </div>
+                        <div class="rs-select2--dark rs-select2--sm">
+                            <select class="js-select2 au-select-dark" name="time">
+                                <option selected="selected">All Time</option>
+                                <option value="">By Month</option>
+                                <option value="">By Day</option>
+                            </select>
+                            <div class="dropDownSelect2"></div>
+                        </div>
+                    </div>
+                </div>
+
 
 
                 <div class="row">
@@ -149,7 +190,7 @@
 
                             <span> ... </span>
                             @if (pageNumber < (numberOfPages - 3) &&
-                               pageNumber > 4)
+                              pageNumber > 4)
                             {
 
                                 @for (int i = pageNumber - 1; i <= pageNumber + 1; i++)
@@ -252,6 +293,11 @@
             else {
                 $("#divSummary").removeClass("d-none");
             }
+            
+            $("#pageSizeSelect").change(function () {
+                var linke = $('option:selected', this).attr('value');
+                location.href = linke ;
+            });
         })
     </script>
 }
