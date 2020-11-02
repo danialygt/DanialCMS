@@ -14,7 +14,7 @@ namespace DanialCMS.EndPoints.WebUI.Models.Content
 
         public long Id { get; set; }
         [Required(ErrorMessage = "عنوان را وارد کنید")]
-        [MaxLength(100)]
+        [MaxLength(100, ErrorMessage = "عنوان باید کمتر از 100 کاراکتر باشد")]
         [Display(Name = "عنوان")]
         public string Title { get; set; }
 
@@ -23,12 +23,12 @@ namespace DanialCMS.EndPoints.WebUI.Models.Content
         public string Body { get; set; }
 
         [Required(ErrorMessage = "توضیحات را وارد کنید")]
-        [MaxLength(500)]
+        [MaxLength(500, ErrorMessage = "توضیحات باید کمتر از 500 کاراکتر باشد")]
         [Display(Name = "توضیحات")]
         public string Description { get; set; }
 
-        [Range(0, 10)]
-        [Display(Name = "امتیاز")]
+
+        [Range(0, 10, ErrorMessage = "امتیاز باید بین 0 تا 10 باشد")]
         public int? Rate { get; set; }
 
 

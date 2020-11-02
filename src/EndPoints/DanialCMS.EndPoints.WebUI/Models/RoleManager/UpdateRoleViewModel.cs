@@ -14,6 +14,7 @@ namespace DanialCMS.EndPoints.WebUI.Models.RoleManager
 
         [Display(Name = "نام")]
         [Required(ErrorMessage = "نام را وارد کنید")]
+        [MaxLength(256, ErrorMessage = "نام باید کمتر از 256 کاراکتر باشد ")]
         public string Name { get; set; }
     }
 }

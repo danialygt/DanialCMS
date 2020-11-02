@@ -10,7 +10,7 @@ namespace DanialCMS.EndPoints.WebUI.Models.FileManager
     public class AddFileViewModel
     {
         [Display(Name = "فایل")]
-        [Required]
+        [Required(ErrorMessage = "حداقل یک فایل انتخاب کنید" )]
         public List<IFormFile> Files { get; set; }
     }
 }

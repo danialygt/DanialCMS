@@ -9,6 +9,9 @@ namespace DanialCMS.EndPoints.WebUI.Models.User
 {
     public class AddUserToRoleViewModel
     {
+        [Required(ErrorMessage = "نام کاربری را وارد کنید")]
+        [Display(Name = "نام کاربری")]
+        [MaxLength(256, ErrorMessage = "نام کاربری باید کمتر از 256 کاراکتر باشد ")]
         public string UserName { get; set; }
 
         [Display(Name = "نقش ها")]

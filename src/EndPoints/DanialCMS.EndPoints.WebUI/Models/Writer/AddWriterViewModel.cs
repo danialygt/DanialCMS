@@ -11,7 +11,7 @@ namespace DanialCMS.EndPoints.WebUI.Models.Writer
     {
         [Required(ErrorMessage = "نام نویسنده را وارد کنید")]
         [Display(Name = "نام")]
-        [MaxLength(30)]
+        [MaxLength(30, ErrorMessage = "نام باید کمتر از 30 کاراکتر باشد")]
         public string Name { get; set; }
 
 

@@ -12,7 +12,7 @@ namespace DanialCMS.EndPoints.WebUI.Models.FileManager
 
         [Required]
         [Display(Name = "نام")]
-        [MaxLength(30)]
+        [MaxLength(30, ErrorMessage = "نام باید کمتر از 30 کاراکتر باشد")]
         public string Name { get; set; }
     }
 }

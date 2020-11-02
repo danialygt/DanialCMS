@@ -11,7 +11,7 @@ namespace DanialCMS.EndPoints.WebUI.Models.Category
 
         [Required(ErrorMessage ="نام را وارد کنید")]
         [Display(Name = "نام")]
-        [MaxLength(50)]
+        [MaxLength(50, ErrorMessage = "نام باید کمتر از 50 کاراکتر باشد")]
         public string Name { get; set; }
     }
 }

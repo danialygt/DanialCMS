@@ -15,7 +15,7 @@ namespace DanialCMS.EndPoints.WebUI.Models.Writer
         public long Id { get; set; }
 
         [Display(Name = "نام")]
-        [MaxLength(30)]
+        [MaxLength(30, ErrorMessage = "نام باید کمتر از 30 کاراکتر باشد")]
         public string Name { get; set; }
 
         public long? PhotoId { get; set; }
