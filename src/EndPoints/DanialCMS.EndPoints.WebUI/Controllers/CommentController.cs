@@ -29,10 +29,57 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
         public IActionResult Index() => RedirectToAction(nameof(List));
 
 
-        public IActionResult List(int pageNumber = 1, int pageSize = 10)
+        public IActionResult List(int pageNumber = 1, int pageSize = 10, string orderBy = "show_Desc")
         {
             var allComments = _queryDispatcher.Dispatch<List<Comment>>(new GetCommentsQuery());
 
+            allComments = orderedComments(orderBy, allComments);
+            var comments = PaginationComments(ref pageNumber, ref pageSize, allComments);
+
+            return View(comments);
+        }
+
+        private List<Comment> orderedComments(string orderBy, List<Comment> allComments)
+        {
+            ViewData["PageOrder"] = orderBy;
+            if (orderBy == "show_Asc")
+            {
+                allComments = allComments.OrderBy(c => c.CanShow).ToList();
+            }
+            else if (orderBy == "show_Desc")
+            {
+                allComments = allComments.OrderByDescending(c => c.CanShow).ToList();
+            }
+            else if (orderBy == "userName_Asc")
+            {
+                allComments = allComments.OrderBy(c => c.Name).ToList();
+            }
+            else if (orderBy == "userName_Desc")
+            {
+                allComments = allComments.OrderByDescending(c => c.Name).ToList();
+            }
+            else if (orderBy == "date_Asc")
+            {
+                allComments = allComments.OrderBy(c => c.PublishDate).ToList();
+            }
+            else if (orderBy == "date_Desc")
+            {
+                allComments = allComments.OrderByDescending(c => c.PublishDate).ToList();
+            }
+            else if (orderBy == "Email_Asc")
+            {
+                allComments = allComments.OrderBy(c => c.Email).ToList();
+            }
+            else if (orderBy == "Email_Desc")
+            {
+                allComments = allComments.OrderByDescending(c => c.Email).ToList();
+            }
+
+            return allComments;
+        }
+
+        private List<Comment> PaginationComments(ref int pageNumber, ref int pageSize, List<Comment> allComments)
+        {
             if (pageNumber < 1)
             {
                 pageNumber = 1;
@@ -52,8 +99,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             ViewData["PageSize"] = pageSize;
 
             var comments = allComments.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-
-            return View(comments);
+            return comments;
         }
 
         public IActionResult ChangeStatus(long id, bool status, string returnUrl = "Comment/List")

@@ -39,11 +39,56 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
 
 
         public IActionResult List(int pageNumber = 1, int pageSize = 10, 
-            List<string> errors = null)
+            string orderBy = "userName_Asc", List<string> errors = null)
         {
             AddErrosToModelState(errors);
             var allUsers = _userManager.Users.ToList();
 
+            allUsers = OrderedUsers(orderBy, allUsers);
+            var users = PaginationUsers(ref pageNumber, ref pageSize, allUsers);
+            
+            if (!users.Any())
+            {
+                ModelState.AddModelError("", "کاربری یافت نشد");
+            }
+            return View(users);
+        }
+
+        private List<User> OrderedUsers(string orderBy, List<User> allUsers)
+        {
+            ViewData["PageOrder"] = orderBy;
+            if (orderBy == "name_Asc")
+            {
+                allUsers = allUsers.OrderBy(c => c.LastName)
+                    .ThenBy(c=>c.FirstName).ToList();
+            }
+            else if (orderBy == "name_Desc")
+            {
+                allUsers = allUsers.OrderByDescending(c => c.LastName)
+                    .ThenByDescending(c=>c.FirstName).ToList();
+            }
+            else if (orderBy == "userName_Asc")
+            {
+                allUsers = allUsers.OrderBy(c => c.UserName).ToList();
+            }
+            else if (orderBy == "userName_Desc")
+            {
+                allUsers = allUsers.OrderByDescending(c => c.UserName).ToList();
+            }
+            else if (orderBy == "email_Asc")
+            {
+                allUsers = allUsers.OrderBy(c => c.Email).ToList();
+            }
+            else if (orderBy == "email_Desc")
+            {
+                allUsers = allUsers.OrderByDescending(c => c.Email).ToList();
+            }
+            
+            return allUsers;
+        }
+
+        private List<User> PaginationUsers(ref int pageNumber, ref int pageSize, List<User> allUsers)
+        {
             if (pageNumber < 1)
             {
                 pageNumber = 1;
@@ -63,16 +108,8 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             ViewData["PageSize"] = pageSize;
 
             var users = allUsers.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-
-
-
-            if (!users.Any())
-            {
-                ModelState.AddModelError("", "کاربری یافت نشد");
-            }
-            return View(users);
+            return users;
         }
-
 
         public IActionResult Add() => View();
         

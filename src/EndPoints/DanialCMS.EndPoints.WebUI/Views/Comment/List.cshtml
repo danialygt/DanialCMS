@@ -5,7 +5,14 @@
     var numberOfPages = Convert.ToInt32(ViewData["NumberOfPages"]);
     var pageSize = Convert.ToInt32(ViewData["PageSize"]);
     var pageNumber = Convert.ToInt16(ViewData["PageNumber"]);
+    var pageOrder = ViewData["PageOrder"].ToString();
     var pageSizeList = new List<int>() { 10, 15, 25, 50, 150 };
+    var commentOrderDic = new Dictionary<string, string>() {
+        {"date_Asc","تاریخ - صعودی" }, {"date_Desc","تاریخ - نزولی" },
+        {"show_Asc","وضعیت - صعودی"}, {"show_Desc","وضعیت - نزولی"},
+        {"userName_Asc","نام - صعودی" }, {"userName_Desc","نام - نزولی" },
+        {"Email_Asc","ایمیل - صعودی" }, {"Email_Desc","ایمیل - نزولی" },
+    };
 }
 
 
@@ -25,40 +32,55 @@
                         <div class="rs-select2--dark rs-select2--sm">
                             <select type="submit" class="js-select2 au-select-dark"
                                     id="pageSizeSelect">
-
-
+                                @if (!pageSizeList.Contains(pageSize))
+                                {
+                                    <option value="?pageNumber=@pageNumber&pageSize=@pageSize&orderBy=@pageOrder"
+                                            selected="selected">
+                                        @pageSize
+                                    </option>
+                                }
                                 @foreach (var item in pageSizeList)
                                 {
                                     if (pageSize == item)
                                     {
-                                        <option value="?pageNumber=@pageNumber&pageSize=@item"
+                                        <option value="?pageNumber=@pageNumber&pageSize=@item&orderBy=@pageOrder"
                                                 selected="selected">
                                             @item
                                         </option>
                                     }
                                     else
                                     {
-                                        <option value="?pageNumber=@pageNumber&pageSize=@item">
+                                        <option value="?pageNumber=@pageNumber&pageSize=@item&orderBy=@pageOrder">
                                             @item
                                         </option>
-
                                     }
-
                                 }
                             </select>
                             <div class="dropDownSelect2"></div>
                         </div>
-                        <div class="rs-select2--dark rs-select2--sm">
-                            <select class="js-select2 au-select-dark" name="time">
-                                <option selected="selected">All Time</option>
-                                <option value="">By Month</option>
-                                <option value="">By Day</option>
+                        <div class="rs-select2--dark rs-select2--sm" style="width:11rem;">
+                            <select class="js-select2 au-select-dark" id="commentOrderSelect">
+                                @foreach (var item in commentOrderDic)
+                                {
+                                    if (pageOrder == item.Key)
+                                    {
+                                        <option value="?pageNumber=@pageNumber&pageSize=@pageSize&orderBy=@item.Key"
+                                                selected="selected">
+                                            @item.Value
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="?pageNumber=@pageNumber&pageSize=@pageSize&orderBy=@item.Key">
+                                            @item.Value
+                                        </option>
+                                    }
+                                }
                             </select>
                             <div class="dropDownSelect2"></div>
                         </div>
                     </div>
                 </div>
-
 
 
 
@@ -107,17 +129,17 @@
                             {
                                 if (pageNumber == i)
                                 {
-                                    <a class="btn btn-dark" asp-controller="Content"
+                                    <a class="btn btn-dark" asp-controller="Comment"
                                        asp-action="List" asp-route-pageNumber="@i"
-                                       asp-route-pageSize="@pageSize">
+                                       asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                         @i
                                     </a>
                                 }
                                 else
                                 {
-                                    <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                    <a class="btn btn-dark btn-sm" asp-controller="Comment"
                                        asp-action="List" asp-route-pageNumber="@i"
-                                       asp-route-pageSize="@pageSize">
+                                       asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                         @i
                                     </a>
                                 }
@@ -129,17 +151,17 @@
                             {
                                 if (pageNumber == i)
                                 {
-                                    <a class="btn btn-dark" asp-controller="Content"
+                                    <a class="btn btn-dark" asp-controller="Comment"
                                        asp-action="List" asp-route-pageNumber="@i"
-                                       asp-route-pageSize="@pageSize">
+                                       asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                         @i
                                     </a>
                                 }
                                 else
                                 {
-                                    <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                    <a class="btn btn-dark btn-sm" asp-controller="Comment"
                                        asp-action="List" asp-route-pageNumber="@i"
-                                       asp-route-pageSize="@pageSize">
+                                       asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                         @i
                                     </a>
                                 }
@@ -151,17 +173,17 @@
                                 {
                                     if (pageNumber == i)
                                     {
-                                        <a class="btn btn-dark" asp-controller="Content"
+                                        <a class="btn btn-dark" asp-controller="Comment"
                                            asp-action="List" asp-route-pageNumber="@i"
-                                           asp-route-pageSize="@pageSize">
+                                           asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                             @i
                                         </a>
                                     }
                                     else
                                     {
-                                        <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                        <a class="btn btn-dark btn-sm" asp-controller="Comment"
                                            asp-action="List" asp-route-pageNumber="@i"
-                                           asp-route-pageSize="@pageSize">
+                                           asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                             @i
                                         </a>
                                     }
@@ -170,7 +192,7 @@
 
                             <span> ... </span>
                             @if (pageNumber < (numberOfPages - 3) &&
-                             pageNumber > 4)
+                            pageNumber > 4)
                             {
 
                                 @for (int i = pageNumber - 1; i <= pageNumber + 1; i++)
@@ -181,17 +203,17 @@
                                     }
                                     if (pageNumber == i)
                                     {
-                                        <a class="btn btn-dark" asp-controller="Content"
+                                        <a class="btn btn-dark" asp-controller="Comment"
                                            asp-action="List" asp-route-pageNumber="@i"
-                                           asp-route-pageSize="@pageSize">
+                                           asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                             @i
                                         </a>
                                     }
                                     else
                                     {
-                                        <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                        <a class="btn btn-dark btn-sm" asp-controller="Comment"
                                            asp-action="List" asp-route-pageNumber="@i"
-                                           asp-route-pageSize="@pageSize">
+                                           asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                             @i
                                         </a>
                                     }
@@ -212,17 +234,17 @@
                                 {
                                     if (pageNumber == i)
                                     {
-                                        <a class="btn btn-dark" asp-controller="Content"
+                                        <a class="btn btn-dark" asp-controller="Comment"
                                            asp-action="List" asp-route-pageNumber="@i"
-                                           asp-route-pageSize="@pageSize">
+                                           asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                             @i
                                         </a>
                                     }
                                     else
                                     {
-                                        <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                        <a class="btn btn-dark btn-sm" asp-controller="Comment"
                                            asp-action="List" asp-route-pageNumber="@i"
-                                           asp-route-pageSize="@pageSize">
+                                           asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                             @i
                                         </a>
                                     }
@@ -233,17 +255,17 @@
                             {
                                 if (pageNumber == i)
                                 {
-                                    <a class="btn btn-dark" asp-controller="Content"
+                                    <a class="btn btn-dark" asp-controller="Comment"
                                        asp-action="List" asp-route-pageNumber="@i"
-                                       asp-route-pageSize="@pageSize">
+                                       asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                         @i
                                     </a>
                                 }
                                 else
                                 {
-                                    <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                    <a class="btn btn-dark btn-sm" asp-controller="Comment"
                                        asp-action="List" asp-route-pageNumber="@i"
-                                       asp-route-pageSize="@pageSize">
+                                       asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                         @i
                                     </a>
                                 }
@@ -279,7 +301,10 @@
                 var linke = $('option:selected', this).attr('value');
                 location.href = linke ;
             });
-
+            $("#commentOrderSelect").change(function () {
+                var linke = $('option:selected', this).attr('value');
+                location.href = linke ;
+            });
         });
     </script>
 }

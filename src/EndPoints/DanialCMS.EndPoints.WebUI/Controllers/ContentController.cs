@@ -40,12 +40,65 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
 
         public IActionResult Index() => RedirectToAction(nameof(List));
 
-        public IActionResult List(int pageNumber = 1, int pageSize = 10, List<string> errors = null)
+        public IActionResult List(int pageNumber = 1, int pageSize = 10, 
+            string orderBy = "date_Desc", List<string> errors = null)
         {
             AddErrosToModelState(errors);
             var allContents = _queryDispatcher.Dispatch<List<DtoListContent>>
                     (new GetContentsQuery());
-            
+
+            allContents = OrderedContents(orderBy, allContents);
+            var contents = PaginationContents(ref pageNumber, ref pageSize, allContents);
+
+            if (!contents.Any())
+            {
+                ModelState.AddModelError("", "مطلبی یافت نشد!");
+            }
+            return View(contents);
+        }
+
+
+        private List<DtoListContent> OrderedContents(string orderBy, List<DtoListContent> allContents)
+        {
+            ViewData["PageOrder"] = orderBy;
+            if (orderBy == "status_Asc")
+            {
+                allContents = allContents.OrderBy(c => c.ContentStatus).ToList();
+            }
+            else if (orderBy == "status_Desc")
+            {
+                allContents = allContents.OrderByDescending(c => c.ContentStatus).ToList();
+            }
+            else if (orderBy == "title_Asc")
+            {
+                allContents = allContents.OrderBy(c => c.Title).ToList();
+            }
+            else if (orderBy == "title_Desc")
+            {
+                allContents = allContents.OrderByDescending(c => c.Title).ToList();
+            }
+            else if (orderBy == "date_Asc")
+            {
+                allContents = allContents.OrderBy(c => c.PublishDate).ToList();
+            }
+            else if (orderBy == "date_Desc")
+            {
+                allContents = allContents.OrderByDescending(c => c.PublishDate).ToList();
+            }
+            else if (orderBy == "writerName_Asc")
+            {
+                allContents = allContents.OrderBy(c => c.WriterName).ToList();
+            }
+            else if (orderBy == "writerName_Desc")
+            {
+                allContents = allContents.OrderByDescending(c => c.WriterName).ToList();
+            }
+
+            return allContents;
+        }
+
+        private List<DtoListContent> PaginationContents(ref int pageNumber, ref int pageSize, List<DtoListContent> allContents)
+        {
             if (pageNumber < 1)
             {
                 pageNumber = 1;
@@ -63,15 +116,11 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             ViewData["NumberOfPages"] = numberOfPages;
             ViewData["PageNumber"] = pageNumber;
             ViewData["PageSize"] = pageSize;
-
             var contents = allContents.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-
-            if (!contents.Any())
-            {
-                ModelState.AddModelError("", "مطلبی یافت نشد!");
-            }
-            return View(contents);
+            return contents;
         }
+
+ 
 
         public IActionResult Add()
         {

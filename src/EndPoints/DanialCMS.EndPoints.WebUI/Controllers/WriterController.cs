@@ -25,10 +25,42 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
         public IActionResult Index() => RedirectToAction(nameof(List));
 
 
-        public IActionResult List(int pageNumber = 1, int pageSize = 10)
+        public IActionResult List(int pageNumber = 1, int pageSize = 10, string orderBy = "writerName_Asc")
         {
             var allWriter = _queryDispatcher.Dispatch<List<DtoWriter>>(new AllWriterQuery());
 
+
+            allWriter = OrderedWriters(orderBy, allWriter);
+            var writers = PaginationWriters(ref pageNumber, ref pageSize, allWriter);
+
+            return View(writers);
+        }
+
+        private List<DtoWriter> OrderedWriters(string orderBy, List<DtoWriter> allWriter)
+        {
+            ViewData["PageOrder"] = orderBy;
+            if (orderBy == "count_Asc")
+            {
+                allWriter = allWriter.OrderBy(c => c.CountOfContent).ToList();
+            }
+            else if (orderBy == "count_Desc")
+            {
+                allWriter = allWriter.OrderByDescending(c => c.CountOfContent).ToList();
+            }
+            else if (orderBy == "writerName_Asc")
+            {
+                allWriter = allWriter.OrderBy(c => c.Name).ToList();
+            }
+            else if (orderBy == "writerName_Desc")
+            {
+                allWriter = allWriter.OrderByDescending(c => c.Name).ToList();
+            }
+
+            return allWriter;
+        }
+
+        private List<DtoWriter> PaginationWriters(ref int pageNumber, ref int pageSize, List<DtoWriter> allWriter)
+        {
             if (pageNumber < 1)
             {
                 pageNumber = 1;
@@ -48,11 +80,9 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             ViewData["PageSize"] = pageSize;
 
             var writers = allWriter.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-
-            return View(writers);
+            return writers;
         }
 
-       
         public IActionResult Detail(long id)
         {
             if(id == 0)

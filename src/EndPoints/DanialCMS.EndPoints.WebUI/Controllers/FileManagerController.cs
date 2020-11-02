@@ -30,11 +30,64 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
         public IActionResult Index() => RedirectToAction(nameof(List));
 
         public IActionResult List(int pageNumber = 1, int pageSize = 10, 
-            List<string> errors = null)
+            string orderBy = "name_Asc", List<string> errors = null)
         {
             AddErrosToModelState(errors);
             var allFiles = _queryDispatcher.Dispatch<List<FileManagement>>(new GetFilesQuery());
 
+            allFiles = OrderedFiles(orderBy, allFiles);
+
+
+            var files = PaginationFiles(ref pageNumber, ref pageSize, allFiles);
+
+            if (!files.Any())
+            {
+                ModelState.AddModelError("", "فایلی یافت نشد!");
+            }
+            return View(files);
+        }
+
+        private List<FileManagement> OrderedFiles(string orderBy, List<FileManagement> allFiles)
+        {
+            ViewData["PageOrder"] = orderBy;
+            if (orderBy == "name_Asc")
+            {
+                allFiles = allFiles.OrderBy(c => c.Name).ToList();
+            }
+            else if (orderBy == "name_Desc")
+            {
+                allFiles = allFiles.OrderByDescending(c => c.Name).ToList();
+            }
+            else if (orderBy == "size_Asc")
+            {
+                allFiles = allFiles.OrderBy(c => c.Size).ToList();
+            }
+            else if (orderBy == "size_Desc")
+            {
+                allFiles = allFiles.OrderByDescending(c => c.Size).ToList();
+            }
+            else if (orderBy == "date_Asc")
+            {
+                allFiles = allFiles.OrderBy(c => c.Date).ToList();
+            }
+            else if (orderBy == "date_Desc")
+            {
+                allFiles = allFiles.OrderByDescending(c => c.Date).ToList();
+            }
+            else if (orderBy == "type_Asc")
+            {
+                allFiles = allFiles.OrderBy(c => c.Type).ToList();
+            }
+            else if (orderBy == "type_Desc")
+            {
+                allFiles = allFiles.OrderByDescending(c => c.Type).ToList();
+            }
+
+            return allFiles;
+        }
+
+        private List<FileManagement> PaginationFiles(ref int pageNumber, ref int pageSize, List<FileManagement> allFiles)
+        {
             if (pageNumber < 1)
             {
                 pageNumber = 1;
@@ -54,13 +107,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             ViewData["PageSize"] = pageSize;
 
             var files = allFiles.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-
-
-            if (!files.Any())
-            {
-                ModelState.AddModelError("", "فایلی یافت نشد!");
-            }
-            return View(files);
+            return files;
         }
 
         public IActionResult Add()

@@ -4,7 +4,14 @@
     var numberOfPages = Convert.ToInt32(ViewData["NumberOfPages"]);
     var pageSize = Convert.ToInt32(ViewData["PageSize"]);
     var pageNumber = Convert.ToInt16(ViewData["PageNumber"]);
-    var pageSizeList = new List<int>(){ 10, 15, 25, 50, 150 };
+    var pageOrder = ViewData["PageOrder"].ToString();
+    var pageSizeList = new List<int>() { 10, 15, 25, 50, 150 };
+    var fileOrderDic = new Dictionary<string, string>() { 
+        {"name_Asc","نام - صعودی"}, {"name_Desc","نام - نزولی"},
+        {"size_Asc","اندازه - صعودی" }, {"size_Desc","اندازه - نزولی" },
+        {"date_Asc","تاریخ - صعودی" }, {"date_Desc","تاریخ - نزولی" }, 
+        {"type_Asc","نوع فایل - صعودی" }, 
+        {"type_Desc","نوع فایل - نزولی" }};
 }
 
 
@@ -28,49 +35,60 @@
 
             @if (Model.Any())
             {
-
-
                 <div class="row mb-3 justify-content-end">
                     <div class="chart-info-right">
                         <div class="rs-select2--dark rs-select2--sm">
                             <select type="submit" class="js-select2 au-select-dark"
                                     id="pageSizeSelect">
-
-
+                                @if (!pageSizeList.Contains(pageSize))
+                                {
+                                    <option value="?pageNumber=@pageNumber&pageSize=@pageSize&orderBy=@pageOrder"
+                                            selected="selected">
+                                        @pageSize
+                                    </option>
+                                }
                                 @foreach (var item in pageSizeList)
                                 {
                                     if (pageSize == item)
                                     {
-                                        <option value="?pageNumber=@pageNumber&pageSize=@item"
+                                        <option value="?pageNumber=@pageNumber&pageSize=@item&orderBy=@pageOrder"
                                                 selected="selected">
                                             @item
                                         </option>
                                     }
                                     else
                                     {
-                                        <option value="?pageNumber=@pageNumber&pageSize=@item">
+                                        <option value="?pageNumber=@pageNumber&pageSize=@item&orderBy=@pageOrder">
                                             @item
                                         </option>
-
                                     }
-
                                 }
                             </select>
                             <div class="dropDownSelect2"></div>
                         </div>
-                        <div class="rs-select2--dark rs-select2--sm">
-                            <select class="js-select2 au-select-dark" name="time">
-                                <option selected="selected">All Time</option>
-                                <option value="">By Month</option>
-                                <option value="">By Day</option>
+                        <div class="rs-select2--dark rs-select2--sm" style="width:11rem;">
+                            <select class="js-select2 au-select-dark" id="fileOrderSelect">
+                                @foreach (var item in fileOrderDic)
+                                {
+                                    if (pageOrder == item.Key)
+                                    {
+                                        <option value="?pageNumber=@pageNumber&pageSize=@pageSize&orderBy=@item.Key"
+                                                selected="selected">
+                                            @item.Value
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="?pageNumber=@pageNumber&pageSize=@pageSize&orderBy=@item.Key">
+                                            @item.Value
+                                        </option>
+                                    }
+                                }
                             </select>
                             <div class="dropDownSelect2"></div>
                         </div>
                     </div>
                 </div>
-
-
-
 
                 <div class="row">
                     <div class="table-responsive table-responsive-data2">
@@ -143,6 +161,7 @@
                         </table>
                     </div>
                 </div>
+
                 <div class="row justify-content-center mt-1">
                     <div>
                         @if (numberOfPages < 11)
@@ -151,17 +170,17 @@
                             {
                                 if (pageNumber == i)
                                 {
-                                    <a class="btn btn-dark" asp-controller="Content"
+                                    <a class="btn btn-dark" asp-controller="FileManager"
                                        asp-action="List" asp-route-pageNumber="@i"
-                                       asp-route-pageSize="@pageSize">
+                                       asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                         @i
                                     </a>
                                 }
                                 else
                                 {
-                                    <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                    <a class="btn btn-dark btn-sm" asp-controller="FileManager"
                                        asp-action="List" asp-route-pageNumber="@i"
-                                       asp-route-pageSize="@pageSize">
+                                       asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                         @i
                                     </a>
                                 }
@@ -173,17 +192,17 @@
                             {
                                 if (pageNumber == i)
                                 {
-                                    <a class="btn btn-dark" asp-controller="Content"
+                                    <a class="btn btn-dark" asp-controller="FileManager"
                                        asp-action="List" asp-route-pageNumber="@i"
-                                       asp-route-pageSize="@pageSize">
+                                       asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                         @i
                                     </a>
                                 }
                                 else
                                 {
-                                    <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                    <a class="btn btn-dark btn-sm" asp-controller="FileManager"
                                        asp-action="List" asp-route-pageNumber="@i"
-                                       asp-route-pageSize="@pageSize">
+                                       asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                         @i
                                     </a>
                                 }
@@ -195,17 +214,17 @@
                                 {
                                     if (pageNumber == i)
                                     {
-                                        <a class="btn btn-dark" asp-controller="Content"
+                                        <a class="btn btn-dark" asp-controller="FileManager"
                                            asp-action="List" asp-route-pageNumber="@i"
-                                           asp-route-pageSize="@pageSize">
+                                           asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                             @i
                                         </a>
                                     }
                                     else
                                     {
-                                        <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                        <a class="btn btn-dark btn-sm" asp-controller="FileManager"
                                            asp-action="List" asp-route-pageNumber="@i"
-                                           asp-route-pageSize="@pageSize">
+                                           asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                             @i
                                         </a>
                                     }
@@ -225,17 +244,17 @@
                                     }
                                     if (pageNumber == i)
                                     {
-                                        <a class="btn btn-dark" asp-controller="Content"
+                                        <a class="btn btn-dark" asp-controller="FileManager"
                                            asp-action="List" asp-route-pageNumber="@i"
-                                           asp-route-pageSize="@pageSize">
+                                           asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                             @i
                                         </a>
                                     }
                                     else
                                     {
-                                        <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                        <a class="btn btn-dark btn-sm" asp-controller="FileManager"
                                            asp-action="List" asp-route-pageNumber="@i"
-                                           asp-route-pageSize="@pageSize">
+                                           asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                             @i
                                         </a>
                                     }
@@ -256,17 +275,17 @@
                                 {
                                     if (pageNumber == i)
                                     {
-                                        <a class="btn btn-dark" asp-controller="Content"
+                                        <a class="btn btn-dark" asp-controller="FileManager"
                                            asp-action="List" asp-route-pageNumber="@i"
-                                           asp-route-pageSize="@pageSize">
+                                           asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                             @i
                                         </a>
                                     }
                                     else
                                     {
-                                        <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                        <a class="btn btn-dark btn-sm" asp-controller="FileManager"
                                            asp-action="List" asp-route-pageNumber="@i"
-                                           asp-route-pageSize="@pageSize">
+                                           asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                             @i
                                         </a>
                                     }
@@ -277,17 +296,17 @@
                             {
                                 if (pageNumber == i)
                                 {
-                                    <a class="btn btn-dark" asp-controller="Content"
+                                    <a class="btn btn-dark" asp-controller="FileManager"
                                        asp-action="List" asp-route-pageNumber="@i"
-                                       asp-route-pageSize="@pageSize">
+                                       asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                         @i
                                     </a>
                                 }
                                 else
                                 {
-                                    <a class="btn btn-dark btn-sm" asp-controller="Content"
+                                    <a class="btn btn-dark btn-sm" asp-controller="FileManager"
                                        asp-action="List" asp-route-pageNumber="@i"
-                                       asp-route-pageSize="@pageSize">
+                                       asp-route-pageSize="@pageSize" asp-route-orderBy="@pageOrder">
                                         @i
                                     </a>
                                 }
@@ -296,6 +315,7 @@
                         }
                     </div>
                 </div>
+            
             }
         </div>
     </div>
@@ -316,6 +336,10 @@
             }
             
             $("#pageSizeSelect").change(function () {
+                var linke = $('option:selected', this).attr('value');
+                location.href = linke ;
+            });
+            $("#fileOrderSelect").change(function () {
                 var linke = $('option:selected', this).attr('value');
                 location.href = linke ;
             });
