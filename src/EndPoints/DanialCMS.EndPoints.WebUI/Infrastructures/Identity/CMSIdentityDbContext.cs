@@ -13,6 +13,14 @@ namespace DanialCMS.EndPoints.WebUI.Infrastructures.Identity
         {
             base.OnConfiguring(optionsBuilder);
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.ApplyConfiguration(new UserConfig());
+            
+        }
+
     }
 
 }
