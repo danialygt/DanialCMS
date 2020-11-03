@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DanialCMS.Core.Domain.Categories.Queries;
 using DanialCMS.Core.Domain.Categories.Repositories;
 using DanialCMS.Core.Domain.PublishPlaces.Entities;
+using DanialCMS.EndPoints.WebUI.Models.Keyword;
 using DanialCMS.Framework.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -81,6 +82,12 @@ namespace DanialCMS.EndPoints.WebUI.Models.Content
         public List<Core.Domain.Categories.Entities.Category> AllCategories { get; set; }
         public List<Core.Domain.Keywords.Entities.Keyword> AllKeywords { get; set; }
         public List<PublishPlace> AllPublishPlaces { get; set; }
+
+
+
+
+        public AddKeywordViewModel AddKeywordViewModel { get; set; } =
+            new AddKeywordViewModel();
 
 
 

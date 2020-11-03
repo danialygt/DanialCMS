@@ -41,7 +41,7 @@ namespace DanialCMS.Core.ApplicationService.Keywords.Commands
                 isValid = false;
                 AddError("نام را وارد کنید");
             }
-            if (command.Name.Length > 50)
+            if (command.Name?.Length > 50)
             {
                 isValid = false;
                 AddError("طول نباید بیشتر از 50 کاراکتر باشد");

@@ -10,7 +10,8 @@ using DanialCMS.Framework.Commands;
 using DanialCMS.Framework.Queries;
 using DanialCMS.Framework.Web;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace DanialCMS.EndPoints.WebUI.Controllers
 {
@@ -33,6 +34,17 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
                 ModelState.AddModelError("", "کلید واژه یافت نشد!");
             }
             return View(keywords);
+        }
+        public string GetKeywords()
+        {
+            var Keywords = _queryDispatcher.Dispatch<List<Keyword>>(new GetKeywordsQuery());
+            var result =
+            Keywords.Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            }).ToList();
+            return JsonConvert.SerializeObject(result);
         }
 
         public IActionResult Add()
@@ -59,6 +71,13 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
                 }
             }
             return View();
+        }
+        
+        [HttpPost]
+        public string AddKeyword(AddKeywordViewModel model)
+        {
+            var result = _commandDispatcher.Dispatch(new AddKeywordCommand() { Name = model.Name });
+            return JsonConvert.SerializeObject(result);
         }
 
         [HttpPost]

@@ -36,6 +36,13 @@
 }
 
 
+
+
+
+
+
+
+
 <div class="row d-flex justify-content-center">
     <form method="post" id="formContent" asp-controller="Content" asp-action="Add" class="w-100 d-flex">
         <div class="col-9 card">
@@ -115,23 +122,18 @@
 
                     <div class="form-group">
                         <label asp-for="@Model.KeywordsId" class="form-control-label"></label>
-                        <a class="btn btn-warning float-left" style="padding: 0 10px;line-height: 30px;font-size: 14px;"
-                           asp-controller="Keyword" asp-action="Add" target="_blank">
+
+                        <button type="button" class="btn btn-warning btn-sm float-left" data-toggle="modal" data-target="#addKeywordModal">
                             <i class="zmdi zmdi-plus"> افزودن </i>
-                        </a>
+                        </button>
+
                         <br />
                         <div class="rs-select2--dark rs-select2--md m-l-10 w-100">
-                            @if (KeywordList == null)
-                            {
-                                <select class="js-select2 w-100" disabled>
-                                </select>
-                            }
-                            else
-                            {
-                                <select class="js-select2" asp-items="@KeywordList"
-                                        asp-for="@Model.KeywordsId" multiple="multiple">
-                                </select>
-                            }
+                            
+                            <select id="selectKeyword" class="js-select2" asp-items="@KeywordList"
+                                    asp-for="@Model.KeywordsId" multiple="multiple">
+                            </select>
+                            
                             <div class="dropDownSelect2"></div>
                         </div>
                     </div>
@@ -161,6 +163,69 @@
 
     </form>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section Modals
+{
+
+    <div class="modal fade" id="addKeywordModal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+
+            <form method="post" asp-controller="Keyword" asp-action="AddKeyword" id="keywordForm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <i class="fas fa-tag mx-1"></i>
+                        <small>افزودن</small>
+                        <strong class="card-title pr-2 modal-title">کلید واژه</strong>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label asp-for="@Model.AddKeywordViewModel.Name" class="form-control-label"></label>
+                            <input type="text" name="name" asp-for="@Model.AddKeywordViewModel.Name" class="form-control" required maxlength="50" autofocus>
+                        </div>
+
+                        <div class="form-group">
+                            <div id="divSummaryKeyword" asp-validation-summary="All" class="text-danger mr-3"></div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closeKeywordForm" class="btn btn-dark btn-sm" data-dismiss="modal">انصراف</button>
+                        <button type="button" id="sendKeywordForm" class="btn btn-warning btn-sm px-3" value="افزودن">افزودن</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+}
+
+
+
+
+
+
 
 
 
@@ -207,7 +272,7 @@
 
 
     <script>
-        (function () {
+        $(function () {
             var editor = new FroalaEditor("#edit", {
                 theme: 'dark',
                 language: 'fa',
@@ -219,7 +284,8 @@
                 direction: 'rtl',
                 fullPage: true,
 
-            }, function () {
+            },
+                function () {
                 editor.html.set($("#hiddenBody").text());
             });
 
@@ -227,6 +293,54 @@
                 $("#formValue").val(editor.html.get());
                 $("#formContent").submit();
             });
+
+            $("button[data-dismiss=modal]").click(function () {
+                $("#divSummaryKeyword").html("");
+                $("input[name=name]").val("");
+            });
+
+            $("#sendKeywordForm").click(function () {
+                var formData = {
+                    'Name' : $('input[name=name]').val(),
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: $("#keywordForm").attr('action'),
+                    data: formData,
+                    encode: true
+                }).done(function (data) {
+                    data = JSON.parse(data);
+                    if (data["IsSuccess"] == true) {
+                        $("#closeKeywordForm").click();
+                        $.ajax({
+                            type: 'GET',
+                            url: '/Keyword/GetKeywords',
+                            encode: true
+                        }).done(function (data) {
+                            data = JSON.parse(data);
+                            $('#selectKeyword').val(null).trigger('change');
+                            for (var i = 0; i < data.length; i++) {
+                                if ($('#selectKeyword').find("option[value='" + data[i]["Value"] + "']").length) {
+                                    continue;
+                                } else {
+                                    var newOption = new Option(data[i]["Text"], data[i]["Value"], false, false);
+                                    $('#selectKeyword').append(newOption).trigger('change');
+                                }
+                            }
+                        });      
+                    }
+                    else {
+                        var result = "";
+                        for (var i = 0; i < data["Errors"].length; i++) {
+                            result += '<li>' + data["Errors"][i] + '</li>';
+                        }
+                        $("#divSummaryKeyword").html(result);
+                    }
+                });
+            });
+
+
 
         })();
     </script>
