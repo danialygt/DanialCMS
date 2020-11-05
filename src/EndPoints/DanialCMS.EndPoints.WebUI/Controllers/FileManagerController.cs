@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DanialCMS.Core.Domain.FileManagements.Commands;
+﻿using DanialCMS.Core.Domain.FileManagements.Commands;
+using DanialCMS.Core.Domain.FileManagements.Dtos;
 using DanialCMS.Core.Domain.FileManagements.Entities;
 using DanialCMS.Core.Domain.FileManagements.Queries;
 using DanialCMS.EndPoints.WebUI.Infrastructures;
@@ -11,8 +8,10 @@ using DanialCMS.Framework.Commands;
 using DanialCMS.Framework.Queries;
 using DanialCMS.Framework.Web;
 using Microsoft.AspNetCore.Mvc;
-
-
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DanialCMS.EndPoints.WebUI.Controllers
 {
@@ -29,7 +28,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
 
         public IActionResult Index() => RedirectToAction(nameof(List));
 
-        public IActionResult List(int pageNumber = 1, int pageSize = 10, 
+        public IActionResult List(int pageNumber = 1, int pageSize = 10,
             string orderBy = "name_Asc", List<string> errors = null)
         {
             AddErrosToModelState(errors);
@@ -46,6 +45,13 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             }
             return View(files);
         }
+
+        public string GetPhotos()
+        {
+            var result = _queryDispatcher.Dispatch<List<DtoPhotoList>>(new GetPhotosQuery());
+            return JsonConvert.SerializeObject(result);
+        }
+
 
         private List<FileManagement> OrderedFiles(string orderBy, List<FileManagement> allFiles)
         {
@@ -158,7 +164,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             }
             return View();
         }
-
+        
         [HttpPost]
         public IActionResult Remove(RemoveViewModel model)
         {
@@ -172,11 +178,11 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
                 AddCommadErrorsToModelState(result);
             }
             return RedirectToAction(nameof(List), new
-                { errors = GetErrosFromModelState() });
+            { errors = GetErrosFromModelState() });
         }
 
         public IActionResult Update(long id)
-        { 
+        {
             var file = _queryDispatcher.Dispatch<FileManagement>(new GetFileQuery() { Id = id });
             if (file != null)
             {
@@ -187,9 +193,9 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
         [HttpPost]
         public IActionResult Update(RenameFileViewModel model)
         {
-            var result = _commandDispatcher.Dispatch(new RenameFileCommand() 
-            { 
-                Id = model.Id, 
+            var result = _commandDispatcher.Dispatch(new RenameFileCommand()
+            {
+                Id = model.Id,
                 Name = model.Name
             });
             if (result.IsSuccess)
@@ -204,7 +210,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             {
                 ModelState.AddModelError("", item);
             }
-            return View(model);    
+            return View(model);
         }
 
 

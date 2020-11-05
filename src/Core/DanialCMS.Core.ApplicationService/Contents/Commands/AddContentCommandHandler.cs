@@ -32,21 +32,6 @@ namespace DanialCMS.Core.ApplicationService.Contents.Commands
         {
             if (IsValid(command))
             {
-                long? dtoPhotoId = null;
-                dtoPhotoId = 1;
-
-                // inja photo bayad add beshe
-                
-                
-                //dtoPhotoId =  _fileManagementCommandRepository.Add(new FileManagement()
-                //{
-                //    Name = command.dtoPhoto.FileName,
-                //    Size = command.dtoPhoto.FileSize,
-                //    Type = command.dtoPhoto.FileType,
-                //    Url = command.dtoPhoto.FileUrl,
-                //    Date = DateTime.Now
-                //});
-
                 var contentId = _contentCommandRepository.Add(new Content()
                 {
                     CategoryId = command.CategoryId,
@@ -56,7 +41,7 @@ namespace DanialCMS.Core.ApplicationService.Contents.Commands
                     Title = command.Title,
                     PublishDate = command.PublishDate,
                     WriterId = command.WriterId,
-                    PhotoId = dtoPhotoId,
+                    PhotoId = command.PhotoId,
                     Rate = command.Rate,
                 });
 
@@ -88,11 +73,6 @@ namespace DanialCMS.Core.ApplicationService.Contents.Commands
         {
             bool isValid = true;
 
-            if (command.dtoPhoto == null) 
-            {
-                isValid = false;
-                AddError("عکس را اضافه کنید");
-            }
             if (command.PublishPlacesId == null)
             {
                 isValid = false;

@@ -68,6 +68,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using System.Net;
+using Microsoft.AspNetCore.Authorization;
+using DanialCMS.Core.Domain.FileManagements.Dtos;
 
 namespace DanialCMS.EndPoints.WebUI
 {
@@ -87,8 +92,7 @@ namespace DanialCMS.EndPoints.WebUI
         public void ConfigureServices(IServiceCollection services)
         {
 
-
-
+            #region Aplication Services
             /*  Add Aplication Services  */
             services.AddTransient<CommandDispatcher>();
             services.AddTransient<QueryDispatcher>();
@@ -98,13 +102,16 @@ namespace DanialCMS.EndPoints.WebUI
             services.AddTransient<IQueryHandler<AllWriterQuery, List<DtoWriter>>, AllWriterQueryHandler>();
             services.AddTransient<IQueryHandler<WriterDetailQuery, DtoWriterDetail>, WriterDetailQueryHandler>();
             services.AddTransient<IQueryHandler<WriterUpdateQuery, DtoUpdateWriter>, WriterUpdateQueryHandler>();
-
+            services.AddTransient<IQueryHandler<GetWriterIdQuery, long>, GetWriterIdQueryHandler>();
+        
             /**/    /* FileManagment */
             services.AddTransient<CommandHandler<AddFileCommand>, AddFileCommandHandler>();
             services.AddTransient<CommandHandler<RemoveFileCommand>, RemoveFileCommandHandler>();
             services.AddTransient<CommandHandler<RenameFileCommand>, RenameFileCommandHandler>();
             services.AddTransient<IQueryHandler<GetFilesQuery, List<FileManagement>>, GetFilesQueryHandler>();
             services.AddTransient<IQueryHandler<GetFileQuery, FileManagement>, GetFileQueryHandler>();
+            services.AddTransient<IQueryHandler<GetPhotosQuery, List<DtoPhotoList>>, GetPhotosQueryHandler>();
+            
             /**/    /* Category */
             services.AddTransient<CommandHandler<AddCategoryCommand>, AddCategoryCommandHandler>();
             services.AddTransient<CommandHandler<UpdateCategoryCommand>, UpdateCategoryCommandHandler>();
@@ -137,9 +144,9 @@ namespace DanialCMS.EndPoints.WebUI
 
 
 
+            #endregion
 
-
-
+            # region ContentDBServices
 
             /* Add Content DB Services  */
             services.AddDbContextPool<ContentDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("ContentDbConnection")));
@@ -163,6 +170,9 @@ namespace DanialCMS.EndPoints.WebUI
             services.AddTransient<IContentKeywordsQueryRepository, ContentKeywordsQueryRepository>();
             services.AddTransient<IContentPlacesQueryRepository, ContentPlacesQueryRepository>();
 
+            #endregion
+
+            #region AnalysisDBServices
 
             /* Add Analysis DB Services */
             services.AddDbContextPool<AnalysisDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("AnalysisDbConnection")));
@@ -172,7 +182,7 @@ namespace DanialCMS.EndPoints.WebUI
             /**/    /* getInformation */
             services.AddTransient<CommandHandler<AddRecordCommand>, AddRecordCommandHandler>();
             services.AddTransient<IQueryHandler<GetViewsOnDateQuery, int>, GetViewsOnDateQueryHandler>();
-
+            #endregion
 
 
             /* Add Identity DB Services */
@@ -187,8 +197,7 @@ namespace DanialCMS.EndPoints.WebUI
                     AllowedForNewUsers = false,
                     MaxFailedAccessAttempts = 5,
                 };
-            })
-                .AddEntityFrameworkStores<CMSIdentityDbContext>()
+            }).AddEntityFrameworkStores<CMSIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
@@ -198,12 +207,37 @@ namespace DanialCMS.EndPoints.WebUI
 
             services.AddTransient<IPasswordValidator<User>, CustomPasswordValidator>();
 
-            
 
+            #region Email Services
             /* Email Services */
             services.AddSingleton<IEmailConfiguration>(
                 Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
             services.AddTransient<IEmailService, EmailService>();
+            #endregion
+
+
+
+
+            services.AddTransient<IAuthorizationHandler, ContentAuthorizationHandler>();
+            //services.AddSingleton<IClaimsTransformation, LocationClaimProvider>();
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("WriterAndEditors", policy =>
+                {
+                    policy.AddRequirements(new ContentAuthorizationRequirement
+                    {
+                        AllowWriter = true,
+                        AllowEditors = true
+                    });
+                });
+
+                
+
+            });
+
+
+
+
 
 
 

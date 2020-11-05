@@ -14,7 +14,7 @@ namespace DanialCMS.Core.Domain.Contents.Commands
         public string Body { get; set; }
         public string Description { get; set; }
         public int? Rate { get; set; }
-        public DtoFile dtoPhoto { get; set; }
+        public long? PhotoId { get; set; }
         public ContentStatus ContentStatus { get; set; } = ContentStatus.Waiting;
         public DateTime PublishDate { get; set; }
 

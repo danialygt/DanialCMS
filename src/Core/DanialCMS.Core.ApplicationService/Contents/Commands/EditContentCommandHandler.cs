@@ -55,10 +55,9 @@ namespace DanialCMS.Core.ApplicationService.Contents.Commands
                     Rate = command.Rate,
                     PublishDate = command.PublishDate,
                     CategoryId = command.CategoryId,
+                    PhotoId = command.PhotoId,
                 });
 
-
-                // inja tasvire ham bayad update beshe!
 
                 return Ok();
             }
@@ -141,11 +140,7 @@ namespace DanialCMS.Core.ApplicationService.Contents.Commands
         {
             bool isValid = true;
 
-            //if (command.dtoPhoto == null)
-            //{
-            //    isValid = false;
-            //    AddError("عکس را اضافه کنید");
-            //}
+            
             if (command.publishPlacesId == null)
             {
                 isValid = false;

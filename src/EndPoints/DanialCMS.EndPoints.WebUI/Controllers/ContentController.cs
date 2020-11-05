@@ -4,11 +4,15 @@ using DanialCMS.Core.Domain.Contents.Commands;
 using DanialCMS.Core.Domain.Contents.Dtos;
 using DanialCMS.Core.Domain.Contents.Entities;
 using DanialCMS.Core.Domain.Contents.Queries;
+using DanialCMS.Core.Domain.FileManagements.Dtos;
+using DanialCMS.Core.Domain.FileManagements.Entities;
+using DanialCMS.Core.Domain.FileManagements.Queries;
 using DanialCMS.Core.Domain.Keywords.Entities;
 using DanialCMS.Core.Domain.Keywords.Queries;
 using DanialCMS.Core.Domain.PublishPlaces.Entities;
 using DanialCMS.Core.Domain.PublishPlaces.Queries;
 using DanialCMS.Core.Domain.Writers.Queries;
+using DanialCMS.EndPoints.WebUI.Infrastructures;
 using DanialCMS.EndPoints.WebUI.Models.Content;
 using DanialCMS.Framework.Commands;
 using DanialCMS.Framework.Queries;
@@ -129,24 +133,16 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             model.AllCategories = _queryDispatcher.Dispatch<List<Category>>(new GetCategoriesQuery());
             model.AllKeywords = _queryDispatcher.Dispatch<List<Keyword>>(new GetKeywordsQuery());
             model.AllPublishPlaces = _queryDispatcher.Dispatch<List<PublishPlace>>(new GetPlacesQuery());
+            model.AllPhotos = _queryDispatcher.Dispatch<List<DtoPhotoList>>(new GetPhotosQuery());
 
             return View(model);
         }
-        // tasvire file bayad neshon dade beshe to view add!
 
         [HttpPost]
         public IActionResult Add(AddContentViewModel model)
         {
             if (ModelState.IsValid)
             {
-                // inja bayad photo az user gerefte beshe
-
-
-
-                // writer id inja bayad por beshe! 
-                model.WriterId = _queryDispatcher.Dispatch<long>(new GetWriterIdQuery()
-                { WriterName = User.Identity.Name });
-
                 var result = _commandDispatcher.Dispatch(new AddContentCommand()
                 {
                     Description = model.Description,
@@ -154,11 +150,12 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
                     Body = model.Body,
                     CategoryId = model.CategoryId,
                     PublishDate = model.PublishDate,
-                    WriterId = model.WriterId,
+                    WriterId = _queryDispatcher.Dispatch<long>(new GetWriterIdQuery()
+                         { WriterName = User.Identity.Name }),
                     Rate = model.Rate,
                     PublishPlacesId = model.PublishPlacesId,
                     KeywordsId = model.KeywordsId,
-                    dtoPhoto = new Core.Domain.FileManagements.Dtos.DtoFile() // inja bayad avaz beshe
+                    PhotoId = model.ContentPhotoId,
                 });
 
                 if (result.IsSuccess)
@@ -207,7 +204,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
                 viewModel.AllCategories = _queryDispatcher.Dispatch<List<Category>>(new GetCategoriesQuery());
                 viewModel.AllKeywords = _queryDispatcher.Dispatch<List<Keyword>>(new GetKeywordsQuery());
                 viewModel.AllPublishPlaces = _queryDispatcher.Dispatch<List<PublishPlace>>(new GetPlacesQuery());
-
+                viewModel.AllPhotos = _queryDispatcher.Dispatch<List<DtoPhotoList>>(new GetPhotosQuery());
 
                 return View(viewModel);
             }
@@ -218,8 +215,6 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
 
         }
 
-
-        // tasvire file bayad neshon dade beshe to view update!
 
 
         [HttpPost]
@@ -242,6 +237,7 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
                         Rate = model.Rate,
                         PublishDate = model.PublishDate,
                         Id = model.Id,
+                        PhotoId = model.PhotoId,
 
                         CategoryId = model.CategoryId,
                         KeywordsId = model.KeywordsId,
@@ -274,28 +270,21 @@ namespace DanialCMS.EndPoints.WebUI.Controllers
             {
                 return View(model);
             }
+           
+            viewModel.Title = model.Title;
+            viewModel.Description = model.Description;
+            viewModel.Body = model.Body;
+            viewModel.Rate = model.Rate;
+            viewModel.PublishDate = model.PublishDate;
+            viewModel.Comments = model.Comments;
+            viewModel.CategoryName = model.Category.Name;
+            viewModel.KeywordsName = model.Keywords.Select(c => c.Name).ToList();
+            viewModel.publishPlacesName = model.PublishPlaces.Select(c => c.Name).ToList();
+            viewModel.WriterName = model.Writer.Name;
+            viewModel.PhotoUrl = _queryDispatcher.Dispatch<FileManagement>(new GetFileQuery { Id = model.PhotoId })?.Url;
 
-            var authResult = await _authorizationService.AuthorizeAsync(User, model
-                , "WriterAndEditors");
-            if (authResult.Succeeded)
-            {
-                viewModel.Title = model.Title;
-                viewModel.Description = model.Description;
-                viewModel.Body = model.Body;
-                viewModel.Rate = model.Rate;
-                viewModel.PublishDate = model.PublishDate;
-                viewModel.Comments = model.Comments;
-                viewModel.CategoryName = model.Category.Name;
-                viewModel.KeywordsName = model.Keywords.Select(c => c.Name).ToList();
-                viewModel.publishPlacesName = model.PublishPlaces.Select(c => c.Name).ToList();
-                viewModel.WriterName = model.Writer.Name;
-
-                return View(viewModel);
-            }
-            else
-            {
-                return RedirectToAction("AccessDenied", "Account");
-            }
+            return View(viewModel);
+            
         }
 
 

@@ -6,6 +6,7 @@
     var placeList = Model.GetPublishPlacesListItems();
     var KeywordList = Model.GetKeywordsListItems();
     var categoryList = Model.GetCategoriesListItems();
+    var keywordModel = new AddKeywordViewModel();
 
 }
 
@@ -53,15 +54,39 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="row col-9">
-                        <div class="form-group w-100">
-                            <label asp-for="@Model.Title" class="form-control-label"></label>
-                            <input type="text" asp-for="@Model.Title" value="@Model.Title" class="form-control" required maxlength="100">
+                    <div class="row justify-content-between ">
+                        <div class="col-7">
+                            <div class="form-group w-100">
+                                <label asp-for="@Model.Title" class="form-control-label"></label>
+                                <input type="text" asp-for="@Model.Title" value="@Model.Title" class="form-control" required maxlength="100">
+                            </div>
+                            <br />
+                            <div class="form-group w-100">
+                                <label asp-for="@Model.Description" class="form-control-label"></label>
+                                <textarea asp-for="@Model.Description" class="form-control" required maxlength="500">@Model.Description</textarea>
+                            </div>
                         </div>
-                        <br />
-                        <div class="form-group w-100">
-                            <label asp-for="@Model.Description" class="form-control-label"></label>
-                            <textarea asp-for="@Model.Description" class="form-control" required maxlength="500">@Model.Description</textarea>
+                        <div class="col-4">
+                            <div class="row justify-content-between">
+                                <label>عکس</label>
+                                <a class="btn btn-warning btn-sm float-left" asp-controller="FileManager" asp-action="Add" target="_blank">
+                                    <i class="zmdi zmdi-plus"> افزودن </i>
+                                </a>
+                            </div>
+                            <div class="row w-100 h-75 border-dark mx-auto my-3">
+                                <select id="photosSelect" class="w-100" asp-for="@Model.PhotoId">
+                                    <option value="">عکس را انتخاب کنید</option>
+                                    @if (Model.AllPhotos.Any())
+                                    {
+                                        @foreach (var item in Model.AllPhotos)
+                                        {
+                                            <option value="@item.Id" data-img_src="@item.Url">
+                                                @item.Name
+                                            </option>
+                                        }
+                                    }
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -97,10 +122,6 @@
 
                         <div class="form-group">
                             <label asp-for="@Model.CategoryId" class="form-control-label"></label>
-                            <a class="btn btn-warning float-left" style="padding: 0 10px;line-height: 30px;font-size: 14px;"
-                               asp-controller="Category" asp-action="Add" target="_blank">
-                                <i class="zmdi zmdi-plus"> افزودن </i>
-                            </a>
                             <br />
                             <div class="rs-select2--dark rs-select2--md m-l-10 w-100">
                                 @if (categoryList == null)
@@ -120,23 +141,17 @@
 
                         <div class="form-group">
                             <label asp-for="@Model.KeywordsId" class="form-control-label"></label>
-                            <a class="btn btn-warning float-left" style="padding: 0 10px;line-height: 30px;font-size: 14px;"
-                               asp-controller="Keyword" asp-action="Add" target="_blank">
+                            <button type="button" class="btn btn-warning btn-sm float-left" data-toggle="modal" data-target="#addKeywordModal">
                                 <i class="zmdi zmdi-plus"> افزودن </i>
-                            </a>
+                            </button>
+
                             <br />
                             <div class="rs-select2--dark rs-select2--md m-l-10 w-100">
-                                @if (KeywordList == null)
-                                {
-                                    <select class="js-select2 w-100" disabled>
-                                    </select>
-                                }
-                                else
-                                {
-                                    <select class="js-select2" asp-items="@KeywordList"
-                                            asp-for="@Model.KeywordsId" multiple="multiple">
-                                    </select>
-                                }
+
+                                <select id="selectKeyword" class="js-select2" asp-items="@KeywordList"
+                                        asp-for="@Model.KeywordsId" multiple="multiple">
+                                </select>
+
                                 <div class="dropDownSelect2"></div>
                             </div>
                         </div>
@@ -178,6 +193,47 @@ else
 }
 
 
+
+@section Modals
+{
+
+    <div class="modal fade" id="addKeywordModal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+
+            <form method="post" asp-controller="Keyword" asp-action="AddKeyword" id="keywordForm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <i class="fas fa-tag mx-1"></i>
+                        <small>افزودن</small>
+                        <strong class="card-title pr-2 modal-title">کلید واژه</strong>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label asp-for="@keywordModel.Name" class="form-control-label"></label>
+                            <input type="text" name="name" asp-for="@keywordModel.Name" class="form-control" required maxlength="50" autofocus>
+                        </div>
+
+                        <div class="form-group">
+                            <div id="divSummaryKeyword" asp-validation-summary="All" class="text-danger mr-3"></div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closeKeywordForm" class="btn btn-dark btn-sm" data-dismiss="modal">انصراف</button>
+                        <button type="button" id="sendKeywordForm" class="btn btn-warning btn-sm px-3" value="افزودن">افزودن</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+}
+
+
 <div id="hiddenBody" class="d-none">@Model.Body</div>
 
 
@@ -214,8 +270,6 @@ else
     <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/quick_insert.min.js"></script>
     <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/quote.min.js"></script>
     <script type="text/javascript" src="~/vendor/select2/select2.min.js"></script>
-    <script type="text/javascript" src="~/vendor/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="~/js/main.js"></script>
 
 
     <script>
@@ -236,12 +290,81 @@ else
                 editor.html.set($("#hiddenBody").text());
             });
 
+            function custom_template(obj){
+                var data = $(obj.element).data();
+                var text = $(obj.element).text();
+                if(data && data['img_src']){
+                    img_src = data['img_src'];
+                    template = $("<div><img src=\"" + img_src + "\" class=\"w-100 pt-2\" style=\"height:150px;\"/><p style=\"font-weight: 700;font-size:14pt;text-align:center;color:#ffc107;\">" + text + "</p></div>");
+                    return template;
+                }
+            }
+            var options = {
+                'templateSelection': custom_template,
+                'templateResult': custom_template,
+            }
+            $('#photosSelect').select2(options);
+            $('#photosSelect').siblings('span').children('.selection').children('.select2-container--default .select2-selection--single').addClass("h-100");
 
-        
+
+
+
+
             $("#sendContent").click(function () {
                 $("#formValue").val(editor.html.get());
                 $("#formContent").submit();
             });
+
+            
+            $("button[data-dismiss=modal]").click(function () {
+                $("#divSummaryKeyword").html("");
+                $("input[name=name]").val("");
+            });
+
+            $("#sendKeywordForm").click(function () {
+                var formData = {
+                    'Name': $('input[name=name]').val(),
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: $("#keywordForm").attr('action'),
+                    data: formData,
+                    encode: true
+                }).done(function (data) {
+                    data = JSON.parse(data);
+                    if (data["IsSuccess"] == true) {
+                        $("#closeKeywordForm").click();
+                        $.ajax({
+                            type: 'GET',
+                            url: '/Keyword/GetKeywords',
+                            encode: true
+                        }).done(function (data) {
+                            data = JSON.parse(data);
+                            $('#selectKeyword').val(null).trigger('change');
+                            for (var i = 0; i < data.length; i++) {
+                                if ($('#selectKeyword').find("option[value='" + data[i]["Value"] + "']").length) {
+                                    continue;
+                                } else {
+                                    var newOption = new Option(data[i]["Text"], data[i]["Value"], false, false);
+                                    $('#selectKeyword').append(newOption).trigger('change');
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        var result = "";
+                        for (var i = 0; i < data["Errors"].length; i++) {
+                            result += '<li>' + data["Errors"][i] + '</li>';
+                        }
+                        $("#divSummaryKeyword").html(result);
+                    }
+                });
+            });
+
+
+
+
 
         })();
     </script>
@@ -249,6 +372,6 @@ else
 
 
 
-   
+
 
 }

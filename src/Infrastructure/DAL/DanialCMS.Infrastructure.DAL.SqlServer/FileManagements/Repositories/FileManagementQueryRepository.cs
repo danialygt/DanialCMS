@@ -1,4 +1,5 @@
-﻿using DanialCMS.Core.Domain.FileManagements.Entities;
+﻿using DanialCMS.Core.Domain.FileManagements.Dtos;
+using DanialCMS.Core.Domain.FileManagements.Entities;
 using DanialCMS.Core.Domain.FileManagements.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -25,6 +26,19 @@ namespace DanialCMS.Infrastructure.DAL.SqlServer.FileManagements.Repositories
         public List<FileManagement> GetAll()
         {
             return _cmsDbContext.FileManager.AsNoTracking()
+                .ToList();
+        }
+
+        public List<DtoPhotoList> GetAllPhotos()
+        {
+            return _cmsDbContext.FileManager.AsNoTracking()
+                .Where(c=>c.Type.Contains("image"))
+                .Select(c=>new DtoPhotoList 
+                { 
+                    Id = c.Id,
+                    Url = c.Url,
+                    Name = c.Name,
+                })
                 .ToList();
         }
 

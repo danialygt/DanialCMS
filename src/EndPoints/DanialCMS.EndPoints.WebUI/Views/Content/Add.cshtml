@@ -6,6 +6,7 @@
     var placeList = Model.GetPublishPlacesListItems();
     var KeywordList = Model.GetKeywordsListItems();
     var categoryList = Model.GetCategoriesListItems();
+    var keywordModel = new AddKeywordViewModel();
 
 }
 
@@ -56,15 +57,39 @@
             </div>
 
             <div class="card-body">
-                <div class="row col-9">
-                    <div class="form-group w-100">
-                        <label asp-for="@Model.Title" class="form-control-label"></label>
-                        <input type="text" asp-for="@Model.Title" class="form-control" required maxlength="100">
+                <div class="row justify-content-between">
+                    <div class="col-7">
+                        <div class="form-group w-100">
+                            <label asp-for="@Model.Title" class="form-control-label"></label>
+                            <input type="text" asp-for="@Model.Title" class="form-control" required maxlength="100">
+                        </div>
+                        <br />
+                        <div class="form-group  w-100">
+                            <label asp-for="@Model.Description" class="form-control-label"></label>
+                            <textarea asp-for="@Model.Description" class="form-control" required maxlength="500"></textarea>
+                        </div>
                     </div>
-                    <br />
-                    <div class="form-group  w-100">
-                        <label asp-for="@Model.Description" class="form-control-label"></label>
-                        <textarea asp-for="@Model.Description" class="form-control" required maxlength="500"></textarea>
+                    <div class="col-4">
+                        <div class="row justify-content-between">
+                            <label>عکس</label>
+                            <a class="btn btn-warning btn-sm float-left" asp-controller="FileManager" asp-action="Add" target="_blank">
+                                <i class="zmdi zmdi-plus"> افزودن </i>
+                            </a>
+                        </div>
+                        <div class="row w-100 h-75 border-dark mx-auto my-3">
+                            <select id="photosSelect" class="w-100" asp-for="@Model.ContentPhotoId">
+                                <option value="">عکس را انتخاب کنید</option>
+                                @if (Model.AllPhotos.Any())
+                                {
+                                    @foreach (var item in Model.AllPhotos)
+                                    {
+                                        <option value="@item.Id" data-img_src="@item.Url">
+                                            @item.Name
+                                        </option>
+                                    }
+                                }
+                            </select>
+                        </div>                        
                     </div>
                 </div>
                 <div class="row">
@@ -99,41 +124,30 @@
 
                     <div class="form-group">
                         <label asp-for="@Model.CategoryId" class="form-control-label"></label>
-                        <a class="btn btn-warning float-left" style="padding: 0 10px;line-height: 30px;font-size: 14px;"
-                           asp-controller="Category" asp-action="Add" target="_blank">
-                            <i class="zmdi zmdi-plus"> افزودن </i>
-                        </a>
                         <br />
                         <div class="rs-select2--dark rs-select2--md m-l-10 w-100">
-                            @if (categoryList == null)
-                            {
-                                <select class="js-select2 w-100" disabled>
-                                </select>
-                            }
-                            else
-                            {
-                                <select class="js-select2 w-100" asp-items="@categoryList"
-                                        asp-for="@Model.CategoryId" required>
-                                </select>
-                            }
+                            
+                            <select class="js-select2 w-100" asp-items="@categoryList"
+                                    asp-for="@Model.CategoryId" required>
+                            </select>
+                            
                             <div class="dropDownSelect2"></div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label asp-for="@Model.KeywordsId" class="form-control-label"></label>
-
                         <button type="button" class="btn btn-warning btn-sm float-left" data-toggle="modal" data-target="#addKeywordModal">
                             <i class="zmdi zmdi-plus"> افزودن </i>
                         </button>
 
                         <br />
                         <div class="rs-select2--dark rs-select2--md m-l-10 w-100">
-                            
+
                             <select id="selectKeyword" class="js-select2" asp-items="@KeywordList"
                                     asp-for="@Model.KeywordsId" multiple="multiple">
                             </select>
-                            
+
                             <div class="dropDownSelect2"></div>
                         </div>
                     </div>
@@ -199,8 +213,8 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label asp-for="@Model.AddKeywordViewModel.Name" class="form-control-label"></label>
-                            <input type="text" name="name" asp-for="@Model.AddKeywordViewModel.Name" class="form-control" required maxlength="50" autofocus>
+                            <label asp-for="@keywordModel.Name" class="form-control-label"></label>
+                            <input type="text" name="name" asp-for="@keywordModel.Name" class="form-control" required maxlength="50" autofocus>
                         </div>
 
                         <div class="form-group">
@@ -217,17 +231,7 @@
         </div>
     </div>
 
-
-
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -267,9 +271,6 @@
     <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/fullscreen.min.js"></script>
     <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/quick_insert.min.js"></script>
     <script type="text/javascript" src="~/vendor/froala-editor/js/plugins/quote.min.js"></script>
-    <script type="text/javascript" src="~/vendor/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="~/js/main.js"></script>
-
 
     <script>
         $(function () {
@@ -285,9 +286,32 @@
                 fullPage: true,
 
             },
-                function () {
+            function () {
                 editor.html.set($("#hiddenBody").text());
             });
+
+
+
+
+            function custom_template(obj){
+                var data = $(obj.element).data();
+                var text = $(obj.element).text();
+                if(data && data['img_src']){
+                    img_src = data['img_src'];
+                    template = $("<div><img src=\"" + img_src + "\" class=\"w-100 pt-2\" style=\"height:150px;\"/><p style=\"font-weight: 700;font-size:14pt;text-align:center;color:#ffc107;\">" + text + "</p></div>");
+                    return template;
+                }
+            }
+            var options = {
+                'templateSelection': custom_template,
+                'templateResult': custom_template,
+            }
+            $('#photosSelect').select2(options);
+            $('#photosSelect').siblings('span').children('.selection').children('.select2-container--default .select2-selection--single').addClass("h-100");
+            
+
+
+
 
             $("#sendContent").click(function () {
                 $("#formValue").val(editor.html.get());
@@ -301,7 +325,7 @@
 
             $("#sendKeywordForm").click(function () {
                 var formData = {
-                    'Name' : $('input[name=name]').val(),
+                    'Name': $('input[name=name]').val(),
                 };
 
                 $.ajax({
@@ -328,7 +352,7 @@
                                     $('#selectKeyword').append(newOption).trigger('change');
                                 }
                             }
-                        });      
+                        });
                     }
                     else {
                         var result = "";
@@ -341,6 +365,7 @@
             });
 
 
+            
 
         })();
     </script>

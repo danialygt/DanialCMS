@@ -1,4 +1,5 @@
 ﻿using DanialCMS.Core.Domain.Contents.Entities;
+using DanialCMS.Core.Domain.FileManagements.Dtos;
 using DanialCMS.Core.Domain.PublishPlaces.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -59,6 +60,8 @@ namespace DanialCMS.EndPoints.WebUI.Models.Content
         }
 
         public string WriterName { get; set; }
+
+        public List<DtoPhotoList> AllPhotos { get; set; }
 
 
 

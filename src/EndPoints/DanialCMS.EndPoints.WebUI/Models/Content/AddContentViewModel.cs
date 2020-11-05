@@ -5,9 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using DanialCMS.Core.Domain.Categories.Queries;
 using DanialCMS.Core.Domain.Categories.Repositories;
+using DanialCMS.Core.Domain.FileManagements.Dtos;
 using DanialCMS.Core.Domain.PublishPlaces.Entities;
+using DanialCMS.EndPoints.WebUI.Models.FileManager;
 using DanialCMS.EndPoints.WebUI.Models.Keyword;
 using DanialCMS.Framework.Queries;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,11 +19,6 @@ namespace DanialCMS.EndPoints.WebUI.Models.Content
 {
     public class AddContentViewModel
     {
-        //writerid bayad az account gerefte beshe
-        public long WriterId { get; set; }
-
-
-
 
         [Required(ErrorMessage = "عنوان را وارد کنید")]
         [MaxLength(100, ErrorMessage = "عنوان باید کمتر از 100 کاراکتر باشد")]
@@ -85,9 +83,10 @@ namespace DanialCMS.EndPoints.WebUI.Models.Content
 
 
 
+        
+        public List<DtoPhotoList> AllPhotos { get; set; }
+        public long ContentPhotoId { get; set; }
 
-        public AddKeywordViewModel AddKeywordViewModel { get; set; } =
-            new AddKeywordViewModel();
 
 
 
