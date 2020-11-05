@@ -45,7 +45,6 @@ using DanialCMS.Core.Domain.Writers.Commands;
 using DanialCMS.Core.Domain.Writers.Dtos;
 using DanialCMS.Core.Domain.Writers.Queries;
 using DanialCMS.Core.Domain.Writers.Repositories;
-using DanialCMS.EndPoints.WebUI.Infrastructures;
 using DanialCMS.EndPoints.WebUI.Infrastructures.Middlewares;
 using DanialCMS.EndPoints.WebUI.Infrastructures.Identity;
 using DanialCMS.Framework.Commands;
@@ -73,6 +72,7 @@ using System.Security.Claims;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using DanialCMS.Core.Domain.FileManagements.Dtos;
+using DanialCMS.EndPoints.WebUI.Infrastructures.Authorization.Contents;
 
 namespace DanialCMS.EndPoints.WebUI
 {
@@ -184,7 +184,8 @@ namespace DanialCMS.EndPoints.WebUI
             services.AddTransient<IQueryHandler<GetViewsOnDateQuery, int>, GetViewsOnDateQueryHandler>();
             #endregion
 
-
+            #region Identity
+            
             /* Add Identity DB Services */
             services.AddDbContextPool<CMSIdentityDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("IdentityDbConnection")));
             services.AddIdentity<User, IdentityRole>(options =>
@@ -203,10 +204,10 @@ namespace DanialCMS.EndPoints.WebUI
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
                     opt.TokenLifespan = TimeSpan.FromHours(2));
 
-
-
+            
             services.AddTransient<IPasswordValidator<User>, CustomPasswordValidator>();
 
+            #endregion
 
             #region Email Services
             /* Email Services */
@@ -216,10 +217,10 @@ namespace DanialCMS.EndPoints.WebUI
             #endregion
 
 
-
+            #region Claims
+            
 
             services.AddTransient<IAuthorizationHandler, ContentAuthorizationHandler>();
-            //services.AddSingleton<IClaimsTransformation, LocationClaimProvider>();
             services.AddAuthorization(opt =>
             {
                 opt.AddPolicy("WriterAndEditors", policy =>
@@ -231,11 +232,9 @@ namespace DanialCMS.EndPoints.WebUI
                     });
                 });
 
-                
-
             });
 
-
+            #endregion
 
 
 
